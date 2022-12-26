@@ -38,9 +38,9 @@ const App = () => {
         value={{ language: language, setLanguage: setLanguage }}
       >
         <BrowserRouter>
-          <div className="w-full flex bg-[#1E1E1E]">
+          <div className="w-full flex bg-[#1E1E1E] font-['Roboto'] text-[#FFFFFF]">
             <Sidebar />
-            <div className="ml-[220px] overflow-auto">
+            <div className="ml-[220px] w-[calc(100vw-220px)] overflow-auto">
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />

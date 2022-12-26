@@ -23,6 +23,15 @@ export default function Sidebar() {
         <div className="bg-faq w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         FAQ
       </div>
+      <div className="fixed bottom-[38px] left-0 w-[220px]">
+        <div className="text-[18px] leading-[21px] text-center">
+          Connect with us
+        </div>
+        <div className="mt-[14px] flex justify-center">
+          <div className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer"></div>
+          <div className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer"></div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -15,16 +15,18 @@ module.exports = {
         faq: "url('./assets/images/sidebar/faq.svg')",
         analytics: "url('./assets/images/sidebar/analytics.svg')",
         staking: "url('./assets/images/sidebar/staking.svg')",
+        twitter: "url('./assets/images/sidebar/twitter.svg')",
+        discord: "url('./assets/images/sidebar/discord.svg')",
         "sidebar-bgcolor":
           "linear-gradient(170.52deg, #1B192B 21.73%, rgba(27, 25, 43, 0.05) 77.83%);",
         "dashboard-backcolor":
           "linear-gradient(124.03deg, rgba(0, 0, 0, 0.51) 0%, rgba(15, 16, 26, 0) 100%)",
-        "home-card-bgcolor":
-          "linear-gradient(256.46deg, rgba(5, 5, 4, 0.3) 0.49%, rgba(152, 147, 130, 0) 84.46%), #0A0707",
-        "home-card2":
-          "linear-gradient(269.82deg, #020202 0.14%, rgba(0, 0, 0, 0) 99.84%), linear-gradient(135deg, #FFFFFF 0%, #A5A5A5 100%)",
-        "about-card1":
-          "linear-gradient(196.72deg, rgba(5, 5, 4, 0.3) -8.41%, rgba(152, 147, 130, 0) 88.45%), #0A0707;",
+        "dashboard-card1-bgcolor":
+          "radial-gradient(100% 400% at 0% 0%, rgba(206, 156, 82, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+        "dashboard-button1-bgcolor":
+          "linear-gradient(96.04deg, #7C98A9 1.2%, rgba(124, 152, 169, 0.6) 100%)",
+        "dashboard-buttonwrapper-bgcolor":
+          "linear-gradient(91.67deg, #272942 0%, rgba(39, 41, 66, 0.44) 100%)",
       }),
     },
   },
