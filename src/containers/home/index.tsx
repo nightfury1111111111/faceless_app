@@ -17,6 +17,22 @@ const Home = () => {
   const { publicKey, wallet, signTransaction, signAllTransactions } =
     useWallet();
 
+  const [currentMilestone, setCurrentMilestone] = useState(0);
+  const [description, setDescription] = useState("");
+  const [receiver, setReceiver] = useState("");
+  const [moderator, setModerator] = useState("");
+  const [amount, setAmount] = useState("");
+  const [milestone1, setMilestone1] = useState("");
+  const [amount1, setAmount1] = useState("");
+  const [milestone2, setMilestone2] = useState("");
+  const [amount2, setAmount2] = useState("");
+  const [milestone3, setMilestone3] = useState("");
+  const [amount3, setAmount3] = useState("");
+  const [milestone4, setMilestone4] = useState("");
+  const [amount4, setAmount4] = useState("");
+  const [milestone5, setMilestone5] = useState("");
+  const [amount5, setAmount5] = useState("");
+
   const opts = {
     preflightCommitment: "processed",
   };
@@ -229,6 +245,8 @@ const Home = () => {
                 <input
                   type="text"
                   className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
               <div className="mt-[30px] flex justify-between items-center">
@@ -236,6 +254,8 @@ const Home = () => {
                 <input
                   type="text"
                   className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  value={receiver}
+                  onChange={(e) => setReceiver(e.target.value)}
                 />
               </div>
               <div className="mt-[30px] flex justify-between items-center">
@@ -243,6 +263,8 @@ const Home = () => {
                 <input
                   type="text"
                   className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  value={moderator}
+                  onChange={(e) => setModerator(e.target.value)}
                 />
               </div>
               <div className="mt-[30px] flex justify-between items-center">
@@ -250,6 +272,8 @@ const Home = () => {
                 <input
                   type="text"
                   className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                 />
               </div>
               <div className="mt-[61.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
@@ -281,25 +305,121 @@ const Home = () => {
                 <div className="w-[110px] text-[20px]">Milestones</div>
                 <div
                   className="w-[110px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-                  onClick={getEscrow}
+                  onClick={() => setCurrentMilestone(currentMilestone + 1)}
                 >
                   ADD +
                 </div>
               </div>
-              <div className="mt-[36px] flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Milestone 1</div>
-                <input
-                  type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
-                />
-              </div>
-              <div className="mt-[30px] flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Amount</div>
-                <input
-                  type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
-                />
-              </div>
+              {currentMilestone > 0 && (
+                <div>
+                  <div className="mt-[36px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Milestone 1</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={milestone1}
+                      onChange={(e) => setMilestone1(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-[30px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Amount</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={amount1}
+                      onChange={(e) => setAmount1(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              {currentMilestone > 1 && (
+                <div>
+                  <div className="mt-[36px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Milestone 2</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={milestone2}
+                      onChange={(e) => setMilestone2(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-[30px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Amount</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={amount2}
+                      onChange={(e) => setAmount2(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              {currentMilestone > 2 && (
+                <div>
+                  <div className="mt-[36px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Milestone 3</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={milestone3}
+                      onChange={(e) => setMilestone3(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-[30px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Amount</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={amount3}
+                      onChange={(e) => setAmount3(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              {currentMilestone > 3 && (
+                <div>
+                  <div className="mt-[36px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Milestone 4</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={milestone4}
+                      onChange={(e) => setMilestone4(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-[30px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Amount</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={amount4}
+                      onChange={(e) => setAmount4(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
+              {currentMilestone > 4 && (
+                <div>
+                  <div className="mt-[36px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Milestone 5</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={milestone5}
+                      onChange={(e) => setMilestone5(e.target.value)}
+                    />
+                  </div>
+                  <div className="mt-[30px] flex justify-between items-center">
+                    <div className="w-[110px] text-[20px]">Amount</div>
+                    <input
+                      type="text"
+                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      value={amount5}
+                      onChange={(e) => setAmount5(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <div
               className="w-[120px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
