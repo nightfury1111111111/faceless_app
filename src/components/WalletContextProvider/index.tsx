@@ -21,8 +21,9 @@ export default function WalletContextProvider({
   children: React.ReactNode;
   solanaNetwork: SolanaNetworkType;
 }) {
-  //   const endpoint = useMemo(() => clusterApiUrl(solanaNetwork), [solanaNetwork]);
-  const endpoint = "https://rpc-mainnet-fork.epochs.studio";
+  // const endpoint = useMemo(() => clusterApiUrl(solanaNetwork), [solanaNetwork]);
+  // const endpoint = "https://rpc-mainnet-fork.epochs.studio";
+  const endpoint = "http://localhost:8899";
 
   const wallets = useMemo(
     () => [

@@ -43,7 +43,7 @@ const Home = () => {
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
 
-    const mint = new PublicKey("44GpxBdhPsoPgP96pYCvGFFWojuSoThuiLuwuB3qx2cm");
+    const mint = new PublicKey("wUbbr4fHDVWYhNisWdmUGNCAqThAe2xLYVv4UNQhrKj");
     const admin1 = new PublicKey(
       "HtjDrqiL7fLVGKwNK96M54pVDwXmas5G7hNSPPfzRZJd"
     );
@@ -128,11 +128,37 @@ const Home = () => {
       );
       tx.feePayer = provider.wallet.publicKey;
       tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-      // const signedTx = await provider.wallet.signTransaction(tx);
-      // const txId = await connection.sendRawTransaction(signedTx.serialize());
-      // await connection.confirmTransaction(txId);
+      const signedTx = await provider.wallet.signTransaction(tx);
+      const txId = await connection.sendRawTransaction(signedTx.serialize());
+      await connection.confirmTransaction(txId);
+      console.log(txId);
     } catch (err) {
       // console.log(err.message);
+      console.log(err);
+    }
+  };
+
+  const getEscrow = async () => {
+    const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
+    if (!provider || !publicKey || !signTransaction) return;
+    const program = new Program(idl as Idl, programID, provider);
+    try {
+      await Promise.all(
+        (
+          await connection.getProgramAccounts(programID)
+        ).map(
+          async (
+            tx,
+            index //no need to write smartcontract to get the data, just pulling all transaction respective programID and showing to user
+          ) => ({
+            ...(await program.account.escrowState.fetch(tx.pubkey)),
+            pubkey: tx.pubkey.toString(),
+          })
+        )
+      ).then((result) => {
+        console.log(result);
+      });
+    } catch (err) {
       console.log(err);
     }
   };
@@ -253,7 +279,10 @@ const Home = () => {
             <div className="pr-[23px]">
               <div className="flex justify-between items-center">
                 <div className="w-[110px] text-[20px]">Milestones</div>
-                <div className="w-[110px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer">
+                <div
+                  className="w-[110px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                  onClick={getEscrow}
+                >
                   ADD +
                 </div>
               </div>
