@@ -42,8 +42,6 @@ const Home = () => {
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
-    console.log(program.programId.toBase58());
-    console.log(connection);
 
     const mint = new PublicKey("44GpxBdhPsoPgP96pYCvGFFWojuSoThuiLuwuB3qx2cm");
     const admin1 = new PublicKey(
