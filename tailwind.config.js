@@ -27,6 +27,10 @@ module.exports = {
           "linear-gradient(96.04deg, #7C98A9 1.2%, rgba(124, 152, 169, 0.6) 100%)",
         "dashboard-buttonwrapper-bgcolor":
           "linear-gradient(91.67deg, #272942 0%, rgba(39, 41, 66, 0.44) 100%)",
+        "input-box-bgcolor":
+          "linear-gradient(170.52deg, #000000 21.73%, rgba(0, 0, 0, 0.05) 77.83%)",
+        "fee-panel-bgcolor":
+          "radial-gradient(100% 400% at 0% 0%, rgba(158, 159, 95, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
       }),
     },
   },
