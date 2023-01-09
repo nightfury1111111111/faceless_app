@@ -236,7 +236,7 @@ const Home = () => {
     console.log(escrowData);
   }, [escrowData]);
 
-  return (
+  return publicKey ? (
     <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]">
       {stage === 0 && (
         <div>
@@ -255,7 +255,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon2 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -263,7 +263,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon3 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -334,7 +334,28 @@ const Home = () => {
           </div>
           <div className="mt-[46px] pb-[177px] grid grid-cols-3 gap-4">
             <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"></div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"></div>
+            {escrowData
+              .filter((escrow) => {
+                return escrow.initializerKey === publicKey;
+              })
+              .map((myEscrow, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"
+                  >
+                    <div className="flex items-center">
+                      <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                      <div className="ml-[14px]">
+                        <div className="text-[#141414] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                        <div className="font-[500] text-[20px] leading-[23px]">
+                          Escrow Status
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"></div>
           </div>
         </div>
@@ -552,6 +573,8 @@ const Home = () => {
         </div>
       )}
     </div>
+  ) : (
+    <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]"></div>
   );
 };
 export default Home;

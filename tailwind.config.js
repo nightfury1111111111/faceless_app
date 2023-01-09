@@ -10,6 +10,7 @@ module.exports = {
         icon1: "url('./assets/images/home/icon1.svg')",
         icon2: "url('./assets/images/home/icon2.svg')",
         icon3: "url('./assets/images/home/icon3.svg')",
+        icon4: "url('./assets/images/home/icon4.svg')",
         logo: "url('./assets/images/logo.png')",
         hidden: "url('./assets/images/header/hidden.png')",
         user: "url('./assets/images/header/user.png')",
