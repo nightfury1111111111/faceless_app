@@ -7,8 +7,11 @@ import { getOrCreateAssociatedTokenAccount } from "../../utils/transferSpl/getOr
 
 import { Idl } from "@project-serum/anchor/dist/cjs/idl";
 import React, { Component, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { PublicKey } from "@solana/web3.js";
 import idl from "../../idl.json";
+
+import { constants } from "../../constants";
 
 const programID = new PublicKey(idl.metadata.address);
 
@@ -16,6 +19,9 @@ const Home = () => {
   const { connection } = useConnection();
   const { publicKey, wallet, signTransaction, signAllTransactions } =
     useWallet();
+
+  const [faqNum, setFaqNum] = useState(0);
+  const [stage, setStage] = useState(0);
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
   const [description, setDescription] = useState("");
@@ -59,17 +65,10 @@ const Home = () => {
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
 
-    const mint = new PublicKey("wUbbr4fHDVWYhNisWdmUGNCAqThAe2xLYVv4UNQhrKj");
-    const admin1 = new PublicKey(
-      "HtjDrqiL7fLVGKwNK96M54pVDwXmas5G7hNSPPfzRZJd"
-    );
-    const admin2 = new PublicKey(
-      "BddjKVEuSUbmAv7cyXKyzBUQDUHshwihWmkoqwXmpwvi"
-    );
-    const taker = new PublicKey("G8sD4NoRjH6ifD9WxuV3d94nytKTEn5ZLpZDdEx4PZsa");
-    const resolver = new PublicKey(
-      "3Y3HS9Twxsm6wRcqmgDBzmz1ggD87siqDvS3FzmPBnvH"
-    );
+    const mint = new PublicKey(constants.mint);
+    const admin1 = new PublicKey(constants.admin1);
+    const admin2 = new PublicKey(constants.admin2);
+    const resolver = new PublicKey(constants.resolver);
 
     let admin2TokenAccount = await getOrCreateAssociatedTokenAccount(
       connection,
@@ -88,11 +87,7 @@ const Home = () => {
         signTransaction
       );
 
-    const adminSeed = "admin";
-    const stateSeed = "state";
-    const vaultSeed = "vault";
-    const authoritySeed = "authority";
-
+    const { adminSeed, stateSeed, vaultSeed, authoritySeed } = constants;
     const randomSeed: anchor.BN = new anchor.BN(
       Math.floor(Math.random() * 100000000)
     );
@@ -179,9 +174,6 @@ const Home = () => {
     }
   };
 
-  const [faqNum, setFaqNum] = useState(0);
-  const [stage, setStage] = useState(0);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -209,7 +201,11 @@ const Home = () => {
               </div>
               <div
                 className="ml-[32px] rounded-[10px] w-[115px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] text-[18px] leading-[21px] cursor-pointer"
-                onClick={() => setStage(1)}
+                onClick={() => {
+                  if (wallet) {
+                    setStage(1);
+                  } else toast("Please connect wallet");
+                }}
               >
                 CREATE
               </div>
@@ -303,11 +299,23 @@ const Home = () => {
             <div className="pr-[23px]">
               <div className="flex justify-between items-center">
                 <div className="w-[110px] text-[20px]">Milestones</div>
-                <div
-                  className="w-[110px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-                  onClick={() => setCurrentMilestone(currentMilestone + 1)}
-                >
-                  ADD +
+                <div className="flex">
+                  <div
+                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    onClick={() => {
+                      if (currentMilestone < 5)
+                        setCurrentMilestone(currentMilestone + 1);
+                      else toast("Max milestone number is 5");
+                    }}
+                  >
+                    ADD +
+                  </div>
+                  <div
+                    className="w-[110px] h-[40px] mr-[80px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    onClick={() => setCurrentMilestone(0)}
+                  >
+                    Reset
+                  </div>
                 </div>
               </div>
               {currentMilestone > 0 && (

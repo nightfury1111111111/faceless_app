@@ -10,8 +10,6 @@ import useWindowSize from "../../utils/useWindowSize";
 import useOutsideClick from "../../utils/useOutsideClick";
 import { LanguageContext } from "../../App";
 import { toast } from "react-toastify";
-import { languageArray } from "../../constants";
-import { translate } from "../../utils/translate";
 
 import { SolanaNetworkType } from "../../App";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -85,23 +83,6 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     if (mobileClicked) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "auto";
   }, [mobileClicked]);
-
-  // useEffect(() => {
-  //   alert(location.pathname);
-  // }, [location]);
-
-  const handleChangeLanguage = (num: number) => {
-    setLangNum(num);
-    setLanguageOpen(false);
-    setLanguage(languageArray[num].name.toLowerCase());
-  };
-
-  useEffect(() => {
-    const selectLang = languageArray.filter((lang) => {
-      return lang.name.toLowerCase() === language.toLowerCase();
-    });
-    setLangNum(selectLang[0].num);
-  }, [language]);
 
   const ref = useRef<HTMLHeadingElement>(null);
   useOutsideClick(ref, () => {

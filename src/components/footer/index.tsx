@@ -7,9 +7,6 @@ import React, {
 } from "react";
 import useWindowSize from "../../utils/useWindowSize";
 import useOutsideClick from "../../utils/useOutsideClick";
-import { LanguageContext } from "../../App";
-import { languageArray } from "../../constants";
-import { translate } from "../../utils/translate";
 
 const Footer = () => {
   const [isMobile, setIsMobile] = useState(false);
