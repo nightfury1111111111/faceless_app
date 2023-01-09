@@ -333,10 +333,11 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-[46px] pb-[177px] grid grid-cols-3 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"></div>
             {escrowData
               .filter((escrow) => {
-                return escrow.initializerKey === publicKey;
+                return (
+                  escrow.initializerKey.toString() === publicKey.toString()
+                );
               })
               .map((myEscrow, idx) => {
                 return (
@@ -347,7 +348,7 @@ const Home = () => {
                     <div className="flex items-center">
                       <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
                       <div className="ml-[14px]">
-                        <div className="text-[#141414] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                        <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
                         <div className="font-[500] text-[20px] leading-[23px]">
                           Escrow Status
                         </div>
@@ -356,7 +357,6 @@ const Home = () => {
                   </div>
                 );
               })}
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"></div>
           </div>
         </div>
       )}
