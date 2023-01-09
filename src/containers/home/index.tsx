@@ -83,6 +83,7 @@ const Home = () => {
       toast(
         "Set the milestone payment correctly. Must be matched to total amount."
       );
+      return;
     }
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
@@ -176,6 +177,7 @@ const Home = () => {
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
     try {
+      let tmpLockedval = 0;
       await Promise.all(
         (
           await connection.getProgramAccounts(programID)
@@ -204,15 +206,16 @@ const Home = () => {
               newData.initializerAmount[2] +
               newData.initializerAmount[3] +
               newData.initializerAmount[4];
-            setTotalValue(totalValue + lockedVal);
+            tmpLockedval += lockedVal;
             return {
-              ...fetchData,
+              ...newData,
               pubkey: tx.pubkey.toString(),
               active: lockedVal > 0 ? true : false,
             };
           }
         )
       ).then((result) => {
+        setTotalValue(tmpLockedval);
         setEscrowData(result);
       });
     } catch (err) {
@@ -225,10 +228,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (connection) {
-      getEscrow();
-    }
-  }, [connection]);
+    getEscrow();
+  }, [wallet, publicKey, signTransaction, signAllTransactions]);
 
   useEffect(() => {
     console.log(escrowData);
@@ -294,7 +295,11 @@ const Home = () => {
                     Completed
                   </div>
                   <div className="text-[20px] leading-[23px] font-[800]">
-                    {totalValue}
+                    {
+                      escrowData.filter((escrow) => {
+                        return escrow.active === false;
+                      }).length
+                    }
                   </div>
                 </div>
               </div>
