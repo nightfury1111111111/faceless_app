@@ -24,6 +24,8 @@ const Home = () => {
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
 
+  const [escrowData, setEscrowData] = useState({});
+
   const [currentMilestone, setCurrentMilestone] = useState(5);
   const [description, setDescription] = useState("");
   const [moderator, setModerator] = useState(constants.moderator);
@@ -174,7 +176,7 @@ const Home = () => {
           })
         )
       ).then((result) => {
-        console.log(result);
+        setEscrowData(result);
       });
     } catch (err) {
       console.log(err);
@@ -183,7 +185,12 @@ const Home = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    getEscrow();
   }, []);
+
+  useEffect(() => {
+    console.log(escrowData);
+  }, [escrowData]);
 
   return (
     <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]">
