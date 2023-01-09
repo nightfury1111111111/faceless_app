@@ -13,6 +13,7 @@ import idl from "../../idl.json";
 
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
+import { isConstructorDeclaration } from "typescript";
 
 const programID = new PublicKey(idl.metadata.address);
 
@@ -175,16 +176,27 @@ const Home = () => {
             const fetchData: any = await program.account.escrowState.fetch(
               tx.pubkey
             );
+            const newData = {
+              ...fetchData,
+              initializerAmount: [
+                Number(fetchData.initializerAmount[0]),
+                Number(fetchData.initializerAmount[1]),
+                Number(fetchData.initializerAmount[2]),
+                Number(fetchData.initializerAmount[3]),
+                Number(fetchData.initializerAmount[4]),
+              ],
+            };
             const lockedVal =
-              fetchData.initializerAmount[0] +
-              fetchData.initializerAmount[1] +
-              fetchData.initializerAmount[2] +
-              fetchData.initializerAmount[3] +
-              fetchData.initializerAmount[4];
+              newData.initializerAmount[0] +
+              newData.initializerAmount[1] +
+              newData.initializerAmount[2] +
+              newData.initializerAmount[3] +
+              newData.initializerAmount[4];
             setTotalValue(totalValue + lockedVal);
             return {
               ...fetchData,
               pubkey: tx.pubkey.toString(),
+              active: lockedVal > 0 ? true : false,
             };
           }
         )
@@ -198,8 +210,13 @@ const Home = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getEscrow();
   }, []);
+
+  useEffect(() => {
+    if (connection) {
+      getEscrow();
+    }
+  }, [connection]);
 
   useEffect(() => {
     console.log(escrowData);
