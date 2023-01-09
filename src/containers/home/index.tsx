@@ -13,7 +13,18 @@ import idl from "../../idl.json";
 
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
-import { isConstructorDeclaration } from "typescript";
+
+export interface EscrowData {
+  randomSeed: number;
+  initializerKey: PublicKey;
+  initializerDepositTokenAccount: PublicKey;
+  initializerAmount: Array<number>;
+  admin1: PublicKey;
+  resolver: PublicKey;
+  admin2TokenAccount: PublicKey;
+  pubkey: PublicKey;
+  active: boolean;
+}
 
 const programID = new PublicKey(idl.metadata.address);
 
@@ -25,7 +36,7 @@ const Home = () => {
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
 
-  const [escrowData, setEscrowData] = useState({});
+  const [escrowData, setEscrowData] = useState<EscrowData[]>([]);
   const [totalValue, setTotalValue] = useState(0);
 
   const [currentMilestone, setCurrentMilestone] = useState(5);
@@ -185,6 +196,7 @@ const Home = () => {
                 Number(fetchData.initializerAmount[3]),
                 Number(fetchData.initializerAmount[4]),
               ],
+              randomSeed: Number(fetchData.randomSeed),
             };
             const lockedVal =
               newData.initializerAmount[0] +
@@ -260,6 +272,26 @@ const Home = () => {
                 <div className="flex justify-between items-center">
                   <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                     In Escrow
+                  </div>
+                  <div className="text-[20px] leading-[23px] font-[800]">
+                    {totalValue}
+                  </div>
+                </div>
+                <div className="mt-[28px] flex justify-between items-center">
+                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                    Active
+                  </div>
+                  <div className="text-[20px] leading-[23px] font-[800]">
+                    {
+                      escrowData.filter((escrow) => {
+                        return escrow.active === true;
+                      }).length
+                    }
+                  </div>
+                </div>
+                <div className="mt-[28px] flex justify-between items-center">
+                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                    Completed
                   </div>
                   <div className="text-[20px] leading-[23px] font-[800]">
                     {totalValue}
