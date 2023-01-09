@@ -166,6 +166,7 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(tx);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      setStage(0);
     } catch (err) {
       // console.log(err.message);
       console.log(err);
@@ -228,8 +229,8 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    getEscrow();
-  }, [wallet, publicKey, signTransaction, signAllTransactions]);
+    if (stage === 0) getEscrow();
+  }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   useEffect(() => {
     console.log(escrowData);
