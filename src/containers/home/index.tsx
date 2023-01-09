@@ -38,6 +38,7 @@ const Home = () => {
 
   const [escrowData, setEscrowData] = useState<EscrowData[]>([]);
   const [totalValue, setTotalValue] = useState(0);
+  const [myStatus, setMyStatus] = useState("active");
 
   const [currentMilestone, setCurrentMilestone] = useState(5);
   const [description, setDescription] = useState("");
@@ -324,10 +325,24 @@ const Home = () => {
               </div>
             </div>
             <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between items-center">
-              <div className="w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer">
+              <div
+                className={
+                  myStatus === "active"
+                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                }
+                onClick={() => setMyStatus("active")}
+              >
                 Active
               </div>
-              <div className="w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer">
+              <div
+                className={
+                  myStatus === "completed"
+                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                }
+                onClick={() => setMyStatus("completed")}
+              >
                 Completed
               </div>
             </div>
