@@ -12,6 +12,7 @@ import { PublicKey } from "@solana/web3.js";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
+import { validateAddress } from "../../utils/general";
 
 const programID = new PublicKey(idl.metadata.address);
 
@@ -23,21 +24,20 @@ const Home = () => {
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
 
-  const [currentMilestone, setCurrentMilestone] = useState(0);
+  const [currentMilestone, setCurrentMilestone] = useState(5);
   const [description, setDescription] = useState("");
-  const [receiver, setReceiver] = useState("");
-  const [moderator, setModerator] = useState("");
-  const [amount, setAmount] = useState("");
+  const [moderator, setModerator] = useState(constants.moderator);
+  const [amount, setAmount] = useState(500);
   const [milestone1, setMilestone1] = useState("");
-  const [amount1, setAmount1] = useState("");
+  const [amount1, setAmount1] = useState(50);
   const [milestone2, setMilestone2] = useState("");
-  const [amount2, setAmount2] = useState("");
+  const [amount2, setAmount2] = useState(150);
   const [milestone3, setMilestone3] = useState("");
-  const [amount3, setAmount3] = useState("");
+  const [amount3, setAmount3] = useState(200);
   const [milestone4, setMilestone4] = useState("");
-  const [amount4, setAmount4] = useState("");
+  const [amount4, setAmount4] = useState(50);
   const [milestone5, setMilestone5] = useState("");
-  const [amount5, setAmount5] = useState("");
+  const [amount5, setAmount5] = useState(50);
 
   const opts = {
     preflightCommitment: "processed",
@@ -61,6 +61,14 @@ const Home = () => {
   };
 
   const createEscrow = async () => {
+    if (
+      currentMilestone > 0 &&
+      amount !== amount1 + amount2 + amount3 + amount4 + amount5
+    ) {
+      toast(
+        "Set the milestone payment correctly. Must be matched to total amount."
+      );
+    }
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
@@ -68,7 +76,7 @@ const Home = () => {
     const mint = new PublicKey(constants.mint);
     const admin1 = new PublicKey(constants.admin1);
     const admin2 = new PublicKey(constants.admin2);
-    const resolver = new PublicKey(constants.resolver);
+    const resolver = new PublicKey(moderator);
 
     let admin2TokenAccount = await getOrCreateAssociatedTokenAccount(
       connection,
@@ -113,11 +121,11 @@ const Home = () => {
       const tx = await program.transaction.initialize(
         randomSeed,
         [
-          new anchor.BN(50),
-          new anchor.BN(150),
-          new anchor.BN(200),
-          new anchor.BN(50),
-          new anchor.BN(50),
+          new anchor.BN(amount1),
+          new anchor.BN(amount2),
+          new anchor.BN(amount3),
+          new anchor.BN(amount4),
+          new anchor.BN(amount5),
         ],
         {
           accounts: {
@@ -142,7 +150,6 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(tx);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
-      console.log(txId);
     } catch (err) {
       // console.log(err.message);
       console.log(err);
@@ -245,7 +252,7 @@ const Home = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              <div className="mt-[30px] flex justify-between items-center">
+              {/* <div className="mt-[30px] flex justify-between items-center">
                 <div className="w-[110px] text-[20px]">Receiver</div>
                 <input
                   type="text"
@@ -253,8 +260,8 @@ const Home = () => {
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
                 />
-              </div>
-              <div className="mt-[30px] flex justify-between items-center">
+              </div> */}
+              <div className="mt-[50px] flex justify-between items-center">
                 <div className="w-[110px] text-[20px]">Moderator</div>
                 <input
                   type="text"
@@ -263,16 +270,16 @@ const Home = () => {
                   onChange={(e) => setModerator(e.target.value)}
                 />
               </div>
-              <div className="mt-[30px] flex justify-between items-center">
+              <div className="mt-[50px] flex justify-between items-center">
                 <div className="w-[110px] text-[20px]">Amount</div>
                 <input
                   type="text"
                   className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={(e) => setAmount(Number(e.target.value))}
                 />
               </div>
-              <div className="mt-[61.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+              <div className="mt-[104.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
             </div>
             <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px]">
               <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
@@ -335,7 +342,7 @@ const Home = () => {
                       type="text"
                       className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                       value={amount1}
-                      onChange={(e) => setAmount1(e.target.value)}
+                      onChange={(e) => setAmount1(Number(e.target.value))}
                     />
                   </div>
                 </div>
@@ -357,7 +364,7 @@ const Home = () => {
                       type="text"
                       className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                       value={amount2}
-                      onChange={(e) => setAmount2(e.target.value)}
+                      onChange={(e) => setAmount2(Number(e.target.value))}
                     />
                   </div>
                 </div>
@@ -379,7 +386,7 @@ const Home = () => {
                       type="text"
                       className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                       value={amount3}
-                      onChange={(e) => setAmount3(e.target.value)}
+                      onChange={(e) => setAmount3(Number(e.target.value))}
                     />
                   </div>
                 </div>
@@ -401,7 +408,7 @@ const Home = () => {
                       type="text"
                       className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                       value={amount4}
-                      onChange={(e) => setAmount4(e.target.value)}
+                      onChange={(e) => setAmount4(Number(e.target.value))}
                     />
                   </div>
                 </div>
@@ -423,7 +430,7 @@ const Home = () => {
                       type="text"
                       className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
                       value={amount5}
-                      onChange={(e) => setAmount5(e.target.value)}
+                      onChange={(e) => setAmount5(Number(e.target.value))}
                     />
                   </div>
                 </div>

@@ -100,7 +100,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
 
   return (
     <div className="relative" ref={ref}>
-      <div className="fixed top-0 px-[48px] w-[calc(100vw-220px)] h-[83px] flex flex-row items-center justify-between z-10">
+      <div className="fixed top-0 px-[48px] w-[calc(100vw-220px)] h-[83px] bg-[#141414] flex flex-row items-center justify-between z-10">
         <div
           className="flex flex-row cursor-pointer"
           onClick={() => {
