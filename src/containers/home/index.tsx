@@ -25,6 +25,7 @@ const Home = () => {
   const [stage, setStage] = useState(0);
 
   const [escrowData, setEscrowData] = useState({});
+  const [totalValue, setTotalValue] = useState(0);
 
   const [currentMilestone, setCurrentMilestone] = useState(5);
   const [description, setDescription] = useState("");
@@ -170,10 +171,22 @@ const Home = () => {
           async (
             tx,
             index //no need to write smartcontract to get the data, just pulling all transaction respective programID and showing to user
-          ) => ({
-            ...(await program.account.escrowState.fetch(tx.pubkey)),
-            pubkey: tx.pubkey.toString(),
-          })
+          ) => {
+            const fetchData: any = await program.account.escrowState.fetch(
+              tx.pubkey
+            );
+            const lockedVal =
+              fetchData.initializerAmount[0] +
+              fetchData.initializerAmount[1] +
+              fetchData.initializerAmount[2] +
+              fetchData.initializerAmount[3] +
+              fetchData.initializerAmount[4];
+            setTotalValue(totalValue + lockedVal);
+            return {
+              ...fetchData,
+              pubkey: tx.pubkey.toString(),
+            };
+          }
         )
       ).then((result) => {
         setEscrowData(result);
@@ -203,9 +216,40 @@ const Home = () => {
             Overview of your escrows and performance.
           </div>
           <div className="mt-[35px] grid grid-cols-3 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]"></div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]"></div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]"></div>
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+              <div className="flex items-center">
+                <div className="bg-icon1 bg-cover w-[40px] h-[40px]" />
+                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                  Profile Score
+                </div>
+              </div>
+            </div>
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+              <div className="flex items-center">
+                <div className="bg-icon2 bg-cover w-[40px] h-[40px]" />
+                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                  Feedback
+                </div>
+              </div>
+            </div>
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+              <div className="flex items-center">
+                <div className="bg-icon3 bg-cover w-[40px] h-[40px]" />
+                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                  Escrow Status
+                </div>
+              </div>
+              <div className="mt-[20px]">
+                <div className="flex justify-between items-center">
+                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                    In Escrow
+                  </div>
+                  <div className="text-[20px] leading-[23px] font-[800]">
+                    {totalValue}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="mt-[51.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
           <div className="mt-[35.63px] flex justify-between items-center">
