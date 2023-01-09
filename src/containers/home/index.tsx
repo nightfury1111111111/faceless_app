@@ -350,9 +350,16 @@ const Home = () => {
           <div className="mt-[46px] pb-[177px] grid grid-cols-3 gap-4">
             {escrowData
               .filter((escrow) => {
-                return (
-                  escrow.initializerKey.toString() === publicKey.toString()
-                );
+                if (myStatus === "active")
+                  return (
+                    escrow.initializerKey.toString() === publicKey.toString() &&
+                    escrow.active === true
+                  );
+                if (myStatus === "completed")
+                  return (
+                    escrow.initializerKey.toString() === publicKey.toString() &&
+                    escrow.active === false
+                  );
               })
               .map((myEscrow, idx) => {
                 return (
