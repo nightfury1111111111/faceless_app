@@ -343,15 +343,55 @@ const Home = () => {
                 return (
                   <div
                     key={idx}
-                    className="rounded-[10px] bg-dashboard-card1-bgcolor h-[215px] p-[23px]"
+                    className="rounded-[10px] bg-dashboard-card2-bgcolor"
                   >
-                    <div className="flex items-center">
-                      <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
-                      <div className="ml-[14px]">
-                        <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                        <div className="font-[500] text-[20px] leading-[23px]">
-                          Escrow Status
+                    <div
+                      className={
+                        idx % 3 === 0
+                          ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
+                          : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
+                      }
+                    >
+                      <div className="flex items-center">
+                        <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                        <div className="ml-[14px]">
+                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                          <div className="font-[500] text-[20px] leading-[23px]">
+                            Escrow Status
+                          </div>
                         </div>
+                      </div>
+                      <div className="mt-[20px]">
+                        <div className="flex justify-between items-center">
+                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                            Amount
+                          </div>
+                          <div className="text-[20px] leading-[23px] font-[800]">
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
+                              myEscrow.initializerAmount[1] +
+                              myEscrow.initializerAmount[2] +
+                              myEscrow.initializerAmount[3] +
+                              myEscrow.initializerAmount[4]
+                            }`}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-[20px]">
+                        <div className="flex justify-between items-center">
+                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                            Status
+                          </div>
+                          <div className="text-[20px] leading-[23px] font-[800]">
+                            {myEscrow.active ? "In progress" : "Completed"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-row-reverse py-[12px] px-[23px] items-center">
+                      <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
+                      <div className="font-[500] text-[16px] leading-[19px] mr-[10px]">
+                        View Escrow
                       </div>
                     </div>
                   </div>
