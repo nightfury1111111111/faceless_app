@@ -81,7 +81,7 @@ const Home = () => {
       amount !== amount1 + amount2 + amount3 + amount4 + amount5
     ) {
       toast(
-        "Set the milestone payment correctly. Must be matched to total amount!"
+        "Set the milestone payment correctly. Must be matched to total amount."
       );
       return;
     }
