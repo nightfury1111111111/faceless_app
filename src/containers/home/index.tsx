@@ -13,7 +13,6 @@ import idl from "../../idl.json";
 
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
-
 export interface EscrowData {
   randomSeed: number;
   initializerKey: PublicKey;
@@ -248,7 +247,7 @@ const Home = () => {
             Overview of your escrows and performance.
           </div>
           <div className="mt-[35px] grid grid-cols-3 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] py-[23px] px-[50px]">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] px-[50px]">
               <div className="flex items-center">
                 <div className="bg-icon1 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -256,7 +255,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon2 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -264,7 +263,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor h-[240px] p-[23px]">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon3 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -424,8 +423,10 @@ const Home = () => {
       )}
       {stage === 1 && (
         <div className="pb-[249px]">
-          <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
-            Create Escrow
+          <div className="flex items-center">
+            <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+              Create Escrow
+            </div>
           </div>
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
             Create a new escrow and protect your payments.
@@ -625,11 +626,21 @@ const Home = () => {
                 </div>
               )}
             </div>
-            <div
-              className="w-[120px] h-[40px] mr-[220px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-              onClick={createEscrow}
-            >
-              CREATE
+            <div className="flex flex-row">
+              <div
+                className="w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                onClick={createEscrow}
+              >
+                CREATE
+              </div>
+              <div
+                className="ml-[30px] w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                onClick={() => {
+                  setStage(0);
+                }}
+              >
+                CANCEL
+              </div>
             </div>
           </div>
         </div>
