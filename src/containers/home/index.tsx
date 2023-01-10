@@ -23,6 +23,7 @@ export interface EscrowData {
   admin2TokenAccount: PublicKey;
   pubkey: PublicKey;
   active: boolean;
+  index: number;
 }
 
 const programID = new PublicKey(idl.metadata.address);
@@ -34,6 +35,7 @@ const Home = () => {
 
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
+  const [currentEscrow, setCurrentEscrow] = useState(0);
 
   const [escrowData, setEscrowData] = useState<EscrowData[]>([]);
   const [totalValue, setTotalValue] = useState(0);
@@ -212,6 +214,7 @@ const Home = () => {
               ...newData,
               pubkey: tx.pubkey.toString(),
               active: lockedVal > 0 ? true : false,
+              index,
             };
           }
         )
@@ -233,8 +236,8 @@ const Home = () => {
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   useEffect(() => {
-    console.log(escrowData);
-  }, [escrowData]);
+    console.log(escrowData[currentEscrow]);
+  }, [currentEscrow]);
 
   return publicKey ? (
     <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]">
@@ -410,7 +413,13 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="flex flex-row-reverse py-[12px] px-[23px] items-center">
-                      <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
+                      <div
+                        className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer"
+                        onClick={() => {
+                          setCurrentEscrow(myEscrow.index);
+                          setStage(2);
+                        }}
+                      />
                       <div className="font-[500] text-[16px] leading-[19px] mr-[10px]">
                         View Escrow
                       </div>
@@ -645,6 +654,7 @@ const Home = () => {
           </div>
         </div>
       )}
+      {/* {stage === 2 && <div>sss{console.log(escrowData[currentEscrow])}</div>} */}
     </div>
   ) : (
     <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]"></div>
