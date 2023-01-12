@@ -44,6 +44,12 @@ module.exports = {
           "linear-gradient(170.52deg, #000000 21.73%, rgba(0, 0, 0, 0.05) 77.83%)",
         "fee-panel-bgcolor":
           "radial-gradient(100% 400% at 0% 0%, rgba(158, 159, 95, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+        "profile-card-bgcolor":
+          "linear-gradient(124.78deg, #2E2D3A 0%, rgba(27, 25, 43, 0) 100%)",
+        "profile-card-inner-bgcolor":
+          "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
+        "profile-card-inner2-bgcolor":
+          "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(130, 192, 82, 0.15) 99.98%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
       }),
     },
   },

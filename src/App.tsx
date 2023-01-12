@@ -8,6 +8,7 @@ import logo from "./logo.svg";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./containers/home";
+import Profile from "./containers/profile";
 import Sidebar from "./components/sidebar";
 
 import WalletContextProvider from "./components/WalletContextProvider";
@@ -44,6 +45,7 @@ const App = () => {
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
               <ToastContainer />
             </div>
