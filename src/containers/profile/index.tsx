@@ -305,9 +305,9 @@ const Profile = () => {
               Select skills that best suit you
             </div>
             <input className="mt-[31px] w-[467px] h-[59PX] rounded-[9px] p-[12px] bg-[#1C1C1C]" />
-            <div className="mt-[16px]">
+            <div className="mt-[16px] flex">
               <div className="bg-[#7c98a9] rounded-[5px] text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] cursor-pointer">
-                Disconnect
+                Moderator -
               </div>
             </div>
           </div>
