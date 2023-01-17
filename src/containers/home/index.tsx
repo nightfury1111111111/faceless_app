@@ -139,11 +139,11 @@ const Home = () => {
       const tx = await program.transaction.initialize(
         randomSeed,
         [
-          new anchor.BN(amount1),
-          new anchor.BN(amount2),
-          new anchor.BN(amount3),
-          new anchor.BN(amount4),
-          new anchor.BN(amount5),
+          new anchor.BN(amount1 * 1e9),
+          new anchor.BN(amount2 * 1e9),
+          new anchor.BN(amount3 * 1e9),
+          new anchor.BN(amount4 * 1e9),
+          new anchor.BN(amount5 * 1e9),
         ],
         {
           accounts: {
@@ -195,11 +195,11 @@ const Home = () => {
             const newData = {
               ...fetchData,
               initializerAmount: [
-                Number(fetchData.initializerAmount[0]),
-                Number(fetchData.initializerAmount[1]),
-                Number(fetchData.initializerAmount[2]),
-                Number(fetchData.initializerAmount[3]),
-                Number(fetchData.initializerAmount[4]),
+                Number(fetchData.initializerAmount[0] / 1e9),
+                Number(fetchData.initializerAmount[1] / 1e9),
+                Number(fetchData.initializerAmount[2] / 1e9),
+                Number(fetchData.initializerAmount[3] / 1e9),
+                Number(fetchData.initializerAmount[4] / 1e9),
               ],
               randomSeed: Number(fetchData.randomSeed),
             };

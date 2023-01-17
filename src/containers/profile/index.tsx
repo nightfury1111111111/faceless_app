@@ -291,13 +291,13 @@ const Profile = () => {
         <div className="py-[16px] px-[25px] font-[600] text-[22px] leading-[26px]">
           Profile
         </div>
-        <div className="pt-[45px] rounded-[10px] bg-profile-card-inner2-bgcolor h-[262px] flex justify-between px-[49px] leading-[23px] text-[20px]">
+        <div className="pt-[45px] rounded-[10px] bg-profile-card-inner2-bgcolor pb-[45px] flex justify-between px-[49px] leading-[23px] text-[20px]">
           <div>
             <div className="font-[300]">
               Write a short description about yourself
             </div>
             <div className="mt-[31px]">
-              <textarea className="h-[110px] w-[470px] bg-[#1c1c1c] rounded-[9px]" />
+              <textarea className="h-[110px] w-[470px] bg-[#1c1c1c] rounded-[9px] px-[14px] py-[20px]" />
             </div>
           </div>
           <div className="w-[467px]">
