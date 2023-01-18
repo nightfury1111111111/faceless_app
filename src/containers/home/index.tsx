@@ -326,7 +326,7 @@ const Home = () => {
                 CREATE
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center flex-col sm:flex-row w-full mb-[1rem]">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   myStatus === "active"
