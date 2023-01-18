@@ -11,6 +11,7 @@ import { PublicKey } from "@solana/web3.js";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
+import { getOrCreateAssociatedTokenAccount } from "../../utils/transferSpl/getOrCreateAssociatedTokenAccount";
 
 export interface EscrowData {
   randomSeed: number;
@@ -42,7 +43,6 @@ const Profile = () => {
   const { publicKey, wallet, signTransaction, signAllTransactions } =
     useWallet();
 
-<<<<<<< HEAD
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
   const [currentEscrow, setCurrentEscrow] = useState(0);
@@ -265,8 +265,6 @@ const Profile = () => {
     }
   };
 
-=======
->>>>>>> 021d9c966d451fe2f9f8b7a92efdc18c98452d90
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -316,16 +314,8 @@ const Profile = () => {
               <div className="bg-[#7c98a9] rounded-[5px] flex justify-center items-center text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] mr-[1rem] cursor-pointer mb-[1rem]">
                 Disconnect
               </div>
-<<<<<<< HEAD
               <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer mb-[1rem] max-w-full truncate">
                 0xfddfdsg453gfregd432dfd4das
-=======
-              <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer">
-                {publicKey &&
-                  publicKey?.toString().slice(0, 10) +
-                    "..." +
-                    publicKey?.toString().slice(-10)}
->>>>>>> 021d9c966d451fe2f9f8b7a92efdc18c98452d90
               </div>
             </div>
           </div>
@@ -335,21 +325,13 @@ const Profile = () => {
         <div className="py-[16px] px-[25px] font-[600] text-[22px] leading-[26px]">
           Profile
         </div>
-<<<<<<< HEAD
         <div className="py-[45px] rounded-[10px] bg-profile-card-inner2-bgcolor justify-between px-[20px] sm:px-[45px] leading-[23px] text-[20px] grid lg:grid-cols-2 grid-cols-1 gap-[3rem]">
-=======
-        <div className="pt-[45px] rounded-[10px] bg-profile-card-inner2-bgcolor pb-[45px] flex justify-between px-[49px] leading-[23px] text-[20px]">
->>>>>>> 021d9c966d451fe2f9f8b7a92efdc18c98452d90
           <div>
             <div className="font-[300]">
               Write a short description about yourself
             </div>
             <div className="mt-[31px]">
-<<<<<<< HEAD
               <textarea className="h-[130px] w-full bg-[#1c1c1c] rounded-[9px]" />
-=======
-              <textarea className="h-[110px] w-[470px] bg-[#1c1c1c] rounded-[9px] px-[14px] py-[20px]" />
->>>>>>> 021d9c966d451fe2f9f8b7a92efdc18c98452d90
             </div>
           </div>
           <div className="">
