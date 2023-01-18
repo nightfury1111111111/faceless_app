@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import { SolanaNetworkType } from "../../App";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { shortenAddress } from "../../utils/general";
 
 interface HeaderProps {
   solanaNetwork: SolanaNetworkType;
