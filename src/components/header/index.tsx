@@ -98,21 +98,27 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }
   });
 
+  const toggleSidebar = () => {
+    document.querySelector('body')?.classList.toggle('menu-opened');
+  }
+
   return (
-    <div className="relative" ref={ref}>
-      <div className="fixed top-0 px-[48px] w-[calc(100vw-220px)] h-[83px] bg-[#141414] flex flex-row items-center justify-between z-10">
+    <div className="relative w-full" ref={ref}>
+      <div className="fixed header top-0 sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
         <div
           className="flex flex-row cursor-pointer"
-          onClick={() => {
-            navigate("/");
-          }}
+          onClick={toggleSidebar}
         >
           <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
         </div>
         <div className="flex items-center">
-          <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer"></div>
+          <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
           {renderWalletButton()}
         </div>
+
+
+        <div className="overlay fixed w-full h-full top-0 z-10 left-0"
+          onClick={toggleSidebar}></div>
       </div>
     </div>
   );

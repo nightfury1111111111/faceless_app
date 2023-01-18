@@ -2,7 +2,23 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
+    screens: {
+      'xs': '480px',
+      'sm': '576px',
+      'md': '768px',
+      'lg': '992px',
+      'xl': '1280px'
+    },
+    fontSize: {
+      'sm': '1rem',
+      'base': '1.25rem'
+    },
     extend: {
+      colors: {
+        'primary': '#7C98A9',
+        'dark': '#26363E',
+        'secondary': '#0F0F19'
+      },
       backgroundImage: (theme) => ({
         banner: "url('./assets/images/home/banner.png')",
         image1: "url('./assets/images/home/image1.png')",

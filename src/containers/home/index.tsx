@@ -240,7 +240,7 @@ const Home = () => {
   }, [currentEscrow]);
 
   return publicKey ? (
-    <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]">
+    <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
       {stage === 0 && (
         <div>
           <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
@@ -249,8 +249,8 @@ const Home = () => {
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
             Overview of your escrows and performance.
           </div>
-          <div className="mt-[35px] grid grid-cols-3 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] px-[50px]">
+          <div className="mt-[35px] grid md:grid-cols-3 grid-cols-1 gap-4">
+            <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] xl:px-[50px] px-[20px]">
               <div className="flex items-center">
                 <div className="bg-icon1 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -274,7 +274,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="mt-[20px]">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                   <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                     In Escrow
                   </div>
@@ -282,7 +282,7 @@ const Home = () => {
                     {totalValue}
                   </div>
                 </div>
-                <div className="mt-[28px] flex justify-between items-center">
+                <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                   <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                     Active
                   </div>
@@ -294,7 +294,7 @@ const Home = () => {
                     }
                   </div>
                 </div>
-                <div className="mt-[28px] flex justify-between items-center">
+                <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                   <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                     Completed
                   </div>
@@ -309,9 +309,9 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[51.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-          <div className="mt-[35.63px] flex justify-between items-center">
-            <div className="flex items-center">
+          <div className="mt-[51px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+          <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
+            <div className="flex items-center mr-[20px] mb-[1rem]">
               <div className="font-[600] text-[22px] leading-[26px]">
                 My Escrows
               </div>
@@ -326,7 +326,7 @@ const Home = () => {
                 CREATE
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between items-center">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center flex-col sm:flex-row w-full mb-[1rem]">
               <div
                 className={
                   myStatus === "active"
@@ -349,7 +349,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[46px] pb-[177px] grid grid-cols-3 gap-4">
+          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-4">
             {escrowData
               .filter((escrow) => {
                 if (myStatus === "active")
@@ -386,23 +386,22 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="mt-[20px]">
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
                       <div className="mt-[20px]">
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
@@ -440,74 +439,74 @@ const Home = () => {
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
             Create a new escrow and protect your payments.
           </div>
-          <div className="mt-[35px] grid grid-cols-2 gap-4">
-            <div className="pt-[23px] pr-[23px]">
-              <div className="flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Description</div>
+          <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
+            <div className="pt-[23px]">
+              <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Description</div>
                 <input
                   type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              {/* <div className="mt-[30px] flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Receiver</div>
+              {/* <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Receiver</div>
                 <input
                   type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
                 />
               </div> */}
-              <div className="mt-[50px] flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Moderator</div>
+              <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Moderator</div>
                 <input
                   type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={moderator}
                   onChange={(e) => setModerator(e.target.value)}
                 />
               </div>
-              <div className="mt-[50px] flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Amount</div>
+              <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                 <input
                   type="text"
-                  className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={amount}
                   onChange={(e) => setAmount(Number(e.target.value))}
                 />
               </div>
               <div className="mt-[104.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
             </div>
-            <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px]">
+            <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px] hidden lg:block">
               <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
-              <div className="mt-[43px] flex justify-between items-center">
+              <div className="mt-[43px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
                   Platform fee(5%)
                 </div>
                 <div className="text-[20px] font-[600]">50 USDC</div>
               </div>
-              <div className="mt-[37px] flex justify-between items-center">
+              <div className="mt-[37px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
                   Holder Discount (1%)
                 </div>
                 <div className="text-[20px] font-[600]">10 USDC</div>
               </div>
               <div className="mt-[41px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-              <div className="mt-[25px] flex justify-between items-center">
+              <div className="mt-[25px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">Total</div>
                 <div className="text-[20px] font-[600]">1040 USDC</div>
               </div>
             </div>
           </div>
-          <div className="mt-[47px] grid grid-cols-2 gap-4">
+          <div className="mt-[47px] grid lg:grid-cols-2 grid-cols-1 gap-[5rem]">
             <div className="pr-[23px]">
-              <div className="flex justify-between items-center">
-                <div className="w-[110px] text-[20px]">Milestones</div>
-                <div className="flex">
+              <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestones</div>
+                <div className="flex flex-wrap">
                   <div
-                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
                       if (currentMilestone < 5)
                         setCurrentMilestone(currentMilestone + 1);
@@ -517,7 +516,7 @@ const Home = () => {
                     ADD +
                   </div>
                   <div
-                    className="w-[110px] h-[40px] mr-[80px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="w-[110px] h-[40px] mr-[80px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => setCurrentMilestone(0)}
                   >
                     Reset
@@ -526,20 +525,20 @@ const Home = () => {
               </div>
               {currentMilestone > 0 && (
                 <div>
-                  <div className="mt-[36px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Milestone 1</div>
+                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 1</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={milestone1}
                       onChange={(e) => setMilestone1(e.target.value)}
                     />
                   </div>
-                  <div className="mt-[30px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Amount</div>
+                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount1}
                       onChange={(e) => setAmount1(Number(e.target.value))}
                     />
@@ -548,20 +547,20 @@ const Home = () => {
               )}
               {currentMilestone > 1 && (
                 <div>
-                  <div className="mt-[36px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Milestone 2</div>
+                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 2</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={milestone2}
                       onChange={(e) => setMilestone2(e.target.value)}
                     />
                   </div>
-                  <div className="mt-[30px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Amount</div>
+                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount2}
                       onChange={(e) => setAmount2(Number(e.target.value))}
                     />
@@ -570,20 +569,20 @@ const Home = () => {
               )}
               {currentMilestone > 2 && (
                 <div>
-                  <div className="mt-[36px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Milestone 3</div>
+                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 3</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={milestone3}
                       onChange={(e) => setMilestone3(e.target.value)}
                     />
                   </div>
-                  <div className="mt-[30px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Amount</div>
+                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount3}
                       onChange={(e) => setAmount3(Number(e.target.value))}
                     />
@@ -592,20 +591,20 @@ const Home = () => {
               )}
               {currentMilestone > 3 && (
                 <div>
-                  <div className="mt-[36px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Milestone 4</div>
+                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 4</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={milestone4}
                       onChange={(e) => setMilestone4(e.target.value)}
                     />
                   </div>
-                  <div className="mt-[30px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Amount</div>
+                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount4}
                       onChange={(e) => setAmount4(Number(e.target.value))}
                     />
@@ -614,20 +613,20 @@ const Home = () => {
               )}
               {currentMilestone > 4 && (
                 <div>
-                  <div className="mt-[36px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Milestone 5</div>
+                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 5</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={milestone5}
                       onChange={(e) => setMilestone5(e.target.value)}
                     />
                   </div>
-                  <div className="mt-[30px] flex justify-between items-center">
-                    <div className="w-[110px] text-[20px]">Amount</div>
+                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
                     <input
                       type="text"
-                      className="w-[330px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-input-box-bgcolor"
+                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount5}
                       onChange={(e) => setAmount5(Number(e.target.value))}
                     />
@@ -657,7 +656,7 @@ const Home = () => {
       {/* {stage === 2 && <div>sss{console.log(escrowData[currentEscrow])}</div>} */}
     </div>
   ) : (
-    <div className="bg-dashboard-backcolor min-h-[100vh] px-[49px]"></div>
+    <div className="min-h-[100vh] sm:px-[49px] px-[20px]"></div>
   );
 };
 export default Home;

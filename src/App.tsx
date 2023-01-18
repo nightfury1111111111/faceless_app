@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { history } from "./utils/history";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./containers/home";
@@ -14,6 +14,7 @@ import Sidebar from "./components/sidebar";
 import WalletContextProvider from "./components/WalletContextProvider";
 
 import "./App.css";
+import "./styles.scss";
 
 declare global {
   interface LanguageType {
@@ -26,7 +27,7 @@ export type SolanaNetworkType = "mainnet-beta" | "devnet";
 
 export const LanguageContext = createContext<LanguageType>({
   language: "english",
-  setLanguage: () => {},
+  setLanguage: () => { },
 });
 
 const App = () => {
@@ -39,9 +40,10 @@ const App = () => {
         value={{ language: language, setLanguage: setLanguage }}
       >
         <BrowserRouter>
-          <div className="w-full flex bg-[#1E1E1E] font-['Roboto'] text-[#FFFFFF]">
+          <div className="w-full bg-secondary font-['Roboto'] text-[#FFFFFF]">
             <Sidebar />
-            <div className="ml-[220px] w-[calc(100vw-220px)] overflow-auto">
+
+            <div className="overflow-auto page-wrapper">
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />
