@@ -1,14 +1,21 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Program, AnchorProvider, web3, utils } from "@project-serum/anchor";
-import { TOKEN_PROGRAM_ID, createAccount } from "@solana/spl-token";
+import {
+  TOKEN_PROGRAM_ID,
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  createAccount,
+} from "@solana/spl-token";
 import * as anchor from "@project-serum/anchor";
 
 import { getOrCreateAssociatedTokenAccount } from "../../utils/transferSpl/getOrCreateAssociatedTokenAccount";
+import { getAssociatedTokenAddress } from "../../utils/transferSpl/getAssociatedTokerAddress";
+import { getAccountInfo } from "../../utils/transferSpl/getAccountInfo";
+import { createAssociatedTokenAccountInstruction } from "../../utils/transferSpl/createAssociatedTokenAccountInstruction";
 
 import { Idl } from "@project-serum/anchor/dist/cjs/idl";
 import React, { Component, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { PublicKey } from "@solana/web3.js";
+import { PublicKey, Transaction } from "@solana/web3.js";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
@@ -107,30 +114,108 @@ const Home = () => {
     const receiverAddress = new PublicKey(receiver);
     const resolver = new PublicKey(moderator);
 
-    let receiverTokenAccount = await getOrCreateAssociatedTokenAccount(
-      connection,
-      publicKey,
+    let receiverAssiciatedToken = await getAssociatedTokenAddress(
       mint,
       receiverAddress,
-      signTransaction
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
     );
 
-    let resolverTokenAccount = await getOrCreateAssociatedTokenAccount(
-      connection,
-      publicKey,
+    let resolverAssiciatedToken = await getAssociatedTokenAddress(
       mint,
       resolver,
-      signTransaction
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
     );
 
-    let initializerDepositTokenAccount =
-      await getOrCreateAssociatedTokenAccount(
+    let initializerAssiciatedToken = await getAssociatedTokenAddress(
+      mint,
+      publicKey,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    console.log(receiverAssiciatedToken.toString());
+
+    const transaction = new Transaction();
+    let account;
+    try {
+      account = await getAccountInfo(
         connection,
-        publicKey,
-        mint,
-        publicKey,
-        signTransaction
+        receiverAssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
       );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            receiverAssiciatedToken,
+            receiverAddress,
+            mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
+
+    try {
+      account = await getAccountInfo(
+        connection,
+        resolverAssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
+      );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            resolverAssiciatedToken,
+            resolver,
+            mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
+
+    try {
+      account = await getAccountInfo(
+        connection,
+        initializerAssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
+      );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            initializerAssiciatedToken,
+            publicKey,
+            mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
 
     const randomSeed: anchor.BN = new anchor.BN(
       Math.floor(Math.random() * 100000000)
@@ -183,11 +268,10 @@ const Home = () => {
             initializer: provider.wallet.publicKey,
             vault: vaultKey,
             adminState: adminKey,
-            resolverTokenAccount: resolverTokenAccount.address,
+            resolverTokenAccount: resolverAssiciatedToken,
             mint,
-            initializerDepositTokenAccount:
-              initializerDepositTokenAccount.address,
-            takerTokenAccount: receiverTokenAccount.address,
+            initializerDepositTokenAccount: initializerAssiciatedToken,
+            takerTokenAccount: receiverAssiciatedToken,
             escrowState: escrowStateKey,
             systemProgram: anchor.web3.SystemProgram.programId,
             rent: anchor.web3.SYSVAR_RENT_PUBKEY,
@@ -196,9 +280,12 @@ const Home = () => {
           signers: [],
         }
       );
-      tx.feePayer = provider.wallet.publicKey;
-      tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-      const signedTx = await provider.wallet.signTransaction(tx);
+      transaction.add(tx);
+      transaction.feePayer = provider.wallet.publicKey;
+      transaction.recentBlockhash = (
+        await connection.getLatestBlockhash()
+      ).blockhash;
+      const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setStage(0);
