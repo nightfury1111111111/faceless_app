@@ -46,23 +46,23 @@ const Home = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
 
-  const [currentMilestone, setCurrentMilestone] = useState(5);
+  const [currentMilestone, setCurrentMilestone] = useState(0);
   const [description, setDescription] = useState("");
   const [receiver, setReceiver] = useState(
     "3Y3HS9Twxsm6wRcqmgDBzmz1ggD87siqDvS3FzmPBnvH"
   );
   const [moderator, setModerator] = useState(constants.moderator);
-  const [amount, setAmount] = useState(500);
+  const [amount, setAmount] = useState(0);
   const [milestone1, setMilestone1] = useState("");
-  const [amount1, setAmount1] = useState(50);
+  const [amount1, setAmount1] = useState(0);
   const [milestone2, setMilestone2] = useState("");
-  const [amount2, setAmount2] = useState(150);
+  const [amount2, setAmount2] = useState(0);
   const [milestone3, setMilestone3] = useState("");
-  const [amount3, setAmount3] = useState(200);
+  const [amount3, setAmount3] = useState(0);
   const [milestone4, setMilestone4] = useState("");
-  const [amount4, setAmount4] = useState(50);
+  const [amount4, setAmount4] = useState(0);
   const [milestone5, setMilestone5] = useState("");
-  const [amount5, setAmount5] = useState(50);
+  const [amount5, setAmount5] = useState(0);
 
   const opts = {
     preflightCommitment: "processed",
@@ -159,13 +159,21 @@ const Home = () => {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
       const tx = await program.transaction.initialize(
         randomSeed,
-        [
-          new anchor.BN(amount1 * 1e9),
-          new anchor.BN(amount2 * 1e9),
-          new anchor.BN(amount3 * 1e9),
-          new anchor.BN(amount4 * 1e9),
-          new anchor.BN(amount5 * 1e9),
-        ],
+        currentMilestone === 0
+          ? [
+              new anchor.BN(amount * 1e9),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+            ]
+          : [
+              new anchor.BN(amount1 * 1e9),
+              new anchor.BN(amount2 * 1e9),
+              new anchor.BN(amount3 * 1e9),
+              new anchor.BN(amount4 * 1e9),
+              new anchor.BN(amount5 * 1e9),
+            ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -268,10 +276,6 @@ const Home = () => {
   useEffect(() => {
     console.log(escrowData[currentEscrow]);
   }, [currentEscrow]);
-
-  useEffect(() => {
-    console.log(escrowData);
-  }, [escrowData]);
 
   return publicKey ? (
     <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
