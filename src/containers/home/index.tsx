@@ -18,15 +18,20 @@ export interface EscrowData {
   initializerKey: PublicKey;
   initializerDepositTokenAccount: PublicKey;
   initializerAmount: Array<number>;
-  admin1: PublicKey;
   resolver: PublicKey;
+  admin2: PublicKey;
   admin2TokenAccount: PublicKey;
+  admin1: PublicKey;
+  admin1TokenAccount: PublicKey;
+  resolverTokenAccount: PublicKey;
+  takerTokenAccount: PublicKey;
   pubkey: PublicKey;
   active: boolean;
   index: number;
 }
 
 const programID = new PublicKey(idl.metadata.address);
+const { adminSeed, stateSeed, vaultSeed, authoritySeed } = constants;
 
 const Home = () => {
   const { connection } = useConnection();
@@ -41,20 +46,23 @@ const Home = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
 
-  const [currentMilestone, setCurrentMilestone] = useState(5);
+  const [currentMilestone, setCurrentMilestone] = useState(0);
   const [description, setDescription] = useState("");
+  const [receiver, setReceiver] = useState(
+    "3Y3HS9Twxsm6wRcqmgDBzmz1ggD87siqDvS3FzmPBnvH"
+  );
   const [moderator, setModerator] = useState(constants.moderator);
-  const [amount, setAmount] = useState(500);
+  const [amount, setAmount] = useState(0);
   const [milestone1, setMilestone1] = useState("");
-  const [amount1, setAmount1] = useState(50);
+  const [amount1, setAmount1] = useState(0);
   const [milestone2, setMilestone2] = useState("");
-  const [amount2, setAmount2] = useState(150);
+  const [amount2, setAmount2] = useState(0);
   const [milestone3, setMilestone3] = useState("");
-  const [amount3, setAmount3] = useState(200);
+  const [amount3, setAmount3] = useState(0);
   const [milestone4, setMilestone4] = useState("");
-  const [amount4, setAmount4] = useState(50);
+  const [amount4, setAmount4] = useState(0);
   const [milestone5, setMilestone5] = useState("");
-  const [amount5, setAmount5] = useState(50);
+  const [amount5, setAmount5] = useState(0);
 
   const opts = {
     preflightCommitment: "processed",
@@ -78,6 +86,10 @@ const Home = () => {
   };
 
   const createEscrow = async () => {
+    if (amount <= 0) {
+      toast("Total amount must be greater that 0");
+      return;
+    }
     if (
       currentMilestone > 0 &&
       amount !== amount1 + amount2 + amount3 + amount4 + amount5
@@ -92,15 +104,22 @@ const Home = () => {
     const program = new Program(idl as Idl, programID, provider);
 
     const mint = new PublicKey(constants.mint);
-    const admin1 = new PublicKey(constants.admin1);
-    const admin2 = new PublicKey(constants.admin2);
+    const receiverAddress = new PublicKey(receiver);
     const resolver = new PublicKey(moderator);
 
-    let admin2TokenAccount = await getOrCreateAssociatedTokenAccount(
+    let receiverTokenAccount = await getOrCreateAssociatedTokenAccount(
       connection,
       publicKey,
       mint,
-      admin2,
+      receiverAddress,
+      signTransaction
+    );
+
+    let resolverTokenAccount = await getOrCreateAssociatedTokenAccount(
+      connection,
+      publicKey,
+      mint,
+      resolver,
       signTransaction
     );
 
@@ -113,12 +132,18 @@ const Home = () => {
         signTransaction
       );
 
-    const { adminSeed, stateSeed, vaultSeed, authoritySeed } = constants;
     const randomSeed: anchor.BN = new anchor.BN(
       Math.floor(Math.random() * 100000000)
     );
 
     // Derive PDAs: escrowStateKey, vaultKey, vaultAuthorityKey
+    const adminKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+        Buffer.from(anchor.utils.bytes.utf8.encode(adminSeed)),
+      ],
+      program.programId
+    )[0];
     const escrowStateKey = PublicKey.findProgramAddressSync(
       [
         Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
@@ -138,23 +163,31 @@ const Home = () => {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
       const tx = await program.transaction.initialize(
         randomSeed,
-        [
-          new anchor.BN(amount1 * 1e9),
-          new anchor.BN(amount2 * 1e9),
-          new anchor.BN(amount3 * 1e9),
-          new anchor.BN(amount4 * 1e9),
-          new anchor.BN(amount5 * 1e9),
-        ],
+        currentMilestone === 0
+          ? [
+              new anchor.BN(amount * 1e9),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+            ]
+          : [
+              new anchor.BN(amount1 * 1e9),
+              new anchor.BN(amount2 * 1e9),
+              new anchor.BN(amount3 * 1e9),
+              new anchor.BN(amount4 * 1e9),
+              new anchor.BN(amount5 * 1e9),
+            ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
             vault: vaultKey,
-            admin1,
-            resolver,
-            admin2TokenAccount: admin2TokenAccount.address,
+            adminState: adminKey,
+            resolverTokenAccount: resolverTokenAccount.address,
             mint,
             initializerDepositTokenAccount:
               initializerDepositTokenAccount.address,
+            takerTokenAccount: receiverTokenAccount.address,
             escrowState: escrowStateKey,
             systemProgram: anchor.web3.SystemProgram.programId,
             rent: anchor.web3.SYSVAR_RENT_PUBKEY,
@@ -180,6 +213,13 @@ const Home = () => {
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
     try {
+      const adminKey = PublicKey.findProgramAddressSync(
+        [
+          Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+          Buffer.from(anchor.utils.bytes.utf8.encode(adminSeed)),
+        ],
+        program.programId
+      )[0];
       let tmpLockedval = 0;
       await Promise.all(
         (
@@ -189,6 +229,7 @@ const Home = () => {
             tx,
             index //no need to write smartcontract to get the data, just pulling all transaction respective programID and showing to user
           ) => {
+            if (tx.pubkey.toString() === adminKey.toString()) return true;
             const fetchData: any = await program.account.escrowState.fetch(
               tx.pubkey
             );
@@ -219,6 +260,7 @@ const Home = () => {
           }
         )
       ).then((result) => {
+        result.splice(result.indexOf(true), 1);
         setTotalValue(tmpLockedval);
         setEscrowData(result);
       });
@@ -391,12 +433,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -442,7 +485,9 @@ const Home = () => {
           <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
             <div className="pt-[23px]">
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Description</div>
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                  Description
+                </div>
                 <input
                   type="text"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -450,17 +495,21 @@ const Home = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
-              {/* <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Receiver</div>
+              <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                  Receiver
+                </div>
                 <input
                   type="text"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
                 />
-              </div> */}
+              </div>
               <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Moderator</div>
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                  Moderator
+                </div>
                 <input
                   type="text"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -469,7 +518,9 @@ const Home = () => {
                 />
               </div>
               <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                  Amount
+                </div>
                 <input
                   type="text"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -503,7 +554,9 @@ const Home = () => {
           <div className="mt-[47px] grid lg:grid-cols-2 grid-cols-1 gap-[5rem]">
             <div className="pr-[23px]">
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestones</div>
+                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                  Milestones
+                </div>
                 <div className="flex flex-wrap">
                   <div
                     className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
@@ -526,7 +579,9 @@ const Home = () => {
               {currentMilestone > 0 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 1</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Milestone 1
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -535,7 +590,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Amount
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -548,7 +605,9 @@ const Home = () => {
               {currentMilestone > 1 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 2</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Milestone 2
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -557,7 +616,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Amount
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -570,7 +631,9 @@ const Home = () => {
               {currentMilestone > 2 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 3</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Milestone 3
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -579,7 +642,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Amount
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -592,7 +657,9 @@ const Home = () => {
               {currentMilestone > 3 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 4</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Milestone 4
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -601,7 +668,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Amount
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -614,7 +683,9 @@ const Home = () => {
               {currentMilestone > 4 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Milestone 5</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Milestone 5
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
@@ -623,7 +694,9 @@ const Home = () => {
                     />
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">Amount</div>
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Amount
+                    </div>
                     <input
                       type="text"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"

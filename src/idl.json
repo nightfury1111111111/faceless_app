@@ -11,17 +11,17 @@
           "isSigner": true
         },
         {
-          "name": "admin1",
+          "name": "takerTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "resolver",
+          "name": "adminState",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "admin2TokenAccount",
+          "name": "resolverTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -78,10 +78,10 @@
       ]
     },
     {
-      "name": "cancel",
+      "name": "withdrawForResolve",
       "accounts": [
         {
-          "name": "initializer",
+          "name": "resolver",
           "isMut": true,
           "isSigner": true
         },
@@ -96,7 +96,7 @@
           "isSigner": false
         },
         {
-          "name": "resolverDepositTokenAccount",
+          "name": "resolverTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -122,7 +122,7 @@
           "isSigner": true
         },
         {
-          "name": "takerReceiveTokenAccount",
+          "name": "takerTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -158,9 +158,148 @@
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "initAdmin",
+      "accounts": [
+        {
+          "name": "admin1",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "admin2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeAdmin",
+      "accounts": [
+        {
+          "name": "admin1",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "newAdmin1",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAdmin2",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAdmin1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "newAdmin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "setFee",
+      "accounts": [
+        {
+          "name": "admin1",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "adminFee",
+          "type": "u64"
+        },
+        {
+          "name": "resolverFee",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
+    {
+      "name": "AdminState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "adminFee",
+            "type": "u64"
+          },
+          {
+            "name": "resolverFee",
+            "type": "u64"
+          },
+          {
+            "name": "admin1",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin1TokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin2",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin2TokenAccount",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
     {
       "name": "EscrowState",
       "type": {
@@ -179,6 +318,10 @@
             "type": "publicKey"
           },
           {
+            "name": "takerTokenAccount",
+            "type": "publicKey"
+          },
+          {
             "name": "initializerAmount",
             "type": {
               "array": [
@@ -192,11 +335,19 @@
             "type": "publicKey"
           },
           {
-            "name": "resolver",
+            "name": "admin2",
+            "type": "publicKey"
+          },
+          {
+            "name": "admin1TokenAccount",
             "type": "publicKey"
           },
           {
             "name": "admin2TokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "resolverTokenAccount",
             "type": "publicKey"
           }
         ]
@@ -204,6 +355,6 @@
     }
   ],
   "metadata": {
-    "address": "EScPhFsjWwugjfWkcs3D9qfztW6mihU414XpdZETK7zq"
+    "address": "6eKgVwFJa3uUaDLARxcHJQVNcuvarigA4in8BsHDRvUs"
   }
 }
