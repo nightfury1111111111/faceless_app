@@ -86,6 +86,10 @@ const Home = () => {
   };
 
   const createEscrow = async () => {
+    if (amount <= 0) {
+      toast("Total amount must be greater that 0");
+      return;
+    }
     if (
       currentMilestone > 0 &&
       amount !== amount1 + amount2 + amount3 + amount4 + amount5
