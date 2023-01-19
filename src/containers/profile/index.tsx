@@ -3,15 +3,18 @@ import { Program, AnchorProvider, web3, utils } from "@project-serum/anchor";
 import { TOKEN_PROGRAM_ID, createAccount } from "@solana/spl-token";
 import * as anchor from "@project-serum/anchor";
 import { WithContext as ReactTags } from 'react-tag-input';
+import axios from 'axios';
 
 import { Idl } from "@project-serum/anchor/dist/cjs/idl";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef, ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import { PublicKey } from "@solana/web3.js";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
 import { getOrCreateAssociatedTokenAccount } from "../../utils/transferSpl/getOrCreateAssociatedTokenAccount";
+import { loadLocalStorage, profile, profileRoles } from "../../utils/store";
+import { useAtom } from "jotai";
 
 export interface EscrowData {
   randomSeed: number;
@@ -66,6 +69,10 @@ const Profile = () => {
   const [milestone5, setMilestone5] = useState("");
   const [amount5, setAmount5] = useState(50);
 
+  const [user, setUser] = useAtom(profile);
+  const [note, setNote] = useState('');
+  const noteRef = useRef(null);
+
   const opts = {
     preflightCommitment: "processed",
   };
@@ -76,7 +83,7 @@ const Profile = () => {
     { id: 'UI/UX', text: 'UI/UX' },
   ]);
 
-  const [selectedRoles, setSelectedRoles] = useState<Tag[]>([]);
+  const [selectedRoles, setSelectedRoles] = useAtom(profileRoles);
 
   const handleDelete = (i: number) => {
     setSelectedRoles(selectedRoles.filter((tag, index) => index !== i));
@@ -265,24 +272,58 @@ const Profile = () => {
     }
   };
 
+  const saveProfile = () => {
+    let roleArray: string[] = [];
+    selectedRoles.forEach(item => {
+      roleArray.push(item.text);
+    })
+
+    axios({
+      method: 'put',
+      url: `http://localhost:3003/users/${user.walletAddress}`,
+      data: {
+        note: note,
+        roles: roleArray.toString()
+      }
+    }).then(res => {
+      setUser(res.data);
+    })
+  }
+
+  const handleChangeNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(e.target.value);
+  }
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    console.log(publicKey);
+    setUser(loadLocalStorage('user'));
+  }, [window.localStorage])
+
+  useEffect(() => {
+    console.log(publicKey, loadLocalStorage('user'));
   }, [publicKey]);
 
   return (
     <div className="min-h-[100vh] px-[20px] sm:px-[45px] pb-[75px]">
-      <div className="flex items-center">
+      <div className="flex items-center relative">
         <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
           My Profile
         </div>
+
+        {
+          user.walletAddress ?
+            <button className="mt-auto ml-auto bg-primary h-[50px] w-[120px] -translate-x-[2rem] translate-y-[2rem] rounded-[12px] hover:text-primary hover:bg-white" onClick={saveProfile}>
+              <span className="text-4xl font-bold uppercase">Save</span>
+            </button> : ""
+        }
       </div>
       <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
         Create and update your profile within the Faceless ecosystem.
       </div>
+
       <div className="mt-[82px] rounded-[10px] bg-profile-card-bgcolor">
         <div className="py-[16px] px-[25px] font-[600] text-[22px] leading-[26px]">
           Connections
@@ -311,12 +352,18 @@ const Profile = () => {
               are registered to only one wallet.
             </div>
             <div className="mt-[37px] flex items-center flex-wrap justify-center sm:justify-start">
-              <div className="bg-[#7c98a9] rounded-[5px] flex justify-center items-center text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] mr-[1rem] cursor-pointer mb-[1rem]">
-                Disconnect
-              </div>
-              <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer mb-[1rem] max-w-full truncate">
-                0xfddfdsg453gfregd432dfd4das
-              </div>
+              {
+                user?.walletAddress ?
+                  <>
+                    <div className="bg-[#7c98a9] rounded-[5px] flex justify-center items-center text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] mr-[1rem] cursor-pointer mb-[1rem]">
+                      Disconnect
+                    </div>
+                    <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer mb-[1rem] max-w-full truncate">
+                      {user.walletAddress}
+                    </div>
+                  </>
+                  : ""
+              }
             </div>
           </div>
         </div>
@@ -331,7 +378,8 @@ const Profile = () => {
               Write a short description about yourself
             </div>
             <div className="mt-[31px]">
-              <textarea className="h-[130px] w-full bg-[#1c1c1c] rounded-[9px]" />
+              <textarea className="h-[130px] w-full bg-[#1c1c1c] rounded-[9px] p-[1rem]" defaultValue={user.note ? user.note : ''} onChange={handleChangeNote}
+              />
             </div>
           </div>
           <div className="">
@@ -367,7 +415,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Profile;

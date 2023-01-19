@@ -6,17 +6,27 @@ import React, {
   useContext,
 } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import axios from 'axios';
+
+
 import useWindowSize from "../../utils/useWindowSize";
 import useOutsideClick from "../../utils/useOutsideClick";
 import { LanguageContext } from "../../App";
-import { toast } from "react-toastify";
 
 import { SolanaNetworkType } from "../../App";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { profile, profileRoles, saveToLocalStorage } from "../../utils/store";
+import { useAtom } from "jotai";
 
 interface HeaderProps {
   solanaNetwork: SolanaNetworkType;
+}
+
+interface Role {
+  id: string,
+  text: string
 }
 
 const Header = ({ solanaNetwork }: HeaderProps) => {
@@ -31,21 +41,43 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [user, setUser] = useAtom(profile);
+  const [, setRoles] = useAtom(profileRoles);
+
   const wallet = useWallet();
 
   useEffect(() => {
     if (wallet.publicKey) {
       setIsWalletConnected(true);
+
+      if (!user.walletAddress) {
+        axios({
+          method: 'post',
+          url: 'http://localhost:3003/users/login',
+          data: {
+            walletAddress: wallet.publicKey
+          }
+        }).then(res => {
+          setUser(res.data);
+          let roles = res.data.roles.split(',') as string[];
+          let roleArray: Role[] = [];
+          roles.forEach(item => {
+            roleArray.push({ id: item, text: item })
+          })
+          setRoles(roleArray);
+        })
+      }
     } else {
       setIsWalletConnected(false);
+      setUser({ walletAddress: null, note: null, roles: null });
     }
   }, [wallet]);
 
   useEffect(() => {
     if (isWalletConnected) {
-      toast("Wallet connected!");
+      // toast("Wallet connected!");
     } else {
-      toast("Wallet disconnected!");
+      // toast("Wallet disconnected!");
     }
   }, [isWalletConnected]);
 
@@ -116,7 +148,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
         </div>
 
 
-        <div className="overlay fixed w-full h-full top-0 z-10 left-0"
+        <div className="overlay fixed w-full h-full top-0 z-10 left-0 lg:hidden"
           onClick={toggleSidebar}></div>
       </div>
     </div>

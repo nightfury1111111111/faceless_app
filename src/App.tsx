@@ -8,13 +8,15 @@ import { history } from "./utils/history";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Home from "./containers/home";
-import Profile from "./containers/profile";
 import Sidebar from "./components/sidebar";
 
 import WalletContextProvider from "./components/WalletContextProvider";
 
 import "./App.css";
 import "./styles.scss";
+import { useAtom } from "jotai";
+import { loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
+import Profile from "./containers/profile";
 
 declare global {
   interface LanguageType {
@@ -33,6 +35,15 @@ export const LanguageContext = createContext<LanguageType>({
 const App = () => {
   const [language, setLanguage] = useState("english");
   const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
+  const [user, setUser] = useAtom(profile);
+
+  useEffect(() => {
+    setUser(loadLocalStorage('user'));
+
+    return (() => {
+      saveToLocalStorage('user', user);
+    })
+  }, [])
 
   return (
     <WalletContextProvider solanaNetwork={solanaNetwork}>
