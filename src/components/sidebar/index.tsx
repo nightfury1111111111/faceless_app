@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   return (
     <div className="fixed left-0 top-0 z-20 w-[220px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar">
       <div className="w-full h-full absolute z-[-1]  bg-sidebar-bgcolor"></div>

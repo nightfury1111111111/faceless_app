@@ -132,7 +132,27 @@
           "isSigner": false
         },
         {
+          "name": "resolverTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
           "name": "escrowState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminState",
           "isMut": true,
           "isSigner": false
         },
@@ -355,6 +375,6 @@
     }
   ],
   "metadata": {
-    "address": "6eKgVwFJa3uUaDLARxcHJQVNcuvarigA4in8BsHDRvUs"
+    "address": "5JNoAoDoABEYkwaXxbs6QMh6vEcVcpoaLAwwvvYWSiQm"
   }
 }
