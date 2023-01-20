@@ -17,7 +17,7 @@ import useOutsideClick from "../../utils/useOutsideClick";
 import { LanguageContext } from "../../App";
 
 import { SolanaNetworkType } from "../../App";
-import { profile, profileRoles, saveToLocalStorage } from "../../utils/store";
+import { profile, profileModerators, profileRoles, saveToLocalStorage } from "../../utils/store";
 import { useAtom } from "jotai";
 
 interface HeaderProps {
@@ -42,6 +42,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [user, setUser] = useAtom(profile);
+  const [, setMods] = useAtom(profileModerators);
   const [, setRoles] = useAtom(profileRoles);
 
   const wallet = useWallet();
@@ -58,8 +59,9 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
             walletAddress: wallet.publicKey
           }
         }).then(res => {
-          setUser(res.data);
-          let roles = res.data.roles.split(',') as string[];
+          setUser(res.data.user);
+          setMods(res.data.moderators);
+          let roles = res.data.user.roles.split(',') as string[];
           let roleArray: Role[] = [];
           roles.forEach(item => {
             roleArray.push({ id: item, text: item })

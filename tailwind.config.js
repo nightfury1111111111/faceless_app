@@ -20,6 +20,7 @@ module.exports = {
         'secondary': '#0F0F19'
       },
       backgroundImage: (theme) => ({
+        arrow: "url('./assets/images/footer/arrow.png')",
         banner: "url('./assets/images/home/banner.png')",
         image1: "url('./assets/images/home/image1.png')",
         image2: "url('./assets/images/home/image2.png')",

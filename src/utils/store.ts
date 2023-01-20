@@ -19,10 +19,15 @@ interface User {
     roles: string | null
 }
 
+interface Moderator {
+    walletAddress: string,
+}
+
 interface Role {
     id: string,
     text: string
 }
 
 export const profile = atom<User>({ walletAddress: null, note: null, roles: null });
+export const profileModerators = atom<Moderator[]>([]);
 export const profileRoles = atom<Role[]>([]);

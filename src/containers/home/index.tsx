@@ -13,6 +13,9 @@ import idl from "../../idl.json";
 
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
+import { useAtom } from "jotai";
+import { profile, profileModerators } from "../../utils/store";
+
 export interface EscrowData {
   randomSeed: number;
   initializerKey: PublicKey;
@@ -45,6 +48,7 @@ const Home = () => {
   const [escrowData, setEscrowData] = useState<EscrowData[]>([]);
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
+  const [showModerator, setModeratorVisibility] = useState(false);
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
   const [description, setDescription] = useState("");
@@ -64,9 +68,17 @@ const Home = () => {
   const [milestone5, setMilestone5] = useState("");
   const [amount5, setAmount5] = useState(0);
 
+  const [user,] = useAtom(profile);
+  const [moderators,] = useAtom(profileModerators);
+
   const opts = {
     preflightCommitment: "processed",
   };
+
+  const toggleModerator = (add: string) => {
+    setModerator(add);
+    setModeratorVisibility(false);
+  }
 
   const getProvider = () => {
     if (!wallet || !publicKey || !signTransaction || !signAllTransactions) {
@@ -84,6 +96,7 @@ const Home = () => {
 
     return provider;
   };
+
 
   const createEscrow = async () => {
     if (amount <= 0) {
@@ -151,6 +164,7 @@ const Home = () => {
       ],
       program.programId
     )[0];
+
     const vaultKey = PublicKey.findProgramAddressSync(
       [
         Buffer.from(anchor.utils.bytes.utf8.encode(vaultSeed)),
@@ -165,19 +179,19 @@ const Home = () => {
         randomSeed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -433,13 +447,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -510,12 +523,31 @@ const Home = () => {
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Moderator
                 </div>
-                <input
-                  type="text"
-                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                  value={moderator}
-                  onChange={(e) => setModerator(e.target.value)}
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    value={moderator}
+                    onChange={(e) => setModerator(e.target.value)}
+                  />
+
+                  {
+                    showModerator ?
+                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9]">
+                        {
+                          moderators.map((item, index) => (
+                            <li key={`mod-${index}`} className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary" onClick={() => toggleModerator(item.walletAddress)}>
+                              {item.walletAddress}
+                            </li>
+                          ))
+                        }
+                      </ul> : ""
+                  }
+
+                  <div className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem]" onClick={() => { setModeratorVisibility(!showModerator) }}>
+                  </div>
+                </div>
+
               </div>
               <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
