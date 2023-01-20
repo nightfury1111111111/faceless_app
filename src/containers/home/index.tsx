@@ -620,7 +620,7 @@ const Home = () => {
 
                   {
                     showModerator ?
-                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9]">
+                      <ul className="absolute w-full bg-dark rounded-b-[5px] mt-[1px] border-[#7C98A9]">
                         {
                           moderators.map((item, index) => (
                             <li key={`mod-${index}`} className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary" onClick={() => toggleModerator(item.walletAddress)}>
