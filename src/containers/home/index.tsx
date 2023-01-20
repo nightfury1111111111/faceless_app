@@ -63,6 +63,7 @@ const Home = () => {
 
   const [adminData, setAdminData] = useState<AdminData>();
   const [escrowData, setEscrowData] = useState<EscrowData[]>([]);
+  const [escrowOffchainData, setEscrowOffchainData] = useState();
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
   const [showModerator, setModeratorVisibility] = useState(false);
@@ -100,7 +101,7 @@ const Home = () => {
   // useEffect(() => {
   //   axios({
   //     method: "get",
-  //     url: "http://localhost:3003/escrows"
+  //     url: "http://localhost:3003/escrows/049b3534"
   //   }).then(result => {
   //     setEscrowData(result.data);
   //   })
@@ -1084,6 +1085,8 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="mt-[15px] break-all text-[#ADADAD]">
+
+
                         Caslfkei afei afewofla owenwwa acoewacnakdfewao afoewcea
                         Caslfkei afei afewofla owenwwa acoewacnakdfewao afoewcea
                         Caslfkei afei afewofla owenwwa acoewacnakdfewao afoewcea
