@@ -41,6 +41,8 @@ export interface EscrowData {
 }
 
 export interface AdminData {
+  adminFee: number;
+  resolverFee: number;
   admin1TokenAccount: PublicKey;
   admin2TokenAccount: PublicKey;
 }
@@ -95,11 +97,8 @@ const Home = () => {
   }, [escrowData, currentEscrow]);
 
   useEffect(() => {
-    console.log(
-      adminData?.admin1TokenAccount.toString(),
-      adminData?.admin2TokenAccount.toString()
-    );
-  }, [adminData]);
+    setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
+  }, [amount1, amount2, amount3, amount4, amount5]);
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -350,7 +349,12 @@ const Home = () => {
               const fetchData: any = await program.account.adminState.fetch(
                 tx.pubkey
               );
-              setAdminData(fetchData);
+              const newData = {
+                ...fetchData,
+                adminFee: Number(fetchData.adminFee),
+                resolverFee: Number(fetchData.resolverFee),
+              };
+              setAdminData(newData);
               return true;
             }
             const fetchData: any = await program.account.escrowState.fetch(
@@ -777,20 +781,45 @@ const Home = () => {
               <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
               <div className="mt-[43px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
-                  Platform fee(5%)
+                  Platform fee {`(${adminData?.adminFee}%)`}
                 </div>
-                <div className="text-[20px] font-[600]">50 USDC</div>
+                {adminData && (
+                  <div className="text-[20px] font-[600]">
+                    {`${(amount * adminData?.adminFee) / 100}`} USDC
+                  </div>
+                )}
               </div>
               <div className="mt-[37px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
-                  Holder Discount (1%)
+                  Moderator Fee {`(${adminData?.resolverFee}%)`}
                 </div>
-                <div className="text-[20px] font-[600]">10 USDC</div>
+                <div className="text-[20px] font-[600]">
+                  {adminData && (
+                    <div className="text-[20px] font-[600]">
+                      {`${(amount * adminData?.resolverFee) / 100}`} USDC
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="mt-[41px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
               <div className="mt-[25px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="text-[20px] leading-[23px">Total</div>
-                <div className="text-[20px] font-[600]">1040 USDC</div>
+                <div className="text-[20px] leading-[23px">
+                  Receiver will get
+                </div>
+                <div className="text-[20px] font-[600]">
+                  {adminData && (
+                    <div className="text-[20px] font-[600]">
+                      {`${
+                        (amount *
+                          (100 -
+                            adminData?.resolverFee -
+                            adminData?.adminFee)) /
+                        100
+                      }`}{" "}
+                      USDC
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
