@@ -6,14 +6,13 @@ import {
   createAccount,
 } from "@solana/spl-token";
 import * as anchor from "@project-serum/anchor";
-// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { getOrCreateAssociatedTokenAccount } from "../../utils/transferSpl/getOrCreateAssociatedTokenAccount";
 import { getAssociatedTokenAddress } from "../../utils/transferSpl/getAssociatedTokerAddress";
 import { getAccountInfo } from "../../utils/transferSpl/getAccountInfo";
 import { createAssociatedTokenAccountInstruction } from "../../utils/transferSpl/createAssociatedTokenAccountInstruction";
 
-import { Idl, seed } from "@project-serum/anchor/dist/cjs/idl";
+import { Idl } from "@project-serum/anchor/dist/cjs/idl";
 import React, { Component, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { PublicKey, Transaction } from "@solana/web3.js";
@@ -97,14 +96,14 @@ const Home = () => {
     setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
   }, [amount1, amount2, amount3, amount4, amount5]);
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:3003/escrows"
-  //   }).then(result => {
-  //     setEscrowData(result.data);
-  //   })
-  // })
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://localhost:3003/escrows"
+    }).then(result => {
+      setEscrowData(result.data);
+    })
+  })
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -441,7 +440,6 @@ const Home = () => {
           return { ...escr, index: idx };
         });
         setTotalValue(tmpLockedval);
-        setEscrowData(result);
       });
     } catch (err) {
       console.log(err);
@@ -810,9 +808,7 @@ const Home = () => {
                     onClick={() => {
                       setModeratorVisibility(!showModerator);
                     }}
-                  >
-                    {/* <KeyboardArrowDownIcon /> */}
-                  </div>
+                  ></div>
                 </div>
               </div>
               <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
