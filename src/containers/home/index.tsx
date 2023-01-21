@@ -71,7 +71,7 @@ const Home = () => {
   const [myStatus, setMyStatus] = useState("active");
   const [showModerator, setModeratorVisibility] = useState(false);
 
-  const [currentMilestone, setCurrentMilestone] = useState(0);
+  const [currentMilestone, setCurrentMilestone] = useState(1);
   const [selectedMilestone, setSelectedMilestone] = useState(0);
   const [description, setDescription] = useState("");
   const [receiver, setReceiver] = useState(
@@ -117,6 +117,20 @@ const Home = () => {
     }).then((result) => {
       setEscrowRestData(result.data);
     });
+  };
+
+  const resetMilestone = () => {
+    setCurrentMilestone(1);
+    setMilestone1("");
+    setAmount1(0);
+    setMilestone2("");
+    setAmount2(0);
+    setMilestone3("");
+    setAmount3(0);
+    setMilestone4("");
+    setAmount4(0);
+    setMilestone5("");
+    setAmount5(0);
   };
 
   const toggleModerator = (add: string) => {
@@ -902,7 +916,7 @@ const Home = () => {
                   </div>
                   <div
                     className="w-[110px] h-[40px] mr-[80px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
-                    onClick={() => setCurrentMilestone(0)}
+                    onClick={() => resetMilestone()}
                   >
                     Reset
                   </div>
@@ -1067,7 +1081,7 @@ const Home = () => {
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
-          <div className="mt-[20px] w-[386px]">
+          <div className="mt-[20px] w-[494px]">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -1075,9 +1089,6 @@ const Home = () => {
                     <div
                       key={`milestone-${index}`}
                       className="mt-[20px] flex items-center"
-                      onClick={() => {
-                        setSelectedMilestone(escrowRestData.milestones[index]);
-                      }}
                     >
                       <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
                         {index + 1}
@@ -1089,10 +1100,13 @@ const Home = () => {
                             ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
                             : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
                         }
+                        onClick={() => {
+                          setSelectedMilestone(index);
+                        }}
                       >
                         <div className="flex items-center">
                           <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
-                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400]">
+                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400] w-[300px] break-all--">
                             {item?.mileston}
                           </div>
                         </div>
@@ -1103,11 +1117,7 @@ const Home = () => {
                           <div className="flex justify-between items-center">
                             <div>Amount:</div>
                             <div className="text-[#21c55b]">
-                              {escrowData[currentEscrow].initializerAmount[
-                                index
-                              ] === 0
-                                ? "Completed"
-                                : `${item.amount} USDC`}
+                              {`${item.amount} USDC`}
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
