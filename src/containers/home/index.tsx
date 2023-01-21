@@ -95,6 +95,7 @@ const Home = () => {
     preflightCommitment: "processed",
   };
 
+
   useEffect(() => {
     setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
   }, [amount1, amount2, amount3, amount4, amount5]);
@@ -107,6 +108,15 @@ const Home = () => {
   //     setEscrowData(result.data);
   //   })
   // })
+
+  const getEscrowDate = (seed: number) => {
+    axios({
+      method: "get",
+      url: `http://localhost:3003/escrows/${seed}`
+    }).then(result => {
+      setEscrowRestData(result.data);
+    })
+  }
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -281,27 +291,29 @@ const Home = () => {
       program.programId
     )[0];
 
-    let seed = randomSeed;
 
+    let seed = randomSeed;
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
+
+
       const tx = await program.transaction.initialize(
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -319,6 +331,7 @@ const Home = () => {
           signers: [],
         }
       );
+      console.log(tx);
       transaction.add(tx);
       transaction.feePayer = provider.wallet.publicKey;
       transaction.recentBlockhash = (
@@ -329,43 +342,42 @@ const Home = () => {
       await connection.confirmTransaction(txId);
       setStage(0);
 
-      const milestones = {
-        milestone1: {
+      const milestones = [
+        {
           mileston: milestone1,
           amount: amount1,
         },
-        milestone2: {
+        {
           mileston: milestone2,
           amount: amount2,
         },
-        milestone3: {
+        {
           mileston: milestone3,
           amount: amount3,
         },
-        milestone4: {
+        {
           mileston: milestone4,
           amount: amount4,
         },
-        milestone5: {
+        {
           mileston: milestone5,
           amount: amount5,
         },
-      };
+      ];
 
       axios({
         method: "post",
         url: "http://localhost:3003/escrows",
         data: {
           description: description,
-          seed: seed,
+          seed: seed.toString(10),
           receiver: receiverAddress,
           moderator: moderator,
           amount: amount,
-          milestones: JSON.stringify(milestones),
+          milestones: milestones,
         },
       });
     } catch (err) {
-      // console.log(err.message);
       console.log(err);
 
       axios({
@@ -687,13 +699,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -711,15 +722,9 @@ const Home = () => {
                     <div
                       className="flex flex-row-reverse py-[12px] px-[23px] items-center cursor-pointer"
                       onClick={async () => {
-                        console.log("myEscrow.index", myEscrow.index);
+                        console.log("myEscrow.index", myEscrow);
+                        getEscrowDate(myEscrow.randomSeed);
                         setCurrentEscrow(myEscrow.index);
-                        // const restData = await axios.get(
-                        //   `http://localhost:3003/escrows/:${
-                        //     escrowData[myEscrow.index].randomSeed
-                        //   }`
-                        // );
-                        // setEscrowRestData(restData.data);
-                        // console.log("restData", restData);
                         setStage(2);
                       }}
                     >
@@ -851,13 +856,12 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${
-                        (amount *
-                          (100 -
-                            adminData?.resolverFee -
-                            adminData?.adminFee)) /
+                      {`${(amount *
+                        (100 -
+                          adminData?.resolverFee -
+                          adminData?.adminFee)) /
                         100
-                      }`}{" "}
+                        }`}{" "}
                       USDC
                     </div>
                   )}
@@ -890,6 +894,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
+
               {currentMilestone > 0 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
@@ -1049,62 +1054,65 @@ const Home = () => {
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
           <div className="mt-[20px] w-[386px]">
-            {escrowData[currentEscrow].initializerAmount.map(
-              (milestone, idx) => {
-                return (
+            {
+              escrowRestData.milestones && escrowRestData.milestones.map((item: any, index: number) => (
+                item.amount > 0 &&
+                <div
+                  key={`milestone-${index}`}
+                  className="mt-[20px] flex items-center"
+                  onClick={() => {
+                    setSelectedMilestone(escrowRestData.milestones[index]);
+                  }}
+                >
+                  <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
+                    {index + 1}
+                  </div>
+
                   <div
-                    key={idx}
-                    className="mt-[20px] flex items-center"
-                    onClick={() => {
-                      setSelectedMilestone(idx);
-                    }}
+                    className={
+                      index === selectedMilestone
+                        ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
+                        : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
+                    }
                   >
-                    <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
-                      {idx + 1}
+                    <div className="flex items-center">
+                      <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
+                      <div className="ml-[13px] text-[20px] leading-[23px] font-[400]">
+                        {item?.mileston}
+                      </div>
                     </div>
-                    <div
-                      className={
-                        idx === selectedMilestone
-                          ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
-                          : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
-                      }
-                    >
-                      <div className="flex items-center">
-                        <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
-                        <div className="ml-[13px] text-[20px] leading-[23px] font-[400]">
-                          {`Milestone ${idx + 1}`}
+                    <div className="mt-[15px] break-all text-[#ADADAD]">
+                      {escrowRestData.milestone1}
+                    </div>
+                    <div className="mt-[15px]">
+                      <div className="flex justify-between items-center">
+                        <div>Amount: {item.amount}</div>
+                        <div className="text-[#21c55b]">
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0
+                            ? "Completed"
+                            : "On Progress"}
                         </div>
                       </div>
-                      <div className="mt-[15px] break-all text-[#ADADAD]">
-                        {escrowRestData.milestone1}
-                      </div>
-                      <div className="mt-[15px]">
-                        <div className="flex justify-between items-center">
-                          <div>Amount: </div>
-                          <div className="text-[#21c55b]">
-                            {escrowData[currentEscrow].initializerAmount[
-                              idx
-                            ] === 0
-                              ? "Completed"
-                              : "On Progress"}
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                          <div>Status: </div>
-                          <div className="text-[#f1102f]">
-                            {escrowData[currentEscrow].initializerAmount[
-                              idx
-                            ] === 0
-                              ? "Completed"
-                              : "On Progress"}
-                          </div>
+                      <div className="flex justify-between items-center">
+                        <div>Status: </div>
+                        <div className="text-[#f1102f]">
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0
+                            ? "Completed"
+                            : "On Progress"}
                         </div>
                       </div>
                     </div>
                   </div>
-                );
-              }
-            )}
+                </div>
+              ))
+            }
+
+
+
             <div className="mt-[40px] flex justify-between items-center">
               <div
                 className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
@@ -1128,3 +1136,5 @@ const Home = () => {
   );
 };
 export default Home;
+
+
