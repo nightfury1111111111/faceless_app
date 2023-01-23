@@ -37,11 +37,17 @@ export default function Sidebar() {
       </div>
       <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
         <div className="bg-staking w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        Staking
+        <div className="flex flex-col">
+          Staking
+          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        </div>
       </div>
       <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
         <div className="bg-analytics w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        Analytics
+        <div className="flex flex-col">
+          Analytics
+          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        </div>
       </div>
       <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
         <div className="bg-faq w-[24px] h-[24px] bg-cover mr-[20px]"></div>
