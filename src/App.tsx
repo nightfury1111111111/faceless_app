@@ -2,6 +2,7 @@ import React, { FC, createContext, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'font-awesome/css/font-awesome.min.css';
 
 import { history } from "./utils/history";
 // import logo from "./logo.svg";
@@ -36,6 +37,7 @@ const App = () => {
   const [language, setLanguage] = useState("english");
   const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
   const [user, setUser] = useAtom(profile);
+  console.log("REACT_APP_SERVER_URL", process.env.REACT_APP_SERVER_URL);
 
   useEffect(() => {
     setUser(loadLocalStorage('user'));

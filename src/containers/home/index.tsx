@@ -24,7 +24,6 @@ import { validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
 import { profile, profileModerators } from "../../utils/store";
 import axios from "axios";
-import { off } from "process";
 
 export interface EscrowData {
   randomSeed: number;
@@ -41,7 +40,6 @@ export interface EscrowData {
   pubkey: PublicKey;
   active: boolean;
   index: number;
-  offchainData: any;
 }
 
 export interface AdminData {
@@ -70,8 +68,9 @@ const Home = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
   const [showModerator, setModeratorVisibility] = useState(false);
+  const [useModerator, setUseModerator] = useState(true);
 
-  const [currentMilestone, setCurrentMilestone] = useState(1);
+  const [currentMilestone, setCurrentMilestone] = useState(0);
   const [selectedMilestone, setSelectedMilestone] = useState(0);
   const [description, setDescription] = useState("");
   const [receiver, setReceiver] = useState(
@@ -97,6 +96,7 @@ const Home = () => {
     preflightCommitment: "processed",
   };
 
+
   useEffect(() => {
     setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
   }, [amount1, amount2, amount3, amount4, amount5]);
@@ -104,25 +104,11 @@ const Home = () => {
   const getEscrowDate = (seed: number) => {
     axios({
       method: "get",
-      url: `${constants.backendUrl}escrows/${seed}`,
-    }).then((result) => {
+      url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`,
+    }).then(result => {
       setEscrowRestData(result.data);
-    });
-  };
-
-  const resetMilestone = () => {
-    setCurrentMilestone(1);
-    setMilestone1("");
-    setAmount1(0);
-    setMilestone2("");
-    setAmount2(0);
-    setMilestone3("");
-    setAmount3(0);
-    setMilestone4("");
-    setAmount4(0);
-    setMilestone5("");
-    setAmount5(0);
-  };
+    })
+  }
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -297,27 +283,29 @@ const Home = () => {
       program.programId
     )[0];
 
+
     let seed = randomSeed;
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
+
 
       const tx = await program.transaction.initialize(
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -371,12 +359,12 @@ const Home = () => {
 
       axios({
         method: "post",
-        url: `${constants.backendUrl}escrows`,
+        url: `${process.env.REACT_APP_SERVER_URL}/escrows`,
         data: {
           description: description,
           seed: seed.toString(10),
           receiver: receiverAddress,
-          moderator: moderator,
+          moderator: useModerator ? moderator : null,
           amount: amount,
           milestones: milestones,
         },
@@ -386,7 +374,7 @@ const Home = () => {
 
       axios({
         method: "delete",
-        url: `${constants.backendUrl}escrows/${seed}`,
+        url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`
       });
     }
   };
@@ -427,18 +415,6 @@ const Home = () => {
             const fetchData: any = await program.account.escrowState.fetch(
               tx.pubkey
             );
-            let offchainData;
-            try {
-              offchainData = await axios({
-                method: "get",
-                url: `${constants.backendUrl}escrows/${Number(
-                  fetchData.randomSeed
-                )}`,
-              });
-            } catch (err) {
-              toast("Server Error");
-              return;
-            }
             const newData = {
               ...fetchData,
               initializerAmount: [
@@ -449,7 +425,6 @@ const Home = () => {
                 Number(fetchData.initializerAmount[4] / 1e9),
               ],
               randomSeed: Number(fetchData.randomSeed),
-              offchainData: offchainData.data,
             };
             const lockedVal =
               newData.initializerAmount[0] +
@@ -458,7 +433,6 @@ const Home = () => {
               newData.initializerAmount[3] +
               newData.initializerAmount[4];
             tmpLockedval += lockedVal;
-            console.log(newData);
             return {
               ...newData,
               pubkey: tx.pubkey.toString(),
@@ -707,7 +681,7 @@ const Home = () => {
                         <div className="ml-[14px]">
                           <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
                           <div className="font-[500] text-[20px] leading-[23px]">
-                            {myEscrow.offchainData.description}
+                            Escrow Status
                           </div>
                         </div>
                       </div>
@@ -717,13 +691,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -741,6 +714,7 @@ const Home = () => {
                     <div
                       className="flex flex-row-reverse py-[12px] px-[23px] items-center cursor-pointer"
                       onClick={async () => {
+                        console.log("myEscrow.index", myEscrow);
                         getEscrowDate(myEscrow.randomSeed);
                         setCurrentEscrow(myEscrow.index);
                         setStage(2);
@@ -791,44 +765,52 @@ const Home = () => {
                   onChange={(e) => setReceiver(e.target.value)}
                 />
               </div>
-              <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
-                  Moderator
-                </div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                    value={moderator}
-                    onChange={(e) => setModerator(e.target.value)}
-                  />
+              {
+                useModerator ?
+                  <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                      Moderator
+                    </div>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={moderator}
+                        onChange={(e) => setModerator(e.target.value)}
+                      />
 
-                  {showModerator ? (
-                    <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9]">
-                      {moderators.map((item, index) => (
-                        <li
-                          key={`mod-${index}`}
-                          className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary bg-dark"
-                          onClick={() => toggleModerator(item.walletAddress)}
-                        >
-                          {item.walletAddress}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    ""
-                  )}
+                      {showModerator ? (
+                        <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9]">
+                          {moderators.map((item, index) => (
+                            <li
+                              key={`mod-${index}`}
+                              className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary bg-dark"
+                              onClick={() => toggleModerator(item.walletAddress)}
+                            >
+                              {item.walletAddress}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        ""
+                      )}
 
-                  <div
-                    className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem]"
-                    onClick={() => {
-                      setModeratorVisibility(!showModerator);
-                    }}
-                  >
-                    {/* <KeyboardArrowDownIcon /> */}
-                  </div>
-                </div>
-              </div>
+                      <div
+                        className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem] bg-secondary text-center z-10 border-[#7C98A9] border-[1px] border-l-0
+                     rounded-r-[5px]"
+                        onClick={() => {
+                          setModeratorVisibility(!showModerator);
+                        }}
+                      >
+                        {
+                          showModerator ?
+                            <i className="fa fa-angle-up"></i> :
+                            <i className="fa fa-angle-down"></i>
+                        }
+                      </div>
+                    </div>
+                  </div> : ""
+              }
               <div className="mt-[50px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Amount
@@ -840,7 +822,17 @@ const Home = () => {
                   onChange={(e) => setAmount(Number(e.target.value))}
                 />
               </div>
-              <div className="mt-[104.37px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+
+              <div
+                className="w-[180px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem] ml-auto mt-[50px]"
+                onClick={() => setUseModerator(!useModerator)}
+              >
+                {
+                  useModerator ?
+                    "Hide Moderator" : "Show Moderator"
+                }
+              </div>
+              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
             </div>
             <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px] hidden lg:block">
               <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
@@ -874,13 +866,12 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${
-                        (amount *
-                          (100 -
-                            adminData?.resolverFee -
-                            adminData?.adminFee)) /
+                      {`${(amount *
+                        (100 -
+                          adminData?.resolverFee -
+                          adminData?.adminFee)) /
                         100
-                      }`}{" "}
+                        }`}{" "}
                       USDC
                     </div>
                   )}
@@ -889,7 +880,7 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-[47px] grid lg:grid-cols-2 grid-cols-1 gap-[5rem]">
-            <div className="pr-[23px]">
+            <div>
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Milestones
@@ -906,8 +897,8 @@ const Home = () => {
                     ADD +
                   </div>
                   <div
-                    className="w-[110px] h-[40px] mr-[80px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
-                    onClick={() => resetMilestone()}
+                    className="w-[110px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    onClick={() => setCurrentMilestone(0)}
                   >
                     Reset
                   </div>
@@ -1072,60 +1063,87 @@ const Home = () => {
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
-          <div className="mt-[20px] w-[494px]">
-            {escrowRestData.milestones &&
-              escrowRestData.milestones.map(
-                (item: any, index: number) =>
-                  item.amount > 0 && (
-                    <div
-                      key={`milestone-${index}`}
-                      className="mt-[20px] flex items-center"
-                    >
-                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
-                        {index + 1}
-                      </div>
 
-                      <div
-                        className={
-                          index === selectedMilestone
-                            ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
-                            : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
-                        }
-                        onClick={() => {
-                          setSelectedMilestone(index);
-                        }}
-                      >
-                        <div className="flex items-center">
-                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
-                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400] w-[300px] break-all--">
-                            {item?.mileston}
-                          </div>
+          {
+            escrowRestData.moderator &&
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Amount: {escrowRestData.amount}
+            </div>
+          }
+
+          {
+            escrowRestData.moderator &&
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Receiver: <span className="text-sm">{escrowRestData.receiver}</span>
+            </div>
+          }
+
+          {
+            escrowRestData.moderator &&
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Moderator: <span className="text-sm">{escrowRestData.moderator}</span>
+            </div>
+          }
+
+          <div className="mt-[20px] w-[386px]">
+            {
+              escrowRestData.milestones && escrowRestData.milestones.map((item: any, index: number) => (
+                item.amount > 0 &&
+                <div
+                  key={`milestone-${index}`}
+                  className="mt-[20px] flex items-center"
+                  onClick={() => {
+                    setSelectedMilestone(escrowRestData.milestones[index]);
+                  }}
+                >
+                  <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
+                    {index + 1}
+                  </div>
+
+                  <div
+                    className={
+                      index === selectedMilestone
+                        ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
+                        : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
+                    }
+                  >
+                    <div className="flex items-center">
+                      <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
+                      <div className="ml-[13px] text-[20px] leading-[23px] font-[400]">
+                        {item?.mileston}
+                      </div>
+                    </div>
+                    <div className="mt-[15px] break-all text-[#ADADAD]">
+                      {escrowRestData.milestone1}
+                    </div>
+                    <div className="mt-[15px]">
+                      <div className="flex justify-between items-center">
+                        <div>Amount: {item.amount}</div>
+                        <div className="text-[#21c55b]">
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0
+                            ? "Completed"
+                            : "On Progress"}
                         </div>
-                        <div className="mt-[15px] break-all text-[#ADADAD]">
-                          {escrowRestData.milestone1}
-                        </div>
-                        <div className="mt-[15px]">
-                          <div className="flex justify-between items-center">
-                            <div>Amount:</div>
-                            <div className="text-[#21c55b]">
-                              {`${item.amount} USDC`}
-                            </div>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <div>Status: </div>
-                            <div className="text-[#f1102f]">
-                              {escrowData[currentEscrow].initializerAmount[
-                                index
-                              ] === 0
-                                ? "Completed"
-                                : "On Progress"}
-                            </div>
-                          </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div>Status: </div>
+                        <div className="text-[#f1102f]">
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0
+                            ? "Completed"
+                            : "On Progress"}
                         </div>
                       </div>
                     </div>
-                  )
-              )}
+                  </div>
+                </div>
+              ))
+            }
+
+
 
             <div className="mt-[40px] flex justify-between items-center">
               <div
@@ -1150,3 +1168,5 @@ const Home = () => {
   );
 };
 export default Home;
+
+

@@ -8,6 +8,4 @@ export const constants = {
   stateSeed: "state",
   vaultSeed: "vault",
   authoritySeed: "authority",
-
-  backendUrl: "https://faceless-api.vercel.app/",
 };
