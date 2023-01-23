@@ -13,7 +13,7 @@ export default function Sidebar() {
         className={
           location.pathname === "/"
             ? "mt-[69px] bg-[#272942] h-[50px] flex items-center pl-[30px] cursor-pointer"
-            : "mt-[69px] h-[50px] flex items-center pl-[30px] cursor-pointer"
+            : "mt-[69px] h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]"
         }
         onClick={() => {
           navigate("/");
@@ -26,7 +26,7 @@ export default function Sidebar() {
         className={
           location.pathname === "/profile"
             ? "bg-[#272942] h-[50px] flex items-center pl-[30px] cursor-pointer"
-            : "h-[50px] flex items-center pl-[30px] cursor-pointer"
+            : "h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]"
         }
         onClick={() => {
           navigate("/profile");
@@ -35,21 +35,21 @@ export default function Sidebar() {
         <div className="bg-profile w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         My Profile
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
+      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-staking w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         <div className="flex flex-col">
           Staking
           <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
         </div>
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
+      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-analytics w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         <div className="flex flex-col">
           Analytics
           <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
         </div>
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer">
+      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-faq w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         FAQ
       </div>
