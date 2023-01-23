@@ -24,6 +24,7 @@ import { validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
 import { profile, profileModerators } from "../../utils/store";
 import axios from "axios";
+import { async } from "q";
 
 export interface EscrowData {
   randomSeed: number;
@@ -58,6 +59,7 @@ const Home = () => {
   const { publicKey, wallet, signTransaction, signAllTransactions } =
     useWallet();
 
+  const [myTokenAddress, setMyTokenAddress] = useState("");
   const [faqNum, setFaqNum] = useState(0);
   const [stage, setStage] = useState(0);
   const [currentEscrow, setCurrentEscrow] = useState(0);
@@ -68,6 +70,7 @@ const Home = () => {
   const [escrowOffchainData, setEscrowOffchainData] = useState();
   const [totalValue, setTotalValue] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
+  const [forMeStatus, setForMeStatus] = useState("active");
   const [showModerator, setModeratorVisibility] = useState(false);
   const [useModerator, setUseModerator] = useState(true);
 
@@ -122,6 +125,10 @@ const Home = () => {
     setAmount5(0);
   };
 
+  useEffect(() => {
+    console.log("dsfffff", amount);
+  }, [amount]);
+
   const toggleModerator = (add: string) => {
     setModerator(add);
     setModeratorVisibility(false);
@@ -164,7 +171,7 @@ const Home = () => {
 
     const mint = new PublicKey(constants.mint);
     const receiverAddress = new PublicKey(receiver);
-    const resolver = new PublicKey(moderator);
+    const resolver = new PublicKey(useModerator ? moderator : receiverAddress);
 
     let receiverAssiciatedToken = await getAssociatedTokenAddress(
       mint,
@@ -176,7 +183,7 @@ const Home = () => {
 
     let resolverAssiciatedToken = await getAssociatedTokenAddress(
       mint,
-      useModerator ? resolver : receiverAddress,
+      resolver,
       false,
       TOKEN_PROGRAM_ID,
       ASSOCIATED_TOKEN_PROGRAM_ID
@@ -333,7 +340,6 @@ const Home = () => {
           signers: [],
         }
       );
-      console.log(tx);
       transaction.add(tx);
       transaction.feePayer = provider.wallet.publicKey;
       transaction.recentBlockhash = (
@@ -394,6 +400,15 @@ const Home = () => {
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
+    const mint = new PublicKey(constants.mint);
+    let myAssiciatedToken = await getAssociatedTokenAddress(
+      mint,
+      publicKey,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+    setMyTokenAddress(myAssiciatedToken.toString());
     try {
       const adminKey = PublicKey.findProgramAddressSync(
         [
@@ -675,7 +690,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-4">
+          <div className="mt-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-4">
             {escrowData
               .filter((escrow) => {
                 if (myStatus === "active")
@@ -746,6 +761,118 @@ const Home = () => {
                         setCurrentEscrow(myEscrow.index);
                         setSelectedMilestone(0);
                         setStage(2);
+                      }}
+                    >
+                      <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
+                      <div className="font-[500] text-[16px] leading-[19px] mr-[10px]">
+                        View Escrow
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+          <div className="border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+          <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
+            <div className="flex items-center mr-[20px] mb-[1rem]">
+              <div className="font-[600] text-[22px] leading-[26px]">
+                Created for me
+              </div>
+            </div>
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+              <div
+                className={
+                  forMeStatus === "active"
+                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                }
+                onClick={() => setForMeStatus("active")}
+              >
+                Active
+              </div>
+              <div
+                className={
+                  forMeStatus === "completed"
+                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                }
+                onClick={() => setForMeStatus("completed")}
+              >
+                Completed
+              </div>
+            </div>
+          </div>
+          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-4">
+            {escrowData
+              .filter((escrow) => {
+                if (forMeStatus === "active")
+                  return (
+                    escrow.takerTokenAccount.toString() === myTokenAddress &&
+                    escrow.active === true
+                  );
+                if (forMeStatus === "completed")
+                  return (
+                    escrow.takerTokenAccount.toString() === myTokenAddress &&
+                    escrow.active === false
+                  );
+              })
+              .map((myEscrow, idx) => {
+                return (
+                  <div
+                    key={idx}
+                    className="rounded-[10px] bg-dashboard-card2-bgcolor"
+                  >
+                    <div
+                      className={
+                        idx % 3 === 0
+                          ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
+                          : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
+                      }
+                    >
+                      <div className="flex items-center">
+                        <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                        <div className="ml-[14px]">
+                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                          <div className="font-[500] text-[20px] leading-[23px]">
+                            {myEscrow.offchainData.description}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-[20px]">
+                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                            Amount
+                          </div>
+                          <div className="text-[20px] leading-[23px] font-[800]">
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
+                              myEscrow.initializerAmount[1] +
+                              myEscrow.initializerAmount[2] +
+                              myEscrow.initializerAmount[3] +
+                              myEscrow.initializerAmount[4]
+                            }`}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-[20px]">
+                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                            Status
+                          </div>
+                          <div className="text-[20px] leading-[23px] font-[800]">
+                            {myEscrow.active ? "In progress" : "Completed"}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="flex flex-row-reverse py-[12px] px-[23px] items-center cursor-pointer"
+                      onClick={async () => {
+                        console.log("myEscrow.index", myEscrow);
+                        getEscrowDate(myEscrow.randomSeed);
+                        setCurrentEscrow(myEscrow.index);
+                        setSelectedMilestone(0);
+                        setStage(3);
                       }}
                     >
                       <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
@@ -845,10 +972,13 @@ const Home = () => {
                   Amount
                 </div>
                 <input
-                  type="text"
+                  type="number"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value))}
+                  onChange={(e) => {
+                    console.log(Number(e.target.value));
+                    setAmount(Number(e.target.value));
+                  }}
                 />
               </div>
 
@@ -955,7 +1085,7 @@ const Home = () => {
                       Amount
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount1}
                       onChange={(e) => setAmount1(Number(e.target.value))}
@@ -981,7 +1111,7 @@ const Home = () => {
                       Amount
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount2}
                       onChange={(e) => setAmount2(Number(e.target.value))}
@@ -1007,7 +1137,7 @@ const Home = () => {
                       Amount
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount3}
                       onChange={(e) => setAmount3(Number(e.target.value))}
@@ -1033,7 +1163,7 @@ const Home = () => {
                       Amount
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount4}
                       onChange={(e) => setAmount4(Number(e.target.value))}
@@ -1059,7 +1189,7 @@ const Home = () => {
                       Amount
                     </div>
                     <input
-                      type="text"
+                      type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount5}
                       onChange={(e) => setAmount5(Number(e.target.value))}
@@ -1112,7 +1242,11 @@ const Home = () => {
           {escrowRestData.moderator && (
             <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
               Moderator:{" "}
-              <span className="text-sm">{escrowRestData.moderator}</span>
+              <span className="text-sm">
+                {escrowRestData.moderator !== escrowRestData.receiver
+                  ? escrowRestData.moderator
+                  : "None"}
+              </span>
             </div>
           )}
 
@@ -1185,6 +1319,96 @@ const Home = () => {
                 Return
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      {stage === 3 && (
+        <div className="mb-[150px]">
+          <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+            {escrowRestData.description}
+          </div>
+          <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            Escrow # {escrowData[currentEscrow].randomSeed}
+          </div>
+
+          {escrowRestData.moderator && (
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Amount: {escrowRestData.amount}
+            </div>
+          )}
+
+          {escrowRestData.moderator && (
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Receiver:{" "}
+              <span className="text-sm">{escrowRestData.receiver}</span>
+            </div>
+          )}
+
+          {escrowRestData.moderator && (
+            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+              Moderator:{" "}
+              <span className="text-sm">
+                {escrowRestData.moderator !== escrowRestData.receiver
+                  ? escrowRestData.moderator
+                  : "None"}
+              </span>
+            </div>
+          )}
+
+          <div className="mt-[20px] w-[494px]">
+            {escrowRestData.milestones &&
+              escrowRestData.milestones.map(
+                (item: any, index: number) =>
+                  item.amount > 0 && (
+                    <div
+                      key={`milestone-${index}`}
+                      className="mt-[20px] flex items-center"
+                    >
+                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
+                        {index + 1}
+                      </div>
+
+                      <div
+                        className={
+                          index === selectedMilestone
+                            ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
+                            : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
+                        }
+                        onClick={() => {
+                          setSelectedMilestone(index);
+                        }}
+                      >
+                        <div className="flex items-center">
+                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
+                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400] w-[300px] break-all">
+                            {item?.mileston}
+                          </div>
+                        </div>
+                        <div className="mt-[15px] break-all text-[#ADADAD]">
+                          {escrowRestData.milestone1}
+                        </div>
+                        <div className="mt-[15px]">
+                          <div className="flex justify-between items-center">
+                            <div>Amount:</div>
+                            <div className="text-[#21c55b]">
+                              {`${item.amount} USDC`}
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <div>Status: </div>
+                            <div className="text-[#f1102f]">
+                              {escrowData[currentEscrow].initializerAmount[
+                                index
+                              ] === 0
+                                ? "Completed"
+                                : "On Progress"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+              )}
           </div>
         </div>
       )}
