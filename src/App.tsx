@@ -2,7 +2,7 @@ import React, { FC, createContext, useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
 
 import { history } from "./utils/history";
 // import logo from "./logo.svg";
@@ -30,7 +30,7 @@ export type SolanaNetworkType = "mainnet-beta" | "devnet";
 
 export const LanguageContext = createContext<LanguageType>({
   language: "english",
-  setLanguage: () => { },
+  setLanguage: () => {},
 });
 
 const App = () => {
@@ -40,12 +40,12 @@ const App = () => {
   console.log("REACT_APP_SERVER_URL", process.env.REACT_APP_SERVER_URL);
 
   useEffect(() => {
-    setUser(loadLocalStorage('user'));
+    setUser(loadLocalStorage("user"));
 
-    return (() => {
-      saveToLocalStorage('user', user);
-    })
-  }, [])
+    return () => {
+      saveToLocalStorage("user", user);
+    };
+  }, []);
 
   return (
     <WalletContextProvider solanaNetwork={solanaNetwork}>

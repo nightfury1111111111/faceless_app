@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -58,8 +58,18 @@ export default function Sidebar() {
           Connect with us
         </div>
         <div className="mt-[14px] flex justify-center">
-          <div className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer"></div>
-          <div className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer"></div>
+          <a
+            className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer"
+            href={"https://discord.com/invite/HRhdNPhB2A"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+          <a
+            className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer"
+            href={"https://twitter.com/facelesslabsnft"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
         </div>
       </div>
     </div>

@@ -445,7 +445,7 @@ const Home = () => {
             try {
               offchainData = await axios({
                 method: "get",
-                url: `http://localhost:3003/escrows/${Number(
+                url: `${process.env.REACT_APP_SERVER_URL}/escrows/${Number(
                   fetchData.randomSeed
                 )}`,
               });
