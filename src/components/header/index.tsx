@@ -9,15 +9,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import axios from 'axios';
-
+import axios from "axios";
+import { constants } from "../../constants";
 
 import useWindowSize from "../../utils/useWindowSize";
 import useOutsideClick from "../../utils/useOutsideClick";
 import { LanguageContext } from "../../App";
 
 import { SolanaNetworkType } from "../../App";
-import { profile, profileModerators, profileRoles, saveToLocalStorage } from "../../utils/store";
+import {
+  profile,
+  profileModerators,
+  profileRoles,
+  saveToLocalStorage,
+} from "../../utils/store";
 import { useAtom } from "jotai";
 
 interface HeaderProps {
@@ -25,8 +30,8 @@ interface HeaderProps {
 }
 
 interface Role {
-  id: string,
-  text: string
+  id: string;
+  text: string;
 }
 
 const Header = ({ solanaNetwork }: HeaderProps) => {
@@ -53,21 +58,21 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
 
       if (!user.walletAddress) {
         axios({
-          method: 'post',
-          url: 'http://localhost:3003/users/login',
+          method: "post",
+          url: `${constants.backendUrl}users/login`,
           data: {
-            walletAddress: wallet.publicKey
-          }
-        }).then(res => {
+            walletAddress: wallet.publicKey,
+          },
+        }).then((res) => {
           setUser(res.data.user);
           setMods(res.data.moderators);
-          let roles = res.data.user.roles.split(',') as string[];
+          let roles = res.data.user.roles.split(",") as string[];
           let roleArray: Role[] = [];
-          roles.forEach(item => {
-            roleArray.push({ id: item, text: item })
-          })
+          roles.forEach((item) => {
+            roleArray.push({ id: item, text: item });
+          });
           setRoles(roleArray);
-        })
+        });
       }
     } else {
       setIsWalletConnected(false);
@@ -132,16 +137,13 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   });
 
   const toggleSidebar = () => {
-    document.querySelector('body')?.classList.toggle('menu-opened');
-  }
+    document.querySelector("body")?.classList.toggle("menu-opened");
+  };
 
   return (
     <div className="relative w-full" ref={ref}>
       <div className="fixed header top-0 sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
-        <div
-          className="flex flex-row cursor-pointer"
-          onClick={toggleSidebar}
-        >
+        <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
           <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
         </div>
         <div className="flex items-center">
@@ -149,9 +151,10 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           {renderWalletButton()}
         </div>
 
-
-        <div className="overlay fixed w-full h-full top-0 z-10 left-0 lg:hidden"
-          onClick={toggleSidebar}></div>
+        <div
+          className="overlay fixed w-full h-full top-0 z-10 left-0 lg:hidden"
+          onClick={toggleSidebar}
+        ></div>
       </div>
     </div>
   );

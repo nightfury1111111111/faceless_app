@@ -99,11 +99,11 @@ const Home = () => {
   useEffect(() => {
     axios({
       method: "get",
-      url: "http://localhost:3003/escrows"
-    }).then(result => {
+      url: `${constants.backendUrl}escrows`,
+    }).then((result) => {
       setEscrowData(result.data);
-    })
-  })
+    });
+  });
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -286,19 +286,19 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-            new anchor.BN(amount * 1e9),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-          ]
+              new anchor.BN(amount * 1e9),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+            ]
           : [
-            new anchor.BN(amount1 * 1e9),
-            new anchor.BN(amount2 * 1e9),
-            new anchor.BN(amount3 * 1e9),
-            new anchor.BN(amount4 * 1e9),
-            new anchor.BN(amount5 * 1e9),
-          ],
+              new anchor.BN(amount1 * 1e9),
+              new anchor.BN(amount2 * 1e9),
+              new anchor.BN(amount3 * 1e9),
+              new anchor.BN(amount4 * 1e9),
+              new anchor.BN(amount5 * 1e9),
+            ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -329,47 +329,46 @@ const Home = () => {
       const milestones = {
         milestone1: {
           mileston: milestone1,
-          amount: amount1
+          amount: amount1,
         },
         milestone2: {
           mileston: milestone2,
-          amount: amount2
+          amount: amount2,
         },
         milestone3: {
           mileston: milestone3,
-          amount: amount3
+          amount: amount3,
         },
         milestone4: {
           mileston: milestone4,
-          amount: amount4
+          amount: amount4,
         },
         milestone5: {
           mileston: milestone5,
-          amount: amount5
-        }
-      }
+          amount: amount5,
+        },
+      };
 
       axios({
         method: "post",
-        url: "http://localhost:3003/escrows",
+        url: `${constants.backendUrl}escrows`,
         data: {
           description: description,
           seed: seed,
           receiver: receiverAddress,
           moderator: moderator,
           amount: amount,
-          milestones: JSON.stringify(milestones)
-        }
-      })
-
+          milestones: JSON.stringify(milestones),
+        },
+      });
     } catch (err) {
       // console.log(err.message);
       console.log(err);
 
       axios({
         method: "delete",
-        url: `http://localhost:3003/escrows/${seed}`
-      })
+        url: `${constants.backendUrl}escrows/${seed}`,
+      });
     }
   };
 
@@ -702,12 +701,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -856,12 +856,13 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${(amount *
-                        (100 -
-                          adminData?.resolverFee -
-                          adminData?.adminFee)) /
+                      {`${
+                        (amount *
+                          (100 -
+                            adminData?.resolverFee -
+                            adminData?.adminFee)) /
                         100
-                        }`}{" "}
+                      }`}{" "}
                       USDC
                     </div>
                   )}

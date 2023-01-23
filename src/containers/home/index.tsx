@@ -101,19 +101,10 @@ const Home = () => {
     setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
   }, [amount1, amount2, amount3, amount4, amount5]);
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:3003/escrows/049b3534"
-  //   }).then(result => {
-  //     setEscrowData(result.data);
-  //   })
-  // })
-
   const getEscrowDate = (seed: number) => {
     axios({
       method: "get",
-      url: `http://localhost:3003/escrows/${seed}`,
+      url: `${constants.backendUrl}escrows/${seed}`,
     }).then((result) => {
       setEscrowRestData(result.data);
     });
@@ -380,7 +371,7 @@ const Home = () => {
 
       axios({
         method: "post",
-        url: "http://localhost:3003/escrows",
+        url: `${constants.backendUrl}escrows`,
         data: {
           description: description,
           seed: seed.toString(10),
@@ -395,7 +386,7 @@ const Home = () => {
 
       axios({
         method: "delete",
-        url: `http://localhost:3003/escrows/${seed}`,
+        url: `${constants.backendUrl}escrows/${seed}`,
       });
     }
   };
@@ -440,7 +431,7 @@ const Home = () => {
             try {
               offchainData = await axios({
                 method: "get",
-                url: `http://localhost:3003/escrows/${Number(
+                url: `${constants.backendUrl}escrows/${Number(
                   fetchData.randomSeed
                 )}`,
               });
