@@ -318,19 +318,19 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-            new anchor.BN(amount * 1e9),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-          ]
+              new anchor.BN(amount * 1e9),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+            ]
           : [
-            new anchor.BN(amount1 * 1e9),
-            new anchor.BN(amount2 * 1e9),
-            new anchor.BN(amount3 * 1e9),
-            new anchor.BN(amount4 * 1e9),
-            new anchor.BN(amount5 * 1e9),
-          ],
+              new anchor.BN(amount1 * 1e9),
+              new anchor.BN(amount2 * 1e9),
+              new anchor.BN(amount3 * 1e9),
+              new anchor.BN(amount4 * 1e9),
+              new anchor.BN(amount5 * 1e9),
+            ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -590,7 +590,7 @@ const Home = () => {
     <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
       {stage === 0 && (
         <div>
-          <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
             Dashboard
           </div>
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
@@ -740,12 +740,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -851,12 +852,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -895,7 +897,7 @@ const Home = () => {
       {stage === 1 && (
         <div className="pb-[249px]">
           <div className="flex items-center">
-            <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+            <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
               Create Escrow
             </div>
           </div>
@@ -1040,12 +1042,13 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${(amount *
-                        (100 -
-                          adminData?.resolverFee -
-                          adminData?.adminFee)) /
+                      {`${
+                        (amount *
+                          (100 -
+                            adminData?.resolverFee -
+                            adminData?.adminFee)) /
                         100
-                        }`}{" "}
+                      }`}{" "}
                       USDC
                     </div>
                   )}
@@ -1236,7 +1239,7 @@ const Home = () => {
       )}
       {stage === 2 && (
         <div className="mb-[150px]">
-          <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
             {escrowRestData.description}
           </div>
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
@@ -1341,7 +1344,7 @@ const Home = () => {
       )}
       {stage === 3 && (
         <div className="mb-[150px]">
-          <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
             {escrowRestData.description}
           </div>
           <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">

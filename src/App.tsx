@@ -54,6 +54,14 @@ const App = () => {
       >
         <BrowserRouter>
           <div className="w-full bg-secondary font-['Roboto'] text-[#FFFFFF]">
+            <div className="sm:top-[0] fixed left-0 top-[83px] w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center">
+              {" "}
+              This application is still in BETA.{" "}
+              <span className="font-bold ml-[5px]">
+                {" "}
+                Fees have been set to 0% until launch.
+              </span>
+            </div>
             <Sidebar />
 
             <div className="overflow-auto page-wrapper">

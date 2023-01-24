@@ -2,11 +2,17 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Program, AnchorProvider, web3, utils } from "@project-serum/anchor";
 import { TOKEN_PROGRAM_ID, createAccount } from "@solana/spl-token";
 import * as anchor from "@project-serum/anchor";
-import { WithContext as ReactTags } from 'react-tag-input';
-import axios from 'axios';
+import { WithContext as ReactTags } from "react-tag-input";
+import axios from "axios";
 
 import { Idl } from "@project-serum/anchor/dist/cjs/idl";
-import React, { Component, useState, useEffect, useRef, ChangeEvent } from "react";
+import React, {
+  Component,
+  useState,
+  useEffect,
+  useRef,
+  ChangeEvent,
+} from "react";
 import { toast } from "react-toastify";
 import { PublicKey } from "@solana/web3.js";
 import idl from "../../idl.json";
@@ -30,13 +36,13 @@ export interface EscrowData {
 }
 
 interface Tag {
-  id: string,
-  text: string
+  id: string;
+  text: string;
 }
 
 interface RemoveComponentProps {
-  className: string,
-  onRemove: Function
+  className: string;
+  onRemove: Function;
 }
 
 const programID = new PublicKey(idl.metadata.address);
@@ -70,7 +76,7 @@ const Profile = () => {
   const [amount5, setAmount5] = useState(50);
 
   const [user, setUser] = useAtom(profile);
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState("");
   const noteRef = useRef(null);
 
   const opts = {
@@ -78,9 +84,9 @@ const Profile = () => {
   };
 
   const [roles, setRoles] = useState([
-    { id: 'Moderator', text: 'Moderator' },
-    { id: 'Artist', text: 'Artist' },
-    { id: 'UI/UX', text: 'UI/UX' },
+    { id: "Moderator", text: "Moderator" },
+    { id: "Artist", text: "Artist" },
+    { id: "UI/UX", text: "UI/UX" },
   ]);
 
   const [selectedRoles, setSelectedRoles] = useAtom(profileRoles);
@@ -90,7 +96,7 @@ const Profile = () => {
   };
 
   const handleAddition = (tag: Tag) => {
-    if (selectedRoles.findIndex(item => item.text === tag.text) === -1) {
+    if (selectedRoles.findIndex((item) => item.text === tag.text) === -1) {
       setSelectedRoles([...selectedRoles, tag]);
     }
   };
@@ -274,51 +280,55 @@ const Profile = () => {
 
   const saveProfile = () => {
     let roleArray: string[] = [];
-    selectedRoles.forEach(item => {
+    selectedRoles.forEach((item) => {
       roleArray.push(item.text);
-    })
+    });
 
     axios({
-      method: 'put',
+      method: "put",
       url: `${process.env.REACT_APP_SERVER_URL}/users/${user.walletAddress}`,
       data: {
         note: note,
-        roles: roleArray.toString()
-      }
-    }).then(res => {
+        roles: roleArray.toString(),
+      },
+    }).then((res) => {
       setUser(res.data);
-    })
-  }
+    });
+  };
 
   const handleChangeNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNote(e.target.value);
-  }
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    setUser(loadLocalStorage('user'));
-  }, [window.localStorage])
+    setUser(loadLocalStorage("user"));
+  }, [window.localStorage]);
 
   useEffect(() => {
-    console.log(publicKey, loadLocalStorage('user'));
+    console.log(publicKey, loadLocalStorage("user"));
   }, [publicKey]);
 
   return (
     <div className="min-h-[100vh] px-[20px] sm:px-[45px] pb-[75px]">
       <div className="flex items-center relative">
-        <div className="font-[600] text-[22px] leading-[22px] pt-[107px]">
+        <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
           My Profile
         </div>
 
-        {
-          user.walletAddress ?
-            <button className="mt-auto ml-auto bg-primary h-[50px] w-[120px] -translate-x-[2rem] translate-y-[2rem] rounded-[12px] hover:text-primary hover:bg-white" onClick={saveProfile}>
-              <span className="text-4xl font-bold uppercase">Save</span>
-            </button> : ""
-        }
+        {user.walletAddress ? (
+          <button
+            className="mt-auto ml-auto bg-primary h-[50px] w-[120px] -translate-x-[2rem] translate-y-[2rem] rounded-[12px] hover:text-primary hover:bg-white"
+            onClick={saveProfile}
+          >
+            <span className="text-4xl font-bold uppercase">Save</span>
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
         Create and update your profile within the Faceless ecosystem.
@@ -352,18 +362,18 @@ const Profile = () => {
               are registered to only one wallet.
             </div>
             <div className="mt-[37px] flex items-center flex-wrap justify-center sm:justify-start">
-              {
-                user?.walletAddress ?
-                  <>
-                    <div className="bg-[#7c98a9] rounded-[5px] flex justify-center items-center text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] mr-[1rem] cursor-pointer mb-[1rem]">
-                      Disconnect
-                    </div>
-                    <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer mb-[1rem] max-w-full truncate">
-                      {user.walletAddress}
-                    </div>
-                  </>
-                  : ""
-              }
+              {user?.walletAddress ? (
+                <>
+                  <div className="bg-[#7c98a9] rounded-[5px] flex justify-center items-center text-[20px] leading-[23px] font-[800] py-[10px] px-[14px] mr-[1rem] cursor-pointer mb-[1rem]">
+                    Disconnect
+                  </div>
+                  <div className="bg-[#1c262d] rounded-[9px] flex justify-center items-center text-[20px] leading-[23px] font-[700] py-[16px] px-[13px] cursor-pointer mb-[1rem] max-w-full truncate">
+                    {user.walletAddress}
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -378,7 +388,10 @@ const Profile = () => {
               Write a short description about yourself
             </div>
             <div className="mt-[31px]">
-              <textarea className="h-[130px] w-full bg-[#1c1c1c] rounded-[9px] p-[1rem]" defaultValue={user.note ? user.note : ''} onChange={handleChangeNote}
+              <textarea
+                className="h-[130px] w-full bg-[#1c1c1c] rounded-[9px] p-[1rem]"
+                defaultValue={user.note ? user.note : ""}
+                onChange={handleChangeNote}
               />
             </div>
           </div>
@@ -386,7 +399,7 @@ const Profile = () => {
             <div className="text-[20px] leading-[23px] font-[300]">
               Select skills that best suit you
             </div>
-            <div className="mt-[31px] w-full rounded-[9px] p-[1rem] pb-0 bg-[#1C1C1C]" >
+            <div className="mt-[31px] w-full rounded-[9px] p-[1rem] pb-0 bg-[#1C1C1C]">
               <ReactTags
                 inputFieldPosition="inline"
                 tags={selectedRoles}
@@ -399,23 +412,21 @@ const Profile = () => {
               />
             </div>
 
-
             <div className="mt-[16px] flex flex-wrap">
-              {
-                roles.map((role, index) => (
-                  <div className="bg-[#7c98a9] rounded-[10px] text-sm py-[.5rem] mb-[1rem] sm:w-[130px] w-[100px] text-center text-white cursor-pointer mr-[1rem]" key={`role-${index}`}
-                    onClick={() => handleAddition(role)}>
-                    <span>
-                      + {role.text}
-                    </span>
-                  </div>
-                ))
-              }
+              {roles.map((role, index) => (
+                <div
+                  className="bg-[#7c98a9] rounded-[10px] text-sm py-[.5rem] mb-[1rem] sm:w-[130px] w-[100px] text-center text-white cursor-pointer mr-[1rem]"
+                  key={`role-${index}`}
+                  onClick={() => handleAddition(role)}
+                >
+                  <span>+ {role.text}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 export default Profile;
