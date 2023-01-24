@@ -28,12 +28,15 @@ export default function Sidebar() {
             ? "bg-[#272942] h-[50px] flex items-center pl-[30px] cursor-pointer"
             : "h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]"
         }
-        onClick={() => {
-          navigate("/profile");
-        }}
+        // onClick={() => {
+        //   navigate("/profile");
+        // }}
       >
         <div className="bg-profile w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        My Profile
+        <div className="flex flex-col">
+          My Profile
+          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        </div>
       </div>
       <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-staking w-[24px] h-[24px] bg-cover mr-[20px]"></div>
