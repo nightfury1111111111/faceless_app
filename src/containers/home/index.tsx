@@ -908,7 +908,7 @@ const Home = () => {
             <div className="pt-[23px]">
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
-                  Description
+                  Name
                 </div>
                 <input
                   type="text"
