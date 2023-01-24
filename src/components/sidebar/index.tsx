@@ -21,7 +21,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed left-0 top-0 sm:top-[30px] w-[300px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
+    <div className="fixed left-0 top-[30px] w-[300px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
       <div className="w-full h-full absolute z-[-1]  bg-sidebar-bgcolor"></div>
 
       <div className="mt-[16px] mx-auto w-[60px] h-[60px] bg-logo bg-cover cursor-pointer"></div>

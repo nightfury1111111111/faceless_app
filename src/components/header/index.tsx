@@ -141,7 +141,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
 
   return (
     <div className="relative w-full z-[20]" ref={ref}>
-      <div className="fixed header top-0 sm:top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
+      <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
         <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
           <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
         </div>
