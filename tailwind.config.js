@@ -39,16 +39,18 @@ module.exports = {
         staking: "url('./assets/images/sidebar/staking.svg')",
         twitter: "url('./assets/images/sidebar/twitter.svg')",
         discord: "url('./assets/images/sidebar/discord.svg')",
+        chart: "url('./assets/images/home/chart.svg')",
+        stars: "url('./assets/images/home/stars.svg')",
         "sidebar-bgcolor":
           "linear-gradient(170.52deg, #1B192B 21.73%, rgba(27, 25, 43, 0.05) 77.83%);",
         "dashboard-backcolor":
           "linear-gradient(124.03deg, rgba(0, 0, 0, 0.51) 0%, rgba(15, 16, 26, 0) 100%)",
         "dashboard-card1-bgcolor":
-          "radial-gradient(100% 400% at 0% 0%, rgba(206, 156, 82, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+          "radial-gradient(100% 400% at 0% 0%, rgb(243 126 5 / 11%) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
         "dashboard-card3-bgcolor":
-          "radial-gradient(100% 400% at 0% 0%, rgba(158, 159, 95, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+          "radial-gradient(100% 400% at 0% 0%, rgb(235 239 5 / 6%) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
         "dashboard-card4-bgcolor":
-          "radial-gradient(100% 400% at 0% 0%, rgba(62, 130, 130, 0.11) 0%, rgba(37, 39, 62, 0.23) 57.81%, rgba(15, 16, 26, 0.5) 98.44%)",
+          "radial-gradient(100% 400% at 0% 0%, rgb(62 130 130 / 24%) 0%, rgba(37, 39, 62, 0.23) 57.81%, rgba(15, 16, 26, 0.5) 98.44%)",
         "dashboard-card2-bgcolor":
           "linear-gradient(124.78deg, #2E2D3A 0%, rgba(27, 25, 43, 0) 100%)",
         "dashboard-card2-interior1-bgcolor":

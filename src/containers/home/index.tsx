@@ -646,7 +646,10 @@ const Home = () => {
                   Profile Score
                 </div>
               </div>
-              <div className="mt-[20px] text-[#C7C7C7]">Cominig soon</div>
+              <div className="mt-[20px]"></div>
+              <div className="mt-[20px] text-[#55d52b] font-bold text-[36px] bg-chart w-[235px] h-[118px] bg-cover m-auto flex justify-center items-center">
+                Coming soon
+              </div>
             </div>
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
               <div className="flex items-center">
@@ -655,7 +658,10 @@ const Home = () => {
                   Feedback
                 </div>
               </div>
-              <div className="mt-[20px] text-[#C7C7C7]">Cominig soon</div>
+              <div className="mt-[20px]"></div>
+              <div className="mt-[20px] text-[#55d52b] font-bold text-[36px] bg-stars w-[235px] h-[118px] bg-cover m-auto flex justify-center items-center">
+                Coming soon
+              </div>
             </div>
           </div>
           <div className="mt-[51px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
