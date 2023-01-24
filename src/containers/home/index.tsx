@@ -590,10 +590,8 @@ const Home = () => {
     <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
       {stage === 0 && (
         <div>
-          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
-            Dashboard
-          </div>
-          <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+          <div className="font-[600] text-[40px] pt-[130px]">Dashboard</div>
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
             Overview of your escrows and performance.
           </div>
           <div className="mt-[35px] grid md:grid-cols-3 grid-cols-1 gap-4">
@@ -646,8 +644,8 @@ const Home = () => {
                   Profile Score
                 </div>
               </div>
-              <div className="mt-[20px]"></div>
-              <div className="mt-[20px] text-[#55d52b] font-bold text-[36px] bg-chart w-[235px] h-[118px] bg-cover m-auto flex justify-center items-center">
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
+                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-20"></div>
                 Coming soon
               </div>
             </div>
@@ -658,8 +656,8 @@ const Home = () => {
                   Feedback
                 </div>
               </div>
-              <div className="mt-[20px]"></div>
-              <div className="mt-[20px] text-[#55d52b] font-bold text-[36px] bg-stars w-[235px] h-[118px] bg-cover m-auto flex justify-center items-center">
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
+                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-20"></div>
                 Coming soon
               </div>
             </div>
@@ -903,11 +901,11 @@ const Home = () => {
       {stage === 1 && (
         <div className="pb-[249px]">
           <div className="flex items-center">
-            <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
+            <div className="font-[600] text-[40px] pt-[130px]">
               Create Escrow
             </div>
           </div>
-          <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
             Create a new escrow and protect your payments.
           </div>
           <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
@@ -1245,28 +1243,28 @@ const Home = () => {
       )}
       {stage === 2 && (
         <div className="mb-[150px]">
-          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
+          <div className="font-[600] text-[40px] pt-[130px]">
             {escrowRestData.description}
           </div>
-          <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Amount: {escrowRestData.amount}
             </div>
           )}
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Receiver:{" "}
               <span className="text-sm">{escrowRestData.receiver}</span>
             </div>
           )}
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
                 {escrowRestData.moderator !== escrowRestData.receiver
@@ -1350,28 +1348,28 @@ const Home = () => {
       )}
       {stage === 3 && (
         <div className="mb-[150px]">
-          <div className="font-[600] text-[22px] leading-[22px] pt-[130px]">
+          <div className="font-[600] text-[40px] pt-[130px]">
             {escrowRestData.description}
           </div>
-          <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Amount: {escrowRestData.amount}
             </div>
           )}
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Receiver:{" "}
               <span className="text-sm">{escrowRestData.receiver}</span>
             </div>
           )}
 
           {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[18px] leading-[21px] font-[300]">
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
                 {escrowRestData.moderator !== escrowRestData.receiver

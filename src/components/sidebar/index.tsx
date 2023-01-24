@@ -21,15 +21,15 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed left-0 top-0 sm:top-[30px] w-[220px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
+    <div className="fixed left-0 top-0 sm:top-[30px] w-[300px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
       <div className="w-full h-full absolute z-[-1]  bg-sidebar-bgcolor"></div>
 
       <div className="mt-[16px] mx-auto w-[60px] h-[60px] bg-logo bg-cover cursor-pointer"></div>
       <div
         className={
           location.pathname === "/"
-            ? "mt-[69px] bg-[#272942] h-[50px] flex items-center pl-[30px] cursor-pointer"
-            : "mt-[69px] h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]"
+            ? "mt-[69px] bg-[#6f75ef] h-[50px] flex items-center pl-[15px] cursor-pointer"
+            : "mt-[69px] h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]"
         }
         onClick={() => {
           navigate("/");
@@ -42,38 +42,44 @@ export default function Sidebar() {
       <div
         className={
           location.pathname === "/profile"
-            ? "bg-[#272942] h-[50px] flex items-center pl-[30px] cursor-pointer"
-            : "h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]"
+            ? "bg-[#272942] h-[50px] flex items-center pl-[15px] cursor-pointer"
+            : "h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]"
         }
         // onClick={() => {
         //   navigate("/profile");
         // }}
       >
         <div className="bg-profile w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        <div className="flex flex-col">
-          My Profile
-          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        <div className="flex justify-between items-center w-[220px]">
+          <div> My Profile</div>
+          <div className="text-[12px] px-[12px] py-[2px] rounded-[40px] bg-[#23443d] text-[#a9f1d9]">
+            Coming soon
+          </div>
         </div>
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
+      <div className="h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-staking w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        <div className="flex flex-col">
-          Staking
-          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        <div className="flex justify-between items-center w-[220px]">
+          <div> Staking</div>
+          <div className="text-[12px] px-[12px] py-[2px] rounded-[40px] bg-[#23443d] text-[#a9f1d9]">
+            Coming soon
+          </div>
         </div>
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
+      <div className="h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-analytics w-[24px] h-[24px] bg-cover mr-[20px]"></div>
-        <div className="flex flex-col">
-          Analytics
-          <div className="text-[10px] text-[#C7C7C7]">(Coming soon)</div>
+        <div className="flex justify-between items-center w-[220px]">
+          <div>Analytics</div>
+          <div className="text-[12px] px-[12px] py-[2px] rounded-[40px] bg-[#23443d] text-[#a9f1d9]">
+            Coming soon
+          </div>
         </div>
       </div>
-      <div className="h-[50px] flex items-center pl-[30px] cursor-pointer hover:bg-[#0c3150]">
+      {/* <div className="h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]">
         <div className="bg-faq w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         FAQ
-      </div>
-      <div className="fixed bottom-[38px] left-0 w-[220px]">
+      </div> */}
+      <div className="fixed bottom-[38px] left-0 w-[300px]">
         <div className="text-[18px] leading-[21px] text-center">
           Connect with us
         </div>
