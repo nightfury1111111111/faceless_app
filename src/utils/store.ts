@@ -20,6 +20,7 @@ interface User {
 }
 
 interface Moderator {
+    _id: string,
     walletAddress: string,
 }
 

@@ -136,7 +136,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   }
 
   return (
-    <div className="relative w-full" ref={ref}>
+    <div className="relative w-full z-[20]" ref={ref}>
       <div className="fixed header top-0 sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
         <div
           className="flex flex-row cursor-pointer"

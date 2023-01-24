@@ -165,6 +165,14 @@ const Home = () => {
       );
       return;
     }
+    if (description === "") {
+      toast("Description is required");
+      return;
+    }
+    if (receiver === "") {
+      toast("receiver is required");
+      return;
+    }
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
@@ -310,19 +318,19 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -732,13 +740,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -844,13 +851,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -907,6 +913,7 @@ const Home = () => {
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
+                  required
                 />
               </div>
               <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
@@ -918,6 +925,7 @@ const Home = () => {
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={receiver}
                   onChange={(e) => setReceiver(e.target.value)}
+                  required
                 />
               </div>
               {useModerator ? (
@@ -934,14 +942,14 @@ const Home = () => {
                     />
 
                     {showModerator ? (
-                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9]">
+                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9] z-[3]">
                         {moderators.map((item, index) => (
                           <li
                             key={`mod-${index}`}
                             className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary bg-dark"
-                            onClick={() => toggleModerator(item.walletAddress)}
+                            onClick={() => toggleModerator(item._id)}
                           >
-                            {item.walletAddress}
+                            {item._id}
                           </li>
                         ))}
                       </ul>
@@ -950,7 +958,7 @@ const Home = () => {
                     )}
 
                     <div
-                      className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem] bg-secondary text-center z-10 border-[#7C98A9] border-[1px] border-l-0
+                      className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem] bg-secondary text-center z-[3] border-[#7C98A9] border-[1px] border-l-0
                      rounded-r-[5px]"
                       onClick={() => {
                         setModeratorVisibility(!showModerator);
@@ -967,7 +975,7 @@ const Home = () => {
               ) : (
                 ""
               )}
-              <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+              <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full relative">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Amount
                 </div>
@@ -979,7 +987,12 @@ const Home = () => {
                     console.log(Number(e.target.value));
                     setAmount(Number(e.target.value));
                   }}
+                  min={0}
+                  required
                 />
+                <button className="absolute right-[1px] text-[12px] text-white bg-dark z-[2] leading-[38px] px-[10px] rounded-[5px] round-l-0">
+                  USDC
+                </button>
               </div>
 
               <div
@@ -1027,13 +1040,12 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${
-                        (amount *
-                          (100 -
-                            adminData?.resolverFee -
-                            adminData?.adminFee)) /
+                      {`${(amount *
+                        (100 -
+                          adminData?.resolverFee -
+                          adminData?.adminFee)) /
                         100
-                      }`}{" "}
+                        }`}{" "}
                       USDC
                     </div>
                   )}
@@ -1089,6 +1101,7 @@ const Home = () => {
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount1}
                       onChange={(e) => setAmount1(Number(e.target.value))}
+                      min={0}
                     />
                   </div>
                 </div>
@@ -1115,6 +1128,7 @@ const Home = () => {
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount2}
                       onChange={(e) => setAmount2(Number(e.target.value))}
+                      min={0}
                     />
                   </div>
                 </div>
@@ -1141,6 +1155,7 @@ const Home = () => {
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount3}
                       onChange={(e) => setAmount3(Number(e.target.value))}
+                      min={0}
                     />
                   </div>
                 </div>
@@ -1167,6 +1182,7 @@ const Home = () => {
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount4}
                       onChange={(e) => setAmount4(Number(e.target.value))}
+                      min={0}
                     />
                   </div>
                 </div>
@@ -1193,6 +1209,7 @@ const Home = () => {
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount5}
                       onChange={(e) => setAmount5(Number(e.target.value))}
+                      min={0}
                     />
                   </div>
                 </div>
