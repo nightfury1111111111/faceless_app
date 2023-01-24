@@ -1,9 +1,25 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import useWindowSize from "../../utils/useWindowSize";
 
 export default function Sidebar() {
+  const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const window = useWindowSize();
+
+  useEffect(() => {
+    if (window.width < 640) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  });
+
+  const toggleSidebar = () => {
+    document.querySelector("body")?.classList.toggle("menu-opened");
+  };
+
   return (
     <div className="fixed left-0 top-0 sm:top-[30px] w-[220px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
       <div className="w-full h-full absolute z-[-1]  bg-sidebar-bgcolor"></div>
@@ -17,6 +33,7 @@ export default function Sidebar() {
         }
         onClick={() => {
           navigate("/");
+          if (isMobile) toggleSidebar();
         }}
       >
         <div className="bg-dashboard w-[24px] h-[24px] bg-cover mr-[20px]"></div>

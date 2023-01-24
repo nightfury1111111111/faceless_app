@@ -45,6 +45,10 @@ module.exports = {
           "linear-gradient(124.03deg, rgba(0, 0, 0, 0.51) 0%, rgba(15, 16, 26, 0) 100%)",
         "dashboard-card1-bgcolor":
           "radial-gradient(100% 400% at 0% 0%, rgba(206, 156, 82, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+        "dashboard-card3-bgcolor":
+          "radial-gradient(100% 400% at 0% 0%, rgba(158, 159, 95, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+        "dashboard-card4-bgcolor":
+          "radial-gradient(100% 400% at 0% 0%, rgba(62, 130, 130, 0.11) 0%, rgba(37, 39, 62, 0.23) 57.81%, rgba(15, 16, 26, 0.5) 98.44%)",
         "dashboard-card2-bgcolor":
           "linear-gradient(124.78deg, #2E2D3A 0%, rgba(27, 25, 43, 0) 100%)",
         "dashboard-card2-interior1-bgcolor":

@@ -597,7 +597,7 @@ const Home = () => {
             Overview of your escrows and performance.
           </div>
           <div className="mt-[35px] grid md:grid-cols-3 grid-cols-1 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor p-[23px]">
+            <div className="rounded-[10px] bg-dashboard-card4-bgcolor p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon3 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -648,7 +648,7 @@ const Home = () => {
               </div>
               <div className="mt-[20px] text-[#C7C7C7]">Cominig soon</div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor p-[23px]">
+            <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon2 bg-cover w-[40px] h-[40px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
@@ -1327,16 +1327,16 @@ const Home = () => {
 
             <div className="mt-[40px] flex justify-between items-center">
               <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => approvePayment()}
               >
-                Accept
+                Complete
               </div>
               <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="w-[163px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
-                Return
+                Back
               </div>
             </div>
           </div>
