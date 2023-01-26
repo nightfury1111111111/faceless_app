@@ -54,7 +54,7 @@ const App = () => {
       >
         <BrowserRouter>
           <div className="w-full bg-secondary font-['Roboto'] text-[#FFFFFF]">
-            <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center">
+            <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
               {" "}
               This application is still in BETA.{" "}
               <span className="font-bold ml-[5px]">
