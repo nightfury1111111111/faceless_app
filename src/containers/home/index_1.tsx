@@ -1092,7 +1092,7 @@ const Home = () => {
                               idx
                             ] === 0
                               ? "Completed"
-                              : "On Progress"}
+                              : "In Progress"}
                           </div>
                         </div>
                         <div className="flex justify-between items-center">
@@ -1102,7 +1102,7 @@ const Home = () => {
                               idx
                             ] === 0
                               ? "Completed"
-                              : "On Progress"}
+                              : "In Progress"}
                           </div>
                         </div>
                       </div>

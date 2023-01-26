@@ -1326,7 +1326,7 @@ const Home = () => {
                                 index
                               ] === 0
                                 ? "Completed"
-                                : "On Progress"}
+                                : "In Progress"}
                             </div>
                           </div>
                         </div>
@@ -1431,7 +1431,7 @@ const Home = () => {
                                 index
                               ] === 0
                                 ? "Completed"
-                                : "On Progress"}
+                                : "In Progress"}
                             </div>
                           </div>
                         </div>
