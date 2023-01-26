@@ -16,8 +16,9 @@ import WalletContextProvider from "./components/WalletContextProvider";
 import "./App.css";
 import "./styles.scss";
 import { useAtom } from "jotai";
-import { dashboardStage, loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
+import { dashboardStage, isLoadingOverlay, loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
 import Profile from "./containers/profile";
+import LoadingOverlay from "./components/loading-overlay";
 
 declare global {
   interface LanguageType {
@@ -38,15 +39,28 @@ const App = () => {
   const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
   const [isAuthorized, setAuthorized] = useState(false);
   const [user] = useAtom(profile);
+  const [isLoading, setLoading] = useAtom(isLoadingOverlay);
 
   useEffect(() => {
     let isUser = user.walletAddress ? true : false;
+
     if (isUser !== isAuthorized) {
-      setAuthorized(isUser);
+      setTimeout(() => {
+        setAuthorized(isUser);
+      }, 1000);
     }
-  }, [user])
+  }, [user.walletAddress])
+
+  const handleLoadingOverlay = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }
 
   useEffect(() => {
+    handleLoadingOverlay();
+
     document.querySelector('body')?.classList.add('menu-opened');
   }, [])
 
@@ -83,6 +97,11 @@ const App = () => {
 
               <Footer />
             </div>
+
+            {
+              isLoading ?
+                <LoadingOverlay /> : ""
+            }
           </div>
         </BrowserRouter>
       </LanguageContext.Provider>

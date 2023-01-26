@@ -23,7 +23,7 @@ import idl from "../../idl.json";
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
-import { dashboardStage, profile, profileModerators } from "../../utils/store";
+import { dashboardStage, isLoadingOverlay, profile, profileModerators } from "../../utils/store";
 import axios from "axios";
 import { async } from "q";
 import { fadeInRightShorter } from "../../utils/keyframes";
@@ -95,6 +95,8 @@ const Home = () => {
 
   const [user] = useAtom(profile);
   const [moderators] = useAtom(profileModerators);
+  const [isLoading, setLoading] = useAtom(isLoadingOverlay);
+  const [isWalletConnected, setWalletConnected] = useState(false);
 
   const opts = {
     preflightCommitment: "processed",
@@ -103,6 +105,12 @@ const Home = () => {
   useEffect(() => {
     setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
   }, [amount1, amount2, amount3, amount4, amount5]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setWalletConnected(true);
+    }, 1000);
+  }, [publicKey])
 
   const getEscrowDate = (seed: number) => {
     axios({
@@ -589,7 +597,31 @@ const Home = () => {
     if (stage === 0) getEscrow();
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
-  return publicKey ? (
+  return !isWalletConnected || !publicKey ? (
+    <div>
+      <img src="/images/splash.png" width={1920} height={1080} alt="splash" className="w-[100vw] h-[100vh] fixed object-cover"></img>
+
+      <div className="fixed bottom-[100px] left-0 w-full">
+        <div className="text-[18px] leading-[21px] text-center">
+          Connect with us
+        </div>
+        <div className="mt-[14px] flex justify-center">
+          <a
+            className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer hover:brightness-50"
+            href={"https://discord.com/invite/HRhdNPhB2A"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+          <a
+            className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer hover:brightness-50"
+            href={"https://twitter.com/facelesslabsnft"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
       {stage === 0 && (
         <div>
@@ -1442,30 +1474,6 @@ const Home = () => {
           </div>
         </div>
       )}
-    </div>
-  ) : (
-    <div>
-      <img src="/images/splash.png" width={1920} height={1080} alt="splash" className="w-[100vw] h-[100vh] fixed object-cover"></img>
-
-      <div className="fixed bottom-[100px] left-0 w-full">
-        <div className="text-[18px] leading-[21px] text-center">
-          Connect with us
-        </div>
-        <div className="mt-[14px] flex justify-center">
-          <a
-            className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer hover:brightness-50"
-            href={"https://discord.com/invite/HRhdNPhB2A"}
-            target="_blank"
-            rel="noreferrer"
-          ></a>
-          <a
-            className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer hover:brightness-50"
-            href={"https://twitter.com/facelesslabsnft"}
-            target="_blank"
-            rel="noreferrer"
-          ></a>
-        </div>
-      </div>
     </div>
   );
 };

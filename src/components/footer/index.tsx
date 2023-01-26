@@ -39,7 +39,7 @@ const Footer = () => {
     // </div>
 
     <div className="absolute bottom-0 h-[3rem] bg-primary w-full flex justify-center items-center">
-      <p className="text-white text-sm cursor-pointer" onClick={goToDashboard}>Developed by Faceless Labs @ {new Date().getFullYear()}</p>
+      <p className="text-white text-[14px] cursor-pointer" onClick={goToDashboard}>Developed by Faceless Labs @ {new Date().getFullYear()}</p>
     </div>
   );
 };

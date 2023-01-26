@@ -17,6 +17,7 @@ import { LanguageContext } from "../../App";
 
 import { SolanaNetworkType } from "../../App";
 import {
+  isLoadingOverlay,
   profile,
   profileModerators,
   profileRoles,
@@ -48,15 +49,18 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   const [user, setUser] = useAtom(profile);
   const [, setMods] = useAtom(profileModerators);
   const [, setRoles] = useAtom(profileRoles);
+  const [isLoading, setLoading] = useAtom(isLoadingOverlay);
 
   const wallet = useWallet();
 
   useEffect(() => {
     if (user.walletAddress !== wallet.publicKey) {
       if (wallet.publicKey) {
+
         setIsWalletConnected(true);
 
         if (!user.walletAddress) {
+          handleLoadingOverlay();
           axios({
             method: "post",
             url: `${process.env.REACT_APP_SERVER_URL}/users/login`,
@@ -75,6 +79,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           });
         }
       } else {
+        handleLoadingOverlay();
         setIsWalletConnected(false);
         setUser({ walletAddress: null, note: null, roles: null });
       }
@@ -83,11 +88,20 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
 
   useEffect(() => {
     if (isWalletConnected) {
+      // handleLoadingOverlay();
       // toast("Wallet connected!");
     } else {
+      // handleLoadingOverlay();
       // toast("Wallet disconnected!");
     }
   }, [isWalletConnected]);
+
+  const handleLoadingOverlay = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }
 
   const renderWalletButton = () => {
     return <WalletMultiButton className="bg-secondary hover:bg-[#15539a]" />;
