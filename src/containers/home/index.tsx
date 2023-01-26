@@ -23,7 +23,7 @@ import idl from "../../idl.json";
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
-import { profile, profileModerators } from "../../utils/store";
+import { dashboardStage, profile, profileModerators } from "../../utils/store";
 import axios from "axios";
 import { async } from "q";
 import { fadeInRightShorter } from "../../utils/keyframes";
@@ -63,7 +63,7 @@ const Home = () => {
 
   const [myTokenAddress, setMyTokenAddress] = useState("");
   const [faqNum, setFaqNum] = useState(0);
-  const [stage, setStage] = useState(0);
+  const [stage, setStage] = useAtom(dashboardStage);
   const [currentEscrow, setCurrentEscrow] = useState(0);
 
   const [adminData, setAdminData] = useState<AdminData>();

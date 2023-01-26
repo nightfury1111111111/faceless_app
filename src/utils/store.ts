@@ -32,3 +32,4 @@ interface Role {
 export const profile = atom<User>({ walletAddress: null, note: null, roles: null });
 export const profileModerators = atom<Moderator[]>([]);
 export const profileRoles = atom<Role[]>([]);
+export const dashboardStage = atom<number>(0);

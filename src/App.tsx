@@ -1,5 +1,5 @@
 import React, { FC, createContext, useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -16,7 +16,7 @@ import WalletContextProvider from "./components/WalletContextProvider";
 import "./App.css";
 import "./styles.scss";
 import { useAtom } from "jotai";
-import { loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
+import { dashboardStage, loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
 import Profile from "./containers/profile";
 
 declare global {
@@ -81,9 +81,7 @@ const App = () => {
               </Routes>
               <ToastContainer />
 
-              <div className="absolute bottom-0 h-[3rem] bg-primary w-full flex justify-center items-center">
-                <p className="text-white">Developed by Faceless Labs @ {new Date().getFullYear()}</p>
-              </div>
+              <Footer />
             </div>
           </div>
         </BrowserRouter>

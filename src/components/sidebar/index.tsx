@@ -1,5 +1,7 @@
+import { useAtom } from "jotai";
 import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { dashboardStage } from "../../utils/store";
 import useWindowSize from "../../utils/useWindowSize";
 
 export default function Sidebar() {
@@ -7,6 +9,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const window = useWindowSize();
+  const [, setStage] = useAtom(dashboardStage);
 
   useEffect(() => {
     if (window.width < 640) {
@@ -15,6 +18,11 @@ export default function Sidebar() {
       setIsMobile(false);
     }
   });
+
+  const goToDasboard = () => {
+    navigate("/");
+    setStage(0);
+  }
 
   const toggleSidebar = () => {
     document.querySelector("body")?.classList.toggle("menu-opened");
@@ -32,7 +40,7 @@ export default function Sidebar() {
             : "mt-[69px] h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]"
         }
         onClick={() => {
-          navigate("/");
+          goToDasboard();
           if (isMobile) toggleSidebar();
         }}
       >
