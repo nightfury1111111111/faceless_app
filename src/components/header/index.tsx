@@ -57,6 +57,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     if (user.walletAddress !== wallet.publicKey) {
       if (wallet.publicKey) {
 
+
         setIsWalletConnected(true);
 
         if (!user.walletAddress) {

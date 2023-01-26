@@ -109,7 +109,7 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       setWalletConnected(true);
-    }, 1000);
+    }, 200);
   }, [publicKey])
 
   const getEscrowDate = (seed: number) => {
@@ -1061,7 +1061,7 @@ const Home = () => {
               </div>
               <div className="mt-[37px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
-                  Moderator Fee {`(${adminData?.resolverFee}%)`}
+                  Holder Discount {`(${adminData?.resolverFee}%)`}
                 </div>
                 <div className="text-[20px] font-[600]">
                   {adminData && (
@@ -1118,7 +1118,7 @@ const Home = () => {
                 </div>
               </div>
 
-              {currentMilestone > 0 && (
+              {currentMilestone > 1 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1145,7 +1145,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 1 && (
+              {currentMilestone > 2 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1172,7 +1172,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 2 && (
+              {currentMilestone > 3 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1199,7 +1199,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 3 && (
+              {currentMilestone > 4 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1226,7 +1226,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 4 && (
+              {currentMilestone > 5 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">

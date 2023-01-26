@@ -47,7 +47,7 @@ const App = () => {
     if (isUser !== isAuthorized) {
       setTimeout(() => {
         setAuthorized(isUser);
-      }, 1000);
+      }, 200);
     }
   }, [user.walletAddress])
 
