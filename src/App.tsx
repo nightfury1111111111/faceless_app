@@ -73,13 +73,17 @@ const App = () => {
                 : ""
             }
 
-            <div className={`overflow-auto  ${isAuthorized ? 'page-wrapper' : ''}`}>
+            <div className={`overflow-auto relative  ${isAuthorized ? 'page-wrapper' : ''}`}>
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
               </Routes>
               <ToastContainer />
+
+              <div className="absolute bottom-0 h-[3rem] bg-primary w-full flex justify-center items-center">
+                <p className="text-white">Developed by Faceless Labs @ {new Date().getFullYear()}</p>
+              </div>
             </div>
           </div>
         </BrowserRouter>
