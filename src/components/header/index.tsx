@@ -52,30 +52,32 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   const wallet = useWallet();
 
   useEffect(() => {
-    if (wallet.publicKey) {
-      setIsWalletConnected(true);
+    if (user.walletAddress !== wallet.publicKey) {
+      if (wallet.publicKey) {
+        setIsWalletConnected(true);
 
-      if (!user.walletAddress) {
-        axios({
-          method: "post",
-          url: `${process.env.REACT_APP_SERVER_URL}/users/login`,
-          data: {
-            walletAddress: wallet.publicKey,
-          },
-        }).then((res) => {
-          setUser(res.data.user);
-          setMods(res.data.moderators);
-          let roles = res.data.user.roles.split(",") as string[];
-          let roleArray: Role[] = [];
-          roles.forEach((item) => {
-            roleArray.push({ id: item, text: item });
+        if (!user.walletAddress) {
+          axios({
+            method: "post",
+            url: `${process.env.REACT_APP_SERVER_URL}/users/login`,
+            data: {
+              walletAddress: wallet.publicKey,
+            },
+          }).then((res) => {
+            setUser(res.data.user);
+            setMods(res.data.moderators);
+            let roles = res.data.user.roles.split(",") as string[];
+            let roleArray: Role[] = [];
+            roles.forEach((item) => {
+              roleArray.push({ id: item, text: item });
+            });
+            setRoles(roleArray);
           });
-          setRoles(roleArray);
-        });
+        }
+      } else {
+        setIsWalletConnected(false);
+        setUser({ walletAddress: null, note: null, roles: null });
       }
-    } else {
-      setIsWalletConnected(false);
-      setUser({ walletAddress: null, note: null, roles: null });
     }
   }, [wallet]);
 
@@ -140,22 +142,30 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   };
 
   return (
-    <div className="relative w-full z-[20]" ref={ref}>
-      <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
-        <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
-          <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
-        </div>
-        <div className="flex items-center">
-          <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
-          {renderWalletButton()}
-        </div>
+    wallet.publicKey ?
+      <div className="relative w-full z-[20]" ref={ref}>
+        <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
+          <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
+            <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
+          </div>
+          <div className="flex items-center">
+            <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
+            {renderWalletButton()}
+          </div>
 
-        <div
-          className="overlay fixed w-full h-full top-0 z-10 left-0 lg:hidden"
-          onClick={toggleSidebar}
-        ></div>
+          <div
+            className="overlay fixed w-full h-full top-0 z-[30] left-0 lg:hidden"
+            onClick={toggleSidebar}
+          ></div>
+        </div>
+      </div> :
+      <div className="relative w-full z-[20]" ref={ref}>
+        <div className="fixed top-[30px] lg:right-[17vw] right-0 md:right-[5vw] sm:px-[48px] px-[20px] w-full h-[83px] flex flex-row items-center justify-end z-10">
+          <div className="flex items-center">
+            {renderWalletButton()}
+          </div>
+        </div>
       </div>
-    </div>
   );
 };
 

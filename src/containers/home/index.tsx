@@ -1,5 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { Program, AnchorProvider, web3, utils } from "@project-serum/anchor";
+import Reveal from "react-awesome-reveal";
 import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -25,6 +26,7 @@ import { useAtom } from "jotai";
 import { profile, profileModerators } from "../../utils/store";
 import axios from "axios";
 import { async } from "q";
+import { fadeInRightShorter } from "../../utils/keyframes";
 
 export interface EscrowData {
   randomSeed: number;
@@ -107,7 +109,8 @@ const Home = () => {
       method: "get",
       url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`,
     }).then((result) => {
-      setEscrowRestData(result.data);
+      let date = new Date(result.data.created_at).toLocaleDateString('en');
+      setEscrowRestData({ ...result.data, date: date });
     });
   };
 
@@ -318,19 +321,19 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -744,13 +747,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -856,13 +858,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -1046,13 +1047,12 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${
-                        (amount *
-                          (100 -
-                            adminData?.resolverFee -
-                            adminData?.adminFee)) /
+                      {`${(amount *
+                        (100 -
+                          adminData?.resolverFee -
+                          adminData?.adminFee)) /
                         100
-                      }`}{" "}
+                        }`}{" "}
                       USDC
                     </div>
                   )}
@@ -1256,6 +1256,12 @@ const Home = () => {
             </div>
           )}
 
+          {escrowRestData.created_at && (
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+              Created At: {escrowRestData.date}
+            </div>
+          )}
+
           {escrowRestData.moderator && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Receiver:{" "}
@@ -1438,7 +1444,29 @@ const Home = () => {
       )}
     </div>
   ) : (
-    <div className="min-h-[100vh] sm:px-[49px] px-[20px]"></div>
+    <div>
+      <img src="/images/splash.png" width={1920} height={1080} alt="splash" className="w-[100vw] h-[100vh] fixed object-cover"></img>
+
+      <div className="fixed bottom-[100px] left-0 w-full">
+        <div className="text-[18px] leading-[21px] text-center">
+          Connect with us
+        </div>
+        <div className="mt-[14px] flex justify-center">
+          <a
+            className="w-[30px] h-[30px] bg-discord bg-cover cursor-pointer hover:brightness-50"
+            href={"https://discord.com/invite/HRhdNPhB2A"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+          <a
+            className="ml-[24px] w-[30px] h-[30px] bg-twitter bg-cover cursor-pointer hover:brightness-50"
+            href={"https://twitter.com/facelesslabsnft"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+        </div>
+      </div>
+    </div>
   );
 };
 export default Home;

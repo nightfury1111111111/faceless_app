@@ -45,9 +45,9 @@ export default function Sidebar() {
             ? "bg-[#272942] h-[50px] flex items-center pl-[15px] cursor-pointer"
             : "h-[50px] flex items-center pl-[15px] cursor-pointer hover:bg-[#0c3150]"
         }
-        // onClick={() => {
-        //   navigate("/profile");
-        // }}
+      // onClick={() => {
+      //   navigate("/profile");
+      // }}
       >
         <div className="bg-profile w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         <div className="flex justify-between items-center w-[220px]">
@@ -79,7 +79,7 @@ export default function Sidebar() {
         <div className="bg-faq w-[24px] h-[24px] bg-cover mr-[20px]"></div>
         FAQ
       </div> */}
-      <div className="fixed bottom-[38px] left-0 w-[300px]">
+      {/* <div className="fixed bottom-[38px] left-0 w-[300px]">
         <div className="text-[18px] leading-[21px] text-center">
           Connect with us
         </div>
@@ -97,7 +97,7 @@ export default function Sidebar() {
             rel="noreferrer"
           ></a>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -30,22 +30,25 @@ export type SolanaNetworkType = "mainnet-beta" | "devnet";
 
 export const LanguageContext = createContext<LanguageType>({
   language: "english",
-  setLanguage: () => {},
+  setLanguage: () => { },
 });
 
 const App = () => {
   const [language, setLanguage] = useState("english");
   const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
-  const [user, setUser] = useAtom(profile);
-  console.log("REACT_APP_SERVER_URL", process.env.REACT_APP_SERVER_URL);
+  const [isAuthorized, setAuthorized] = useState(false);
+  const [user] = useAtom(profile);
 
   useEffect(() => {
-    setUser(loadLocalStorage("user"));
+    let isUser = user.walletAddress ? true : false;
+    if (isUser !== isAuthorized) {
+      setAuthorized(isUser);
+    }
+  }, [user])
 
-    return () => {
-      saveToLocalStorage("user", user);
-    };
-  }, []);
+  useEffect(() => {
+    document.querySelector('body')?.classList.add('menu-opened');
+  }, [])
 
   return (
     <WalletContextProvider solanaNetwork={solanaNetwork}>
@@ -53,18 +56,24 @@ const App = () => {
         value={{ language: language, setLanguage: setLanguage }}
       >
         <BrowserRouter>
-          <div className="w-full bg-secondary font-['Roboto'] text-[#FFFFFF]">
-            <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
-              {" "}
-              This application is still in BETA.{" "}
-              <span className="font-bold ml-[5px]">
-                {" "}
-                Fees have been set to 0% until launch.
-              </span>
-            </div>
-            <Sidebar />
+          <div className={`w-full bg-secondary font-['Roboto'] text-[#FFFFFF] ${isAuthorized ? 'bg-secondary' : ''}`}>
+            {
+              isAuthorized ?
+                <>
+                  <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
+                    {" "}
+                    This application is still in BETA.{" "}
+                    <span className="font-bold ml-[5px]">
+                      {" "}
+                      Fees have been set to 0% until launch.
+                    </span>
+                  </div>
+                  <Sidebar />
+                </>
+                : ""
+            }
 
-            <div className="overflow-auto page-wrapper">
+            <div className={`overflow-auto  ${isAuthorized ? 'page-wrapper' : ''}`}>
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />

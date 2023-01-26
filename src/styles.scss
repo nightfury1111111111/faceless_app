@@ -7,6 +7,22 @@ button,
 }
 
 .sidebar {
+  transform: translate(0);
+}
+
+.overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+.sidebar {
   transform: translate(-100%);
 }
 
@@ -16,20 +32,14 @@ button,
   overflow-x: hidden !important;
 }
 
-.overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  opacity: 0;
-  visibility: hidden;
-}
-
 .menu-opened {
   .sidebar {
     transform: translate(0);
   }
 
   .overlay {
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
   }
 }
 
@@ -42,34 +52,43 @@ button,
 }
 
 @media screen and (min-width: 1024px) {
-  .sidebar {
-    transform: translate(0);
-  }
+  .menu-opened {
+    .page-wrapper {
+      margin-left: 300px;
+      width: calc(100% - 300px);
+      padding: 0;
+      overflow-x: hidden !important;
+    }
 
-  .page-wrapper {
-    margin-left: 300px;
-    width: calc(100% - 300px);
-    padding: 0;
-    overflow-x: hidden !important;
+    .sidebar {
+      transform: translate(0);
+    }
+
   }
 
   .header {
     width: calc(100% - 300px);
   }
 
-  .menu-opened {
-    .sidebar {
-      transform: translate(-100%);
-    }
+  .page-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
 
-    .page-wrapper {
-      margin-left: 0;
-      width: 100%;
-    }
+  .header {
+    margin-left: 0;
+    width: 100%;
+  }
+}
 
-    .header {
-      margin-left: 0;
-      width: 100%;
+
+.wallet-adapter-button {
+  &.bg-secondary {
+    background-color: #1a1f2e;
+
+    &:hover {
+      background-color: #fff;
+      color: #1a1f2e;
     }
   }
 }
