@@ -23,23 +23,23 @@ import idl from "../../idl.json";
 import { constants } from "../../constants";
 import { validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
-import { dashboardStage, isLoadingOverlay, profile, profileModerators } from "../../utils/store";
+import {
+  dashboardStage,
+  isLoadingOverlay,
+  profile,
+  profileModerators,
+} from "../../utils/store";
 import axios from "axios";
 import { async } from "q";
 import { fadeInRightShorter } from "../../utils/keyframes";
 
 export interface EscrowData {
   randomSeed: number;
+  disputeStatus: boolean;
   initializerKey: PublicKey;
-  initializerDepositTokenAccount: PublicKey;
   initializerAmount: Array<number>;
-  resolver: PublicKey;
-  admin2: PublicKey;
-  admin2TokenAccount: PublicKey;
-  admin1: PublicKey;
-  admin1TokenAccount: PublicKey;
-  resolverTokenAccount: PublicKey;
-  takerTokenAccount: PublicKey;
+  taker: PublicKey;
+  mint: PublicKey;
   pubkey: PublicKey;
   active: boolean;
   index: number;
@@ -49,8 +49,9 @@ export interface EscrowData {
 export interface AdminData {
   adminFee: number;
   resolverFee: number;
-  admin1TokenAccount: PublicKey;
-  admin2TokenAccount: PublicKey;
+  admin1: PublicKey;
+  admin2: PublicKey;
+  resolver: PublicKey;
 }
 
 const programID = new PublicKey(idl.metadata.address);
@@ -76,7 +77,7 @@ const Home = () => {
   const [showModerator, setModeratorVisibility] = useState(false);
   const [useModerator, setUseModerator] = useState(true);
 
-  const [currentMilestone, setCurrentMilestone] = useState(1);
+  const [currentMilestone, setCurrentMilestone] = useState(0);
   const [selectedMilestone, setSelectedMilestone] = useState(0);
   const [description, setDescription] = useState("");
   const [receiver, setReceiver] = useState("");
@@ -110,20 +111,20 @@ const Home = () => {
     setTimeout(() => {
       setWalletConnected(true);
     }, 200);
-  }, [publicKey])
+  }, [publicKey]);
 
   const getEscrowDate = (seed: number) => {
     axios({
       method: "get",
       url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`,
     }).then((result) => {
-      let date = new Date(result.data.created_at).toLocaleDateString('en');
+      let date = new Date(result.data.created_at).toLocaleDateString("en");
       setEscrowRestData({ ...result.data, date: date });
     });
   };
 
   const resetMilestone = () => {
-    setCurrentMilestone(1);
+    setCurrentMilestone(0);
     setMilestone1("");
     setAmount1(0);
     setMilestone2("");
@@ -136,9 +137,9 @@ const Home = () => {
     setAmount5(0);
   };
 
-  useEffect(() => {
-    console.log("dsfffff", amount);
-  }, [amount]);
+  // useEffect(() => {
+  //   console.log("dsfffff", amount);
+  // }, [amount]);
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -190,23 +191,23 @@ const Home = () => {
 
     const mint = new PublicKey(constants.mint);
     const receiverAddress = new PublicKey(receiver);
-    const resolver = new PublicKey(useModerator ? moderator : receiverAddress);
+    // const resolver = new PublicKey(useModerator ? moderator : receiverAddress);
 
-    let receiverAssiciatedToken = await getAssociatedTokenAddress(
-      mint,
-      receiverAddress,
-      false,
-      TOKEN_PROGRAM_ID,
-      ASSOCIATED_TOKEN_PROGRAM_ID
-    );
+    // let receiverAssiciatedToken = await getAssociatedTokenAddress(
+    //   mint,
+    //   receiverAddress,
+    //   false,
+    //   TOKEN_PROGRAM_ID,
+    //   ASSOCIATED_TOKEN_PROGRAM_ID
+    // );
 
-    let resolverAssiciatedToken = await getAssociatedTokenAddress(
-      mint,
-      resolver,
-      false,
-      TOKEN_PROGRAM_ID,
-      ASSOCIATED_TOKEN_PROGRAM_ID
-    );
+    // let resolverAssiciatedToken = await getAssociatedTokenAddress(
+    //   mint,
+    //   resolver,
+    //   false,
+    //   TOKEN_PROGRAM_ID,
+    //   ASSOCIATED_TOKEN_PROGRAM_ID
+    // );
 
     let initializerAssiciatedToken = await getAssociatedTokenAddress(
       mint,
@@ -218,55 +219,55 @@ const Home = () => {
 
     const transaction = new Transaction();
     let account;
-    try {
-      account = await getAccountInfo(
-        connection,
-        receiverAssiciatedToken,
-        undefined,
-        TOKEN_PROGRAM_ID
-      );
-    } catch (error: any) {
-      if (
-        error.message === "TokenAccountNotFoundError" ||
-        error.message === "TokenInvalidAccountOwnerError"
-      ) {
-        transaction.add(
-          createAssociatedTokenAccountInstruction(
-            publicKey,
-            receiverAssiciatedToken,
-            receiverAddress,
-            mint,
-            TOKEN_PROGRAM_ID,
-            ASSOCIATED_TOKEN_PROGRAM_ID
-          )
-        );
-      }
-    }
+    // try {
+    //   account = await getAccountInfo(
+    //     connection,
+    //     receiverAssiciatedToken,
+    //     undefined,
+    //     TOKEN_PROGRAM_ID
+    //   );
+    // } catch (error: any) {
+    //   if (
+    //     error.message === "TokenAccountNotFoundError" ||
+    //     error.message === "TokenInvalidAccountOwnerError"
+    //   ) {
+    //     transaction.add(
+    //       createAssociatedTokenAccountInstruction(
+    //         publicKey,
+    //         receiverAssiciatedToken,
+    //         receiverAddress,
+    //         mint,
+    //         TOKEN_PROGRAM_ID,
+    //         ASSOCIATED_TOKEN_PROGRAM_ID
+    //       )
+    //     );
+    //   }
+    // }
 
-    try {
-      account = await getAccountInfo(
-        connection,
-        resolverAssiciatedToken,
-        undefined,
-        TOKEN_PROGRAM_ID
-      );
-    } catch (error: any) {
-      if (
-        error.message === "TokenAccountNotFoundError" ||
-        error.message === "TokenInvalidAccountOwnerError"
-      ) {
-        transaction.add(
-          createAssociatedTokenAccountInstruction(
-            publicKey,
-            resolverAssiciatedToken,
-            resolver,
-            mint,
-            TOKEN_PROGRAM_ID,
-            ASSOCIATED_TOKEN_PROGRAM_ID
-          )
-        );
-      }
-    }
+    // try {
+    //   account = await getAccountInfo(
+    //     connection,
+    //     resolverAssiciatedToken,
+    //     undefined,
+    //     TOKEN_PROGRAM_ID
+    //   );
+    // } catch (error: any) {
+    //   if (
+    //     error.message === "TokenAccountNotFoundError" ||
+    //     error.message === "TokenInvalidAccountOwnerError"
+    //   ) {
+    //     transaction.add(
+    //       createAssociatedTokenAccountInstruction(
+    //         publicKey,
+    //         resolverAssiciatedToken,
+    //         resolver,
+    //         mint,
+    //         TOKEN_PROGRAM_ID,
+    //         ASSOCIATED_TOKEN_PROGRAM_ID
+    //       )
+    //     );
+    //   }
+    // }
 
     try {
       account = await getAccountInfo(
@@ -329,28 +330,29 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-            new anchor.BN(amount * 1e9),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-            new anchor.BN(0),
-          ]
+              new anchor.BN(amount * 1e9),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+              new anchor.BN(0),
+            ]
           : [
-            new anchor.BN(amount1 * 1e9),
-            new anchor.BN(amount2 * 1e9),
-            new anchor.BN(amount3 * 1e9),
-            new anchor.BN(amount4 * 1e9),
-            new anchor.BN(amount5 * 1e9),
-          ],
+              new anchor.BN(amount1 * 1e9),
+              new anchor.BN(amount2 * 1e9),
+              new anchor.BN(amount3 * 1e9),
+              new anchor.BN(amount4 * 1e9),
+              new anchor.BN(amount5 * 1e9),
+            ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
             vault: vaultKey,
             adminState: adminKey,
-            resolverTokenAccount: resolverAssiciatedToken,
+            // resolverTokenAccount: resolverAssiciatedToken,
             mint,
             initializerDepositTokenAccount: initializerAssiciatedToken,
-            takerTokenAccount: receiverAssiciatedToken,
+            taker: receiverAddress,
+            // takerTokenAccount: receiverAssiciatedToken,
             escrowState: escrowStateKey,
             systemProgram: anchor.web3.SystemProgram.programId,
             rent: anchor.web3.SYSVAR_RENT_PUBKEY,
@@ -399,7 +401,7 @@ const Home = () => {
           description: description,
           seed: seed.toString(10),
           receiver: receiverAddress,
-          moderator: useModerator ? moderator : null,
+          moderator: receiverAddress, // ignore
           amount: amount,
           milestones: milestones,
         },
@@ -454,6 +456,7 @@ const Home = () => {
                 adminFee: Number(fetchData.adminFee),
                 resolverFee: Number(fetchData.resolverFee),
               };
+              console.log("admin data", newData);
               setAdminData(newData);
               return true;
             }
@@ -503,6 +506,7 @@ const Home = () => {
         const result = tmpResult.map((escr, idx) => {
           return { ...escr, index: idx };
         });
+        console.log(result);
         setTotalValue(tmpLockedval);
         setEscrowData(result);
       });
@@ -512,7 +516,7 @@ const Home = () => {
   };
 
   const approvePayment = async () => {
-    console.log(currentEscrow);
+    if (!adminData) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
@@ -554,6 +558,108 @@ const Home = () => {
       program.programId
     )[0];
 
+    let takerAssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      escrowData[currentEscrow].taker,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    let admin1AssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      adminData.admin1,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    let admin2AssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      adminData.admin2,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    const transaction = new Transaction();
+    let account;
+
+    try {
+      account = await getAccountInfo(
+        connection,
+        takerAssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
+      );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            takerAssiciatedToken,
+            escrowData[currentEscrow].taker,
+            escrowData[currentEscrow].mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
+
+    try {
+      account = await getAccountInfo(
+        connection,
+        admin1AssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
+      );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            admin1AssiciatedToken,
+            adminData.admin1,
+            escrowData[currentEscrow].mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
+
+    try {
+      account = await getAccountInfo(
+        connection,
+        admin2AssiciatedToken,
+        undefined,
+        TOKEN_PROGRAM_ID
+      );
+    } catch (error: any) {
+      if (
+        error.message === "TokenAccountNotFoundError" ||
+        error.message === "TokenInvalidAccountOwnerError"
+      ) {
+        transaction.add(
+          createAssociatedTokenAccountInstruction(
+            publicKey,
+            admin2AssiciatedToken,
+            adminData.admin2,
+            escrowData[currentEscrow].mint,
+            TOKEN_PROGRAM_ID,
+            ASSOCIATED_TOKEN_PROGRAM_ID
+          )
+        );
+      }
+    }
+
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
       const tx = await program.transaction.approve(
@@ -562,13 +668,9 @@ const Home = () => {
           accounts: {
             initializer: provider.wallet.publicKey,
             adminState: adminKey,
-            resolverTokenAccount:
-              escrowData[currentEscrow].resolverTokenAccount,
-            admin1TokenAccount: escrowData[currentEscrow].admin1TokenAccount,
-            admin2TokenAccount: escrowData[currentEscrow].admin2TokenAccount,
-            initializerDepositTokenAccount:
-              escrowData[currentEscrow].initializerDepositTokenAccount,
-            takerTokenAccount: escrowData[currentEscrow].takerTokenAccount,
+            admin1TokenAccount: admin1AssiciatedToken,
+            admin2TokenAccount: admin2AssiciatedToken,
+            takerTokenAccount: takerAssiciatedToken,
             vault: vaultKey,
             vaultAuthority: vaultAuthorityKey,
             escrowState: escrowStateKey,
@@ -577,9 +679,167 @@ const Home = () => {
           signers: [],
         }
       );
-      tx.feePayer = provider.wallet.publicKey;
-      tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-      const signedTx = await provider.wallet.signTransaction(tx);
+      transaction.add(tx);
+      transaction.feePayer = provider.wallet.publicKey;
+      transaction.recentBlockhash = (
+        await connection.getLatestBlockhash()
+      ).blockhash;
+      const signedTx = await provider.wallet.signTransaction(transaction);
+      const txId = await connection.sendRawTransaction(signedTx.serialize());
+      await connection.confirmTransaction(txId);
+      setSelectedMilestone(0);
+    } catch (err) {
+      // console.log(err.message);
+      console.log(err);
+    }
+  };
+
+  const refundPayment = async () => {
+    if (!adminData) return;
+    const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
+    if (!provider || !publicKey || !signTransaction) return;
+    const program = new Program(idl as Idl, programID, provider);
+
+    const adminKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+        Buffer.from(anchor.utils.bytes.utf8.encode(adminSeed)),
+      ],
+      program.programId
+    )[0];
+
+    const escrowStateKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+        new anchor.BN(escrowData[currentEscrow].randomSeed).toArrayLike(
+          Buffer,
+          "le",
+          8
+        ),
+      ],
+      program.programId
+    )[0];
+
+    const vaultKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(vaultSeed)),
+        new anchor.BN(escrowData[currentEscrow].randomSeed).toArrayLike(
+          Buffer,
+          "le",
+          8
+        ),
+      ],
+      program.programId
+    )[0];
+
+    const vaultAuthorityKey = PublicKey.findProgramAddressSync(
+      [Buffer.from(anchor.utils.bytes.utf8.encode(authoritySeed))],
+      program.programId
+    )[0];
+
+    let initializerAssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      escrowData[currentEscrow].initializerKey,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    let admin1AssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      adminData.admin1,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    let admin2AssiciatedToken = await getAssociatedTokenAddress(
+      escrowData[currentEscrow].mint,
+      adminData.admin2,
+      false,
+      TOKEN_PROGRAM_ID,
+      ASSOCIATED_TOKEN_PROGRAM_ID
+    );
+
+    const transaction = new Transaction();
+    let account;
+
+    try {
+      //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
+      const tx = await program.transaction.refund({
+        accounts: {
+          taker: provider.wallet.publicKey,
+          adminState: adminKey,
+          admin1TokenAccount: admin1AssiciatedToken,
+          admin2TokenAccount: admin2AssiciatedToken,
+          initializerDepositTokenAccount: initializerAssiciatedToken,
+          vault: vaultKey,
+          vaultAuthority: vaultAuthorityKey,
+          escrowState: escrowStateKey,
+          tokenProgram: TOKEN_PROGRAM_ID,
+        },
+        signers: [],
+      });
+      transaction.add(tx);
+      transaction.feePayer = provider.wallet.publicKey;
+      transaction.recentBlockhash = (
+        await connection.getLatestBlockhash()
+      ).blockhash;
+      const signedTx = await provider.wallet.signTransaction(transaction);
+      const txId = await connection.sendRawTransaction(signedTx.serialize());
+      await connection.confirmTransaction(txId);
+      setSelectedMilestone(0);
+    } catch (err) {
+      // console.log(err.message);
+      console.log(err);
+    }
+  };
+
+  const dispute = async () => {
+    if (!adminData) return;
+    const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
+    if (!provider || !publicKey || !signTransaction) return;
+    const program = new Program(idl as Idl, programID, provider);
+
+    const adminKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+        Buffer.from(anchor.utils.bytes.utf8.encode(adminSeed)),
+      ],
+      program.programId
+    )[0];
+
+    const escrowStateKey = PublicKey.findProgramAddressSync(
+      [
+        Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+        new anchor.BN(escrowData[currentEscrow].randomSeed).toArrayLike(
+          Buffer,
+          "le",
+          8
+        ),
+      ],
+      program.programId
+    )[0];
+
+    const transaction = new Transaction();
+    let account;
+
+    try {
+      //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
+      const tx = await program.transaction.dispute({
+        accounts: {
+          disputor: provider.wallet.publicKey,
+          adminState: adminKey,
+          escrowState: escrowStateKey,
+        },
+        signers: [],
+      });
+      transaction.add(tx);
+      transaction.feePayer = provider.wallet.publicKey;
+      transaction.recentBlockhash = (
+        await connection.getLatestBlockhash()
+      ).blockhash;
+      const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setSelectedMilestone(0);
@@ -599,7 +859,13 @@ const Home = () => {
 
   return !isWalletConnected || !publicKey ? (
     <div>
-      <img src="/images/splash.png" width={1920} height={1080} alt="splash" className="w-[100vw] h-[100vh] fixed object-cover"></img>
+      <img
+        src="/images/splash.png"
+        width={1920}
+        height={1080}
+        alt="splash"
+        className="w-[100vw] h-[100vh] fixed object-cover"
+      ></img>
 
       <div className="fixed bottom-[100px] left-0 w-full">
         <div className="text-[18px] leading-[21px] text-center">
@@ -622,7 +888,7 @@ const Home = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-[100vh] sm:px-[49px] px-[20px]">
+    <div className="min-h-[100vh] sm:px-[49px] px-[20px] pb-[20px]">
       {stage === 0 && (
         <div>
           <div className="font-[600] text-[40px] pt-[130px]">Dashboard</div>
@@ -779,12 +1045,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -853,12 +1120,12 @@ const Home = () => {
               .filter((escrow) => {
                 if (forMeStatus === "active")
                   return (
-                    escrow.takerTokenAccount.toString() === myTokenAddress &&
+                    escrow.taker.toString() === publicKey.toString() &&
                     escrow.active === true
                   );
                 if (forMeStatus === "completed")
                   return (
-                    escrow.takerTokenAccount.toString() === myTokenAddress &&
+                    escrow.taker.toString() === publicKey.toString() &&
                     escrow.active === false
                   );
               })
@@ -890,12 +1157,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${myEscrow.initializerAmount[0] +
+                            {`$ ${
+                              myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                              }`}
+                            }`}
                           </div>
                         </div>
                       </div>
@@ -942,7 +1210,7 @@ const Home = () => {
             Create a new escrow and protect your payments.
           </div>
           <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
-            <div className="pt-[23px]">
+            <div className="pt-[23px] border-b-[2px] border-[#7c98a9]">
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Name
@@ -967,7 +1235,7 @@ const Home = () => {
                   required
                 />
               </div>
-              {useModerator ? (
+              {/* {useModerator ? (
                 <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                   <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                     Moderator
@@ -1013,7 +1281,7 @@ const Home = () => {
                 </div>
               ) : (
                 ""
-              )}
+              )} */}
               <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full relative">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Amount
@@ -1034,7 +1302,7 @@ const Home = () => {
                 </button>
               </div>
 
-              <div
+              {/* <div
                 className="w-[220px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem] ml-auto mt-[50px]"
                 onClick={() => {
                   if (useModerator) {
@@ -1044,8 +1312,8 @@ const Home = () => {
                 }}
               >
                 {useModerator ? "Don't need Moderator" : "Need Moderator"}
-              </div>
-              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+              </div> */}
+              {/* <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div> */}
             </div>
             <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px] hidden lg:block">
               <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
@@ -1059,7 +1327,7 @@ const Home = () => {
                   </div>
                 )}
               </div>
-              <div className="mt-[37px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+              {/* <div className="mt-[27px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
                   Holder Discount {`(${adminData?.resolverFee}%)`}
                 </div>
@@ -1070,8 +1338,8 @@ const Home = () => {
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="mt-[41px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+              </div> */}
+              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
               <div className="mt-[25px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="text-[20px] leading-[23px">
                   Receiver will get
@@ -1079,13 +1347,7 @@ const Home = () => {
                 <div className="text-[20px] font-[600]">
                   {adminData && (
                     <div className="text-[20px] font-[600]">
-                      {`${(amount *
-                        (100 -
-                          adminData?.resolverFee -
-                          adminData?.adminFee)) /
-                        100
-                        }`}{" "}
-                      USDC
+                      {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
                     </div>
                   )}
                 </div>
@@ -1102,7 +1364,7 @@ const Home = () => {
                   <div
                     className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
-                      if (currentMilestone < 5)
+                      if (currentMilestone < 4)
                         setCurrentMilestone(currentMilestone + 1);
                       else toast("Max milestone number is 5");
                     }}
@@ -1118,7 +1380,7 @@ const Home = () => {
                 </div>
               </div>
 
-              {currentMilestone > 1 && (
+              {currentMilestone > 0 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1145,7 +1407,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 2 && (
+              {currentMilestone >= 1 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1172,7 +1434,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 3 && (
+              {currentMilestone >= 2 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1199,7 +1461,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 4 && (
+              {currentMilestone >= 3 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1226,7 +1488,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone > 5 && (
+              {currentMilestone >= 4 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1296,21 +1558,18 @@ const Home = () => {
 
           {escrowRestData.moderator && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Receiver:{" "}
-              <span className="text-sm">{escrowRestData.receiver}</span>
-            </div>
-          )}
-
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
-                {escrowRestData.moderator !== escrowRestData.receiver
-                  ? escrowRestData.moderator
+                {escrowData[currentEscrow].disputeStatus
+                  ? adminData?.resolver.toBase58()
                   : "None"}
               </span>
             </div>
           )}
+
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Disputed: {escrowData[currentEscrow].disputeStatus ? "Yes" : "No"}
+          </div>
 
           <div className="mt-[20px] w-[494px]">
             {escrowRestData.milestones &&
@@ -1367,13 +1626,26 @@ const Home = () => {
                   )
               )}
 
-            <div className="mt-[40px] flex justify-between items-center">
-              <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-                onClick={() => approvePayment()}
-              >
-                Complete
-              </div>
+            <div className="mt-[40px] flex justify-between items-center mb-[40px]">
+              {escrowData[currentEscrow].active &&
+                !escrowData[currentEscrow].disputeStatus && (
+                  <div
+                    className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    onClick={() => approvePayment()}
+                  >
+                    Complete
+                  </div>
+                )}
+              {!escrowData[currentEscrow].disputeStatus && (
+                <div
+                  className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#ad2c44] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                  onClick={() => {
+                    dispute();
+                  }}
+                >
+                  Dispute
+                </div>
+              )}
               <div
                 className="w-[163px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
@@ -1410,12 +1682,16 @@ const Home = () => {
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
-                {escrowRestData.moderator !== escrowRestData.receiver
-                  ? escrowRestData.moderator
+                {escrowData[currentEscrow].disputeStatus
+                  ? adminData?.resolver.toBase58()
                   : "None"}
               </span>
             </div>
           )}
+
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Disputed: {escrowData[currentEscrow].disputeStatus ? "Yes" : "No"}
+          </div>
 
           <div className="mt-[20px] w-[494px]">
             {escrowRestData.milestones &&
@@ -1431,11 +1707,7 @@ const Home = () => {
                       </div>
 
                       <div
-                        className={
-                          index === selectedMilestone
-                            ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
-                            : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
-                        }
+                        className="ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
                         onClick={() => {
                           setSelectedMilestone(index);
                         }}
@@ -1471,6 +1743,33 @@ const Home = () => {
                     </div>
                   )
               )}
+            <div className="mt-[40px] flex justify-between items-center mb-[40px]">
+              {escrowData[currentEscrow].active &&
+                !escrowData[currentEscrow].disputeStatus && (
+                  <div
+                    className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    onClick={() => refundPayment()}
+                  >
+                    Refund
+                  </div>
+                )}
+              {!escrowData[currentEscrow].disputeStatus && (
+                <div
+                  className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#ad2c44] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                  onClick={() => {
+                    dispute();
+                  }}
+                >
+                  Dispute
+                </div>
+              )}
+              <div
+                className="w-[130px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                onClick={() => setStage(0)}
+              >
+                Back
+              </div>
+            </div>
           </div>
         </div>
       )}
