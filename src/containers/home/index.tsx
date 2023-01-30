@@ -118,15 +118,15 @@ const Home = () => {
     preflightCommitment: "processed",
   };
 
-  useEffect(() => {
-    setAmount(
-      Number(amount1) +
-        Number(amount2) +
-        Number(amount3) +
-        Number(amount4) +
-        Number(amount5)
-    );
-  }, [amount1, amount2, amount3, amount4, amount5]);
+  // useEffect(() => {
+  //   setAmount(
+  //     Number(amount1) +
+  //       Number(amount2) +
+  //       Number(amount3) +
+  //       Number(amount4) +
+  //       Number(amount5)
+  //   );
+  // }, [amount1, amount2, amount3, amount4, amount5]);
 
   useEffect(() => {
     setTimeout(() => {
