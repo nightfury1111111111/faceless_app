@@ -56,8 +56,6 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   useEffect(() => {
     if (user.walletAddress !== wallet.publicKey) {
       if (wallet.publicKey) {
-
-
         setIsWalletConnected(true);
 
         if (!user.walletAddress) {
@@ -102,7 +100,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }
+  };
 
   const renderWalletButton = () => {
     return <WalletMultiButton className="bg-secondary hover:bg-[#15539a]" />;
@@ -129,8 +127,10 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   };
 
   useEffect(() => {
-    if (size.width < 1024) setIsMobile(true);
-    else setIsMobile(false);
+    if (size.width < 1024) {
+      setIsMobile(true);
+      toggleSidebar();
+    } else setIsMobile(false);
   }, [size]);
 
   useEffect(() => {
@@ -152,35 +152,35 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }
   });
 
+  console.log();
+
   const toggleSidebar = () => {
     document.querySelector("body")?.classList.toggle("menu-opened");
   };
 
-  return (
-    wallet.publicKey ?
-      <div className="relative w-full z-[20]" ref={ref}>
-        <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
-          <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
-            <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
-          </div>
-          <div className="flex items-center">
-            <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
-            {renderWalletButton()}
-          </div>
+  return wallet.publicKey ? (
+    <div className="relative w-full z-[20]" ref={ref}>
+      <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
+        <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
+          <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
+        </div>
+        <div className="flex items-center">
+          <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
+          {renderWalletButton()}
+        </div>
 
-          <div
-            className="overlay fixed w-full h-full top-0 z-[30] left-0 lg:hidden"
-            onClick={toggleSidebar}
-          ></div>
-        </div>
-      </div> :
-      <div className="relative w-full z-[20]" ref={ref}>
-        <div className="fixed top-[30px] lg:right-[17vw] right-0 md:right-[5vw] sm:px-[48px] px-[20px] w-full h-[83px] flex flex-row items-center justify-end z-10">
-          <div className="flex items-center">
-            {renderWalletButton()}
-          </div>
-        </div>
+        <div
+          className="overlay fixed w-full h-full top-0 z-[30] left-0 lg:hidden"
+          onClick={toggleSidebar}
+        ></div>
       </div>
+    </div>
+  ) : (
+    <div className="relative w-full z-[20]" ref={ref}>
+      <div className="fixed top-[30px] lg:right-[17vw] right-0 md:right-[5vw] sm:px-[48px] px-[20px] w-full h-[83px] flex flex-row items-center justify-end z-10">
+        <div className="flex items-center">{renderWalletButton()}</div>
+      </div>
+    </div>
   );
 };
 

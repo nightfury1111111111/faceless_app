@@ -1016,32 +1016,34 @@ const Home = () => {
     <div className="min-h-[100vh] sm:px-[49px] px-[20px] pb-[20px]">
       {stage === 0 && (
         <div>
-          <div className="font-[600] text-[40px] pt-[130px]">Dashboard</div>
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+          <div className="font-[600] md:text-[40px] text-[30px] pt-[130px]">
+            Dashboard
+          </div>
+          <div className="mt-[14px] md:text-[14px] text-[12px] leading-[21px] font-[300]">
             Overview of your escrows and performance.
           </div>
           <div className="mt-[35px] grid md:grid-cols-3 grid-cols-1 gap-4">
             <div className="rounded-[10px] bg-dashboard-card4-bgcolor p-[23px]">
               <div className="flex items-center">
-                <div className="bg-icon3 bg-cover w-[40px] h-[40px]" />
+                <div className="bg-icon3 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
                   Escrow Status
                 </div>
               </div>
               <div className="mt-[20px]">
-                <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="flex justify-between sm:items-center w-full">
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     In Escrow
                   </div>
-                  <div className="text-[20px] leading-[23px] font-[800]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                     {totalValue}
                   </div>
                 </div>
-                <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="mt-[28px] flex justify-between sm:items-center w-full">
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Active
                   </div>
-                  <div className="text-[20px] leading-[23px] font-[800]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                     {
                       escrowData.filter((escrow) => {
                         return escrow.active === true;
@@ -1049,11 +1051,11 @@ const Home = () => {
                     }
                   </div>
                 </div>
-                <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="mt-[28px] flex justify-between sm:items-center w-full">
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Completed
                   </div>
-                  <div className="text-[20px] leading-[23px] font-[800]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                     {
                       escrowData.filter((escrow) => {
                         return escrow.active === false;
@@ -1065,7 +1067,7 @@ const Home = () => {
             </div>
             <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] xl:px-[50px] px-[20px]">
               <div className="flex items-center">
-                <div className="bg-icon1 bg-cover w-[40px] h-[40px]" />
+                <div className="bg-icon1 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
                   Profile Score
                 </div>
@@ -1077,7 +1079,7 @@ const Home = () => {
             </div>
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
               <div className="flex items-center">
-                <div className="bg-icon2 bg-cover w-[40px] h-[40px]" />
+                <div className="bg-icon2 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
                   Feedback
                 </div>
@@ -1091,11 +1093,11 @@ const Home = () => {
           <div className="mt-[51px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
           <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="flex items-center mr-[20px] mb-[1rem]">
-              <div className="font-[600] text-[22px] leading-[26px]">
+              <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
                 My Escrows
               </div>
               <div
-                className="ml-[32px] rounded-[10px] w-[115px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] text-[18px] leading-[21px] cursor-pointer"
+                className="ml-[32px] md:rounded-[10px] rounded-[5px] md:w-[115px] w-[80px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => {
                   if (wallet) {
                     setStage(1);
@@ -1105,12 +1107,12 @@ const Home = () => {
                 CREATE
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[29px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   myStatus === "active"
-                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("active")}
               >
@@ -1119,8 +1121,8 @@ const Home = () => {
               <div
                 className={
                   myStatus === "completed"
-                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("completed")}
               >
@@ -1173,11 +1175,11 @@ const Home = () => {
                       </div>
 
                       <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                        <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="text-[20px] leading-[23px] font-[800]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1189,11 +1191,11 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                        <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="text-[20px] leading-[23px] font-[800]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {myEscrow.active ? "In progress" : "Completed"}
                           </div>
                         </div>
@@ -1210,7 +1212,7 @@ const Home = () => {
                       }}
                     >
                       <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
-                      <div className="font-[500] text-[16px] leading-[19px] mr-[10px]">
+                      <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
                         View Escrow
                       </div>
                     </div>
@@ -1221,16 +1223,16 @@ const Home = () => {
           <div className="border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
           <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="flex items-center mr-[20px] mb-[1rem]">
-              <div className="font-[600] text-[22px] leading-[26px]">
+              <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
                 Created for me
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] h-[42px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[29px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   forMeStatus === "active"
-                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setForMeStatus("active")}
               >
@@ -1239,8 +1241,8 @@ const Home = () => {
               <div
                 className={
                   forMeStatus === "completed"
-                    ? "w-[115.69px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] h-[35px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor text-[18px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setForMeStatus("completed")}
               >
@@ -1292,11 +1294,11 @@ const Home = () => {
                         )}
                       </div>
                       <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                        <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="text-[20px] leading-[23px] font-[800]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1308,11 +1310,11 @@ const Home = () => {
                         </div>
                       </div>
                       <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                        <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="text-[20px] leading-[23px] font-[800]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {myEscrow.active ? "In progress" : "Completed"}
                           </div>
                         </div>
@@ -1329,7 +1331,7 @@ const Home = () => {
                       }}
                     >
                       <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
-                      <div className="font-[500] text-[16px] leading-[19px] mr-[10px]">
+                      <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
                         View Escrow
                       </div>
                     </div>
@@ -1342,23 +1344,23 @@ const Home = () => {
       {stage === 1 && (
         <div className="pb-[249px]">
           <div className="flex items-center">
-            <div className="font-[600] text-[40px] pt-[130px]">
+            <div className="font-[600] md:text-[40px] text-[30px] pt-[130px]">
               Create Escrow
             </div>
           </div>
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+          <div className="mt-[14px] md:text-[14px] text-[12px] leading-[21px] font-[300]">
             Create a new escrow and protect your payments.
           </div>
           <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
-            <div className="pt-[23px] border-b-[2px] border-[#7c98a9]">
+            <div className="pt-[23px] md:border-b-[2px] border-[#7c98a9]">
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                   Name
                 </div>
                 <div className="relative">
                   <input
                     type="text"
-                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
@@ -1369,13 +1371,13 @@ const Home = () => {
                 </div>
               </div>
               <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                   Receiver
                 </div>
                 <div className="relative">
                   <input
                     type="text"
-                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                     value={receiver}
                     onChange={(e) => setReceiver(e.target.value)}
                     required
@@ -1393,7 +1395,7 @@ const Home = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                      className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={moderator}
                       onChange={(e) => setModerator(e.target.value)}
                     />
@@ -1433,13 +1435,13 @@ const Home = () => {
                 ""
               )} */}
               <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full relative">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                   Amount
                 </div>
                 <div className="relative">
                   <input
                     type="number"
-                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                     value={amount}
                     placeholder="0"
                     onChange={(e) => {
@@ -1452,7 +1454,7 @@ const Home = () => {
                     {amountErr}
                   </div>
                 </div>
-                <button className="absolute right-[1px] text-[12px] text-white bg-dark z-[2] leading-[38px] px-[10px] rounded-[5px] round-l-0">
+                <button className="absolute right-[1px] top-[30px] md:top-[1px] text-[12px] text-white bg-dark z-[2] leading-[38px] px-[10px] rounded-[5px] round-l-0">
                   USDC
                 </button>
               </div>
@@ -1470,14 +1472,16 @@ const Home = () => {
               </div> */}
               {/* <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div> */}
             </div>
-            <div className="rounded-[10px] bg-fee-panel-bgcolor p-[23px] px-[43px] hidden lg:block">
-              <div className="font-[800] text-[32px] leading-[38px]">Fees</div>
-              <div className="mt-[43px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="text-[20px] leading-[23px">
+            <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] hidden md:block">
+              <div className="font-[800] md:text-[32px] text-[20px] leading-[38px]">
+                Fees
+              </div>
+              <div className="mt-[43px] flex justify-between sm:items-center w-full">
+                <div className="md:text-[20px] text-[14px] leading-[23px]">
                   Platform fee {`(${adminData?.adminFee}%)`}
                 </div>
                 {adminData && (
-                  <div className="text-[20px] font-[600]">
+                  <div className="md:text-[20px] text-[14px] font-[600]">
                     {`${(amount * adminData?.adminFee) / 100}`} USDC
                   </div>
                 )}
@@ -1495,13 +1499,13 @@ const Home = () => {
                 </div>
               </div> */}
               <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-              <div className="mt-[25px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="text-[20px] leading-[23px">
+              <div className="mt-[25px] flex justify-between sm:items-center w-full">
+                <div className="md:text-[20px] text-[14px] leading-[23px]">
                   Receiver will get
                 </div>
-                <div className="text-[20px] font-[600]">
+                <div className="md:text-[20px] text-[14px] font-[600]">
                   {adminData && (
-                    <div className="text-[20px] font-[600]">
+                    <div className="md:text-[20px] text-[14px] font-[600]">
                       {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
                     </div>
                   )}
@@ -1512,12 +1516,12 @@ const Home = () => {
           <div className="mt-[47px] grid lg:grid-cols-2 grid-cols-1 gap-[5rem]">
             <div>
               <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                <div className="w-[110px] md:text-[20px] text-[18px] mb-[.5rem] sm:mb-0">
                   Milestones
                 </div>
                 <div className="flex flex-wrap">
                   <div
-                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] md:h-[40px] h-[32px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
                       if (currentMilestone < 5)
                         setCurrentMilestone(currentMilestone + 1);
@@ -1527,7 +1531,7 @@ const Home = () => {
                     ADD +
                   </div>
                   <div
-                    className="w-[110px] h-[40px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] md:h-[40px] h-[32px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => resetMilestone()}
                   >
                     Reset
@@ -1538,13 +1542,13 @@ const Home = () => {
               {currentMilestone > 0 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Milestone 1
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={milestone1}
                         onChange={(e) => setMilestone1(e.target.value)}
                       />
@@ -1554,13 +1558,13 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
                     <div className="relative">
                       <input
                         type="number"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={amount1}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount1)
@@ -1577,13 +1581,13 @@ const Home = () => {
               {currentMilestone > 1 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Milestone 2
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={milestone2}
                         onChange={(e) => setMilestone2(e.target.value)}
                       />
@@ -1593,13 +1597,13 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
                     <div className="relative">
                       <input
                         type="number"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={amount2}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount2)
@@ -1616,13 +1620,13 @@ const Home = () => {
               {currentMilestone > 2 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Milestone 3
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={milestone3}
                         onChange={(e) => setMilestone3(e.target.value)}
                       />
@@ -1632,13 +1636,13 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
                     <div className="relative">
                       <input
                         type="number"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={amount3}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount3)
@@ -1655,13 +1659,13 @@ const Home = () => {
               {currentMilestone > 3 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Milestone 4
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={milestone4}
                         onChange={(e) => setMilestone4(e.target.value)}
                       />
@@ -1671,13 +1675,13 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
                     <div className="relative">
                       <input
                         type="number"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={amount4}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount4)
@@ -1694,13 +1698,13 @@ const Home = () => {
               {currentMilestone > 4 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Milestone 5
                     </div>
                     <div className="relative">
                       <input
                         type="text"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={milestone5}
                         onChange={(e) => setMilestone5(e.target.value)}
                       />
@@ -1710,13 +1714,13 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
                     <div className="relative">
                       <input
                         type="number"
-                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                         value={amount5}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount5)
@@ -1731,15 +1735,56 @@ const Home = () => {
                 </div>
               )}
             </div>
+            <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] block md:hidden">
+              <div className="font-[800] md:text-[32px] text-[20px] leading-[38px]">
+                Fees
+              </div>
+              <div className="mt-[43px] flex justify-between sm:items-center w-full">
+                <div className="md:text-[20px] text-[14px] leading-[23px]">
+                  Platform fee {`(${adminData?.adminFee}%)`}
+                </div>
+                {adminData && (
+                  <div className="md:text-[20px] text-[14px] font-[600]">
+                    {`${(amount * adminData?.adminFee) / 100}`} USDC
+                  </div>
+                )}
+              </div>
+              {/* <div className="mt-[27px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                <div className="text-[20px] leading-[23px">
+                  Holder Discount {`(${adminData?.resolverFee}%)`}
+                </div>
+                <div className="text-[20px] font-[600]">
+                  {adminData && (
+                    <div className="text-[20px] font-[600]">
+                      {`${(amount * adminData?.resolverFee) / 100}`} USDC
+                    </div>
+                  )}
+                </div>
+              </div> */}
+              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+              <div className="mt-[25px] flex justify-between sm:items-center w-full">
+                <div className="md:text-[20px] text-[14px] leading-[23px]">
+                  Receiver will get
+                </div>
+                <div className="md:text-[20px] text-[14px] font-[600]">
+                  {adminData && (
+                    <div className="md:text-[20px] text-[14px] font-[600]">
+                      text-[20px]
+                      {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
             <div className="flex flex-row">
               <div
-                className="w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
                 onClick={createEscrow}
               >
                 CREATE
               </div>
               <div
-                className="ml-[30px] w-[120px] h-[40px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="ml-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
                 onClick={() => {
                   setStage(0);
                   //reset escrow info
@@ -1757,7 +1802,7 @@ const Home = () => {
       )}
       {stage === 2 && (
         <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
-          <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] max-w-[330px]">
+          <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] w-full">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -1816,7 +1861,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     Complete
@@ -1825,7 +1870,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -1834,7 +1879,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -1844,7 +1889,7 @@ const Home = () => {
 
           <div className="order-1 md:order-2">
             <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
-              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
+              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
 
@@ -1877,8 +1922,8 @@ const Home = () => {
                 <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
                   Moderator:{" "}
                   <span className="text-sm">
-                    {escrowData[currentEscrow].disputeStatus
-                      ? adminData?.resolver.toBase58()
+                    {escrowData[currentEscrow].disputeStatus && adminData
+                      ? shortenAddress(adminData?.resolver.toBase58())
                       : "None"}
                   </span>
                 </div>
@@ -1898,7 +1943,7 @@ const Home = () => {
       )}
       {stage === 3 && (
         <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
-          <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] max-w-[330px]">
+          <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] w-full">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -1953,7 +1998,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
                     Refund
@@ -1962,7 +2007,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -1971,7 +2016,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -1981,7 +2026,7 @@ const Home = () => {
 
           <div className="order-1 md:order-2">
             <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
-              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
+              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
 
@@ -2016,8 +2061,8 @@ const Home = () => {
                 <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
                   Moderator:{" "}
                   <span className="text-sm">
-                    {escrowData[currentEscrow].disputeStatus
-                      ? adminData?.resolver.toBase58()
+                    {escrowData[currentEscrow].disputeStatus && adminData
+                      ? shortenAddress(adminData?.resolver.toBase58())
                       : "None"}
                   </span>
                 </div>
