@@ -104,7 +104,13 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setAmount(amount1 + amount2 + amount3 + amount4 + amount5);
+    setAmount(
+      Number(amount1) +
+        Number(amount2) +
+        Number(amount3) +
+        Number(amount4) +
+        Number(amount5)
+    );
   }, [amount1, amount2, amount3, amount4, amount5]);
 
   useEffect(() => {
@@ -138,14 +144,14 @@ const Home = () => {
     setAmount5(0);
   };
 
-  const inputAmount = (val: any) => {
-    console.log("value here: ", val, val == 0);
+  const inputNumberAmount = (val: any, func: Function) => {
+    console.log("value here: ", val, val == 0, func);
     if (!val || val == 0) setAmount(0);
 
     console.log("value here2: ", val);
     console.log("value here: ", val.toString().replace(/^0+/, ""));
 
-    setAmount(val.toString().replace(/^0+/, ""));
+    func(val.toString().replace(/^0+/, ""));
   };
 
   // useEffect(() => {
@@ -334,6 +340,52 @@ const Home = () => {
     )[0];
 
     let seed = randomSeed;
+
+    // save info to backend
+    const milestones =
+      currentMilestone === 0
+        ? [
+            {
+              mileston: description,
+              amount: amount,
+            },
+          ]
+        : [
+            {
+              mileston: milestone1,
+              amount: amount1,
+            },
+            {
+              mileston: milestone2,
+              amount: amount2,
+            },
+            {
+              mileston: milestone3,
+              amount: amount3,
+            },
+            {
+              mileston: milestone4,
+              amount: amount4,
+            },
+            {
+              mileston: milestone5,
+              amount: amount5,
+            },
+          ];
+
+    axios({
+      method: "post",
+      url: `${process.env.REACT_APP_SERVER_URL}/escrows`,
+      data: {
+        description: description,
+        seed: seed.toString(10),
+        receiver: receiverAddress,
+        moderator: receiverAddress, // ignore
+        amount: amount,
+        milestones: milestones,
+      },
+    });
+
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
 
@@ -382,41 +434,6 @@ const Home = () => {
       await connection.confirmTransaction(txId);
       setStage(0);
 
-      const milestones = [
-        {
-          mileston: milestone1,
-          amount: amount1,
-        },
-        {
-          mileston: milestone2,
-          amount: amount2,
-        },
-        {
-          mileston: milestone3,
-          amount: amount3,
-        },
-        {
-          mileston: milestone4,
-          amount: amount4,
-        },
-        {
-          mileston: milestone5,
-          amount: amount5,
-        },
-      ];
-
-      axios({
-        method: "post",
-        url: `${process.env.REACT_APP_SERVER_URL}/escrows`,
-        data: {
-          description: description,
-          seed: seed.toString(10),
-          receiver: receiverAddress,
-          moderator: receiverAddress, // ignore
-          amount: amount,
-          milestones: milestones,
-        },
-      });
       resetMilestone();
     } catch (err) {
       console.log(err);
@@ -1318,8 +1335,7 @@ const Home = () => {
                   value={amount}
                   placeholder="0"
                   onChange={(e) => {
-                    console.log(Number(e.target.value));
-                    inputAmount(e.target.value);
+                    inputNumberAmount(e.target.value, setAmount);
                   }}
                   min={0}
                   required
@@ -1428,7 +1444,9 @@ const Home = () => {
                       type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount1}
-                      onChange={(e) => setAmount1(Number(e.target.value))}
+                      onChange={(e) =>
+                        inputNumberAmount(e.target.value, setAmount1)
+                      }
                       min={0}
                     />
                   </div>
@@ -1455,7 +1473,9 @@ const Home = () => {
                       type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount2}
-                      onChange={(e) => setAmount2(Number(e.target.value))}
+                      onChange={(e) =>
+                        inputNumberAmount(e.target.value, setAmount2)
+                      }
                       min={0}
                     />
                   </div>
@@ -1482,7 +1502,9 @@ const Home = () => {
                       type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount3}
-                      onChange={(e) => setAmount3(Number(e.target.value))}
+                      onChange={(e) =>
+                        inputNumberAmount(e.target.value, setAmount3)
+                      }
                       min={0}
                     />
                   </div>
@@ -1509,7 +1531,9 @@ const Home = () => {
                       type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount4}
-                      onChange={(e) => setAmount4(Number(e.target.value))}
+                      onChange={(e) =>
+                        inputNumberAmount(e.target.value, setAmount4)
+                      }
                       min={0}
                     />
                   </div>
@@ -1536,7 +1560,9 @@ const Home = () => {
                       type="number"
                       className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                       value={amount5}
-                      onChange={(e) => setAmount5(Number(e.target.value))}
+                      onChange={(e) =>
+                        inputNumberAmount(e.target.value, setAmount5)
+                      }
                       min={0}
                     />
                   </div>
