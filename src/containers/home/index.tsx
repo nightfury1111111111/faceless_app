@@ -138,6 +138,16 @@ const Home = () => {
     setAmount5(0);
   };
 
+  const inputAmount = (val: any) => {
+    console.log("value here: ", val, val == 0);
+    if (!val || val == 0) setAmount(0);
+
+    console.log("value here2: ", val);
+    console.log("value here: ", val.toString().replace(/^0+/, ""));
+
+    setAmount(val.toString().replace(/^0+/, ""));
+  };
+
   // useEffect(() => {
   //   console.log("dsfffff", amount);
   // }, [amount]);
@@ -1291,9 +1301,10 @@ const Home = () => {
                   type="number"
                   className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
                   value={amount}
+                  placeholder="0"
                   onChange={(e) => {
                     console.log(Number(e.target.value));
-                    setAmount(Number(e.target.value));
+                    inputAmount(e.target.value);
                   }}
                   min={0}
                   required
