@@ -1365,7 +1365,7 @@ const Home = () => {
                   <div
                     className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
-                      if (currentMilestone < 4)
+                      if (currentMilestone < 5)
                         setCurrentMilestone(currentMilestone + 1);
                       else toast("Max milestone number is 5");
                     }}
@@ -1408,7 +1408,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone >= 1 && (
+              {currentMilestone > 1 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1435,7 +1435,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone >= 2 && (
+              {currentMilestone > 2 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1462,7 +1462,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone >= 3 && (
+              {currentMilestone > 3 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
@@ -1489,7 +1489,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-              {currentMilestone >= 4 && (
+              {currentMilestone > 4 && (
                 <div>
                   <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
