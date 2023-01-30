@@ -6,6 +6,13 @@ button,
   transition: 0.25s all;
 }
 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .sidebar {
   transform: translate(0);
 }

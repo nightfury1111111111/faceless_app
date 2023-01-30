@@ -11,7 +11,7 @@
           "isSigner": true
         },
         {
-          "name": "takerTokenAccount",
+          "name": "taker",
           "isMut": true,
           "isSigner": false
         },
@@ -21,13 +21,8 @@
           "isSigner": false
         },
         {
-          "name": "resolverTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "mint",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -106,6 +101,62 @@
           "isSigner": false
         },
         {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "refund",
+      "accounts": [
+        {
+          "name": "taker",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "initializerDepositTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin1TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -127,12 +178,58 @@
           "isSigner": false
         },
         {
-          "name": "initializerDepositTokenAccount",
+          "name": "admin1TokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "resolverTokenAccount",
+          "name": "admin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "escrowState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "adminState",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "milestoneIdx",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "resolve",
+      "accounts": [
+        {
+          "name": "resolver",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "takerTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -143,6 +240,11 @@
         },
         {
           "name": "admin2TokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "resolverTokenAccount",
           "isMut": true,
           "isSigner": false
         },
@@ -193,12 +295,7 @@
           "isSigner": false
         },
         {
-          "name": "admin1TokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "admin2TokenAccount",
+          "name": "resolver",
           "isMut": true,
           "isSigner": false
         },
@@ -244,12 +341,7 @@
           "isSigner": false
         },
         {
-          "name": "newAdmin1TokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "newAdmin2TokenAccount",
+          "name": "newResolver",
           "isMut": true,
           "isSigner": false
         },
@@ -285,6 +377,22 @@
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "dispute",
+      "accounts": [
+        {
+          "name": "disputor",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "escrowState",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -293,6 +401,10 @@
       "type": {
         "kind": "struct",
         "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
           {
             "name": "adminFee",
             "type": "u64"
@@ -306,15 +418,11 @@
             "type": "publicKey"
           },
           {
-            "name": "admin1TokenAccount",
-            "type": "publicKey"
-          },
-          {
             "name": "admin2",
             "type": "publicKey"
           },
           {
-            "name": "admin2TokenAccount",
+            "name": "resolver",
             "type": "publicKey"
           }
         ]
@@ -334,11 +442,7 @@
             "type": "publicKey"
           },
           {
-            "name": "initializerDepositTokenAccount",
-            "type": "publicKey"
-          },
-          {
-            "name": "takerTokenAccount",
+            "name": "taker",
             "type": "publicKey"
           },
           {
@@ -351,30 +455,26 @@
             }
           },
           {
-            "name": "admin1",
+            "name": "disputeStatus",
+            "type": "bool"
+          },
+          {
+            "name": "mint",
             "type": "publicKey"
           },
           {
-            "name": "admin2",
-            "type": "publicKey"
+            "name": "bump",
+            "type": "u8"
           },
           {
-            "name": "admin1TokenAccount",
-            "type": "publicKey"
-          },
-          {
-            "name": "admin2TokenAccount",
-            "type": "publicKey"
-          },
-          {
-            "name": "resolverTokenAccount",
-            "type": "publicKey"
+            "name": "vaultBump",
+            "type": "u8"
           }
         ]
       }
     }
   ],
   "metadata": {
-    "address": "CfBBNT26BB1gR6hK5fj1oFju4twyFwCjPEcMn7Q6C32u"
+    "address": "D2Z2nRfzcEdMuHcKfZsHfQGYMGZWLPjFELFwcHXtDLf6"
   }
 }
