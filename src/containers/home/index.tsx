@@ -1826,7 +1826,13 @@ const Home = () => {
                         }}
                       >
                         <div className="flex items-center">
-                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0 ? (
+                            <div className="bg-completed bg-cover w-[40px] h-[40px]" />
+                          ) : (
+                            <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                          )}{" "}
                           <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
                             {item?.mileston}
                           </div>
@@ -1835,20 +1841,24 @@ const Home = () => {
                           {escrowRestData.milestone1}
                         </div>
                         <div className="mt-[15px]">
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-end items-center">
                             <div>Amount:</div>
-                            <div className="text-[#21c55b]">
+                            <div className="text-[#21c55b] ml-[10px]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-end items-center">
                             <div>Status: </div>
-                            <div className="text-[#f1102f]">
+                            <div className="text-[#f1102f] ml-[10px]">
                               {escrowData[currentEscrow].initializerAmount[
                                 index
-                              ] === 0
-                                ? "Completed"
-                                : "In Progress"}
+                              ] === 0 ? (
+                                <span className="text-[#21c55b]">
+                                  Completed
+                                </span>
+                              ) : (
+                                "In Progress"
+                              )}
                             </div>
                           </div>
                         </div>
@@ -1888,7 +1898,7 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
+            <div className="bg-milestone-index2-bgcolor mt-[10px] rounded-[10px] p-[20px]">
               <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
@@ -1963,7 +1973,13 @@ const Home = () => {
                         }}
                       >
                         <div className="flex items-center">
-                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
+                          {escrowData[currentEscrow].initializerAmount[
+                            index
+                          ] === 0 ? (
+                            <div className="bg-completed bg-cover w-[40px] h-[40px]" />
+                          ) : (
+                            <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                          )}{" "}
                           <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
                             {item?.mileston}
                           </div>
@@ -1972,20 +1988,24 @@ const Home = () => {
                           {escrowRestData.milestone1}
                         </div>
                         <div className="mt-[15px]">
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-end items-center">
                             <div>Amount:</div>
-                            <div className="text-[#21c55b]">
+                            <div className="text-[#21c55b] ml-[10px]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
-                          <div className="flex justify-between items-center">
+                          <div className="flex justify-end items-center">
                             <div>Status: </div>
-                            <div className="text-[#f1102f]">
+                            <div className="text-[#f1102f] ml-[10px]">
                               {escrowData[currentEscrow].initializerAmount[
                                 index
-                              ] === 0
-                                ? "Completed"
-                                : "In Progress"}
+                              ] === 0 ? (
+                                <span className="text-[#21c55b]">
+                                  Completed
+                                </span>
+                              ) : (
+                                "In Progress"
+                              )}
                             </div>
                           </div>
                         </div>
@@ -2025,7 +2045,7 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
+            <div className="bg-milestone-index2-bgcolor mt-[10px] rounded-[10px] p-[20px]">
               <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
