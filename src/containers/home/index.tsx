@@ -331,19 +331,19 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-              new anchor.BN(0),
-            ]
+            new anchor.BN(amount * 1e9),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+            new anchor.BN(0),
+          ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
-            ],
+            new anchor.BN(amount1 * 1e9),
+            new anchor.BN(amount2 * 1e9),
+            new anchor.BN(amount3 * 1e9),
+            new anchor.BN(amount4 * 1e9),
+            new anchor.BN(amount5 * 1e9),
+          ],
         {
           accounts: {
             initializer: provider.wallet.publicKey,
@@ -1046,13 +1046,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -1158,13 +1157,12 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="text-[20px] leading-[23px] font-[800]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
+                            {`$ ${myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
                               myEscrow.initializerAmount[2] +
                               myEscrow.initializerAmount[3] +
                               myEscrow.initializerAmount[4]
-                            }`}
+                              }`}
                           </div>
                         </div>
                       </div>
@@ -1537,49 +1535,8 @@ const Home = () => {
         </div>
       )}
       {stage === 2 && (
-<<<<<<< HEAD
         <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
           <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] max-w-[330px]">
-=======
-        <div className="mb-[150px]">
-          <div className="font-[600] text-[40px] pt-[130px]">
-            {escrowRestData.description}
-          </div>
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Escrow {escrowData[currentEscrow].randomSeed}
-          </div>
-
-          {escrowRestData.created_at && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Created At: {escrowRestData.date}
-            </div>
-          )}
-
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Amount: {escrowRestData.amount}
-          </div>
-
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Receiver # {escrowData[currentEscrow].taker.toString()}
-          </div>
-
-          {escrowData[currentEscrow].disputeStatus && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Moderator:{" "}
-              <span className="text-sm">
-                {escrowData[currentEscrow].disputeStatus
-                  ? adminData?.resolver.toBase58()
-                  : "None"}
-              </span>
-            </div>
-          )}
-
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Disputed: {escrowData[currentEscrow].disputeStatus ? "Yes" : "No"}
-          </div>
-
-          <div className="mt-[20px] w-[494px]">
->>>>>>> e6f49479edd600fab9ac6ff6e68af061dee4ccce
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -1634,7 +1591,6 @@ const Home = () => {
                   )
               )}
 
-<<<<<<< HEAD
             <div className="mt-[40px] flex justify-between items-center">
               <div
                 className="h-[40px] px-[12px] grow mr-[1rem] ml-[3.5rem] max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
@@ -1644,30 +1600,6 @@ const Home = () => {
               </div>
               <div
                 className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-=======
-            <div className="mt-[40px] flex justify-between items-center mb-[40px]">
-              {escrowData[currentEscrow].active &&
-                !escrowData[currentEscrow].disputeStatus && (
-                  <div
-                    className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-                    onClick={() => approvePayment()}
-                  >
-                    Complete
-                  </div>
-                )}
-              {!escrowData[currentEscrow].disputeStatus && (
-                <div
-                  className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#ad2c44] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
-                  onClick={() => {
-                    dispute();
-                  }}
-                >
-                  Dispute
-                </div>
-              )}
-              <div
-                className="w-[130px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
->>>>>>> e6f49479edd600fab9ac6ff6e68af061dee4ccce
                 onClick={() => setStage(0)}
               >
                 Back

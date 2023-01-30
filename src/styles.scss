@@ -13,6 +13,20 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+html::-webkit-scrollbar,
+.sidebar-content::-webkit-scrollbar {
+  height: 7px;
+  width: 7px;
+}
+
+html::-webkit-scrollbar-thumb,
+.sidebar-content::-webkit-scrollbar-thumb {
+  margin-right: 2px;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .sidebar {
   transform: translate(0);
 }
