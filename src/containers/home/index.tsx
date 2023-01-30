@@ -639,7 +639,7 @@ const Home = () => {
               </div>
               <div className="mt-[20px]">
                 <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     In Escrow
                   </div>
                   <div className="text-[20px] leading-[23px] font-[800]">
@@ -647,7 +647,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Active
                   </div>
                   <div className="text-[20px] leading-[23px] font-[800]">
@@ -659,7 +659,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="mt-[28px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                  <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
+                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Completed
                   </div>
                   <div className="text-[20px] leading-[23px] font-[800]">
@@ -680,8 +680,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-20"></div>
-                Coming soon
+                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto"></div>
+                {/* Coming soon */}
               </div>
             </div>
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
@@ -692,8 +692,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-20"></div>
-                Coming soon
+                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto"></div>
+                {/* Coming soon */}
               </div>
             </div>
           </div>
@@ -1274,52 +1274,15 @@ const Home = () => {
         </div>
       )}
       {stage === 2 && (
-        <div className="mb-[150px]">
-          <div className="font-[600] text-[40px] pt-[130px]">
-            {escrowRestData.description}
-          </div>
-          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Escrow # {escrowData[currentEscrow].randomSeed}
-          </div>
-
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Amount: {escrowRestData.amount}
-            </div>
-          )}
-
-          {escrowRestData.created_at && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Created At: {escrowRestData.date}
-            </div>
-          )}
-
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Receiver:{" "}
-              <span className="text-sm">{escrowRestData.receiver}</span>
-            </div>
-          )}
-
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Moderator:{" "}
-              <span className="text-sm">
-                {escrowRestData.moderator !== escrowRestData.receiver
-                  ? escrowRestData.moderator
-                  : "None"}
-              </span>
-            </div>
-          )}
-
-          <div className="mt-[20px] w-[494px]">
+        <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
+          <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] max-w-[330px]">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
                   item.amount > 0 && (
                     <div
                       key={`milestone-${index}`}
-                      className="mt-[20px] flex items-center"
+                      className="flex items-center"
                     >
                       <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
                         {index + 1}
@@ -1328,8 +1291,8 @@ const Home = () => {
                       <div
                         className={
                           index === selectedMilestone
-                            ? "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer"
-                            : "ml-[14px] w-[450px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer"
+                            ? "ml-[14px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer grow"
+                            : "ml-[14px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer grow"
                         }
                         onClick={() => {
                           setSelectedMilestone(index);
@@ -1337,7 +1300,7 @@ const Home = () => {
                       >
                         <div className="flex items-center">
                           <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />{" "}
-                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400] w-[300px] break-all">
+                          <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
                             {item?.mileston}
                           </div>
                         </div>
@@ -1369,18 +1332,58 @@ const Home = () => {
 
             <div className="mt-[40px] flex justify-between items-center">
               <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="h-[40px] px-[12px] grow mr-[1rem] ml-[3.5rem] max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => approvePayment()}
               >
                 Complete
               </div>
               <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="h-[40px] px-[12px] grow max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
               </div>
             </div>
+          </div>
+
+          <div className="order-1 md:order-2">
+            <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
+              {escrowRestData.description}
+            </div>
+
+            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+              Escrow # {escrowData[currentEscrow].randomSeed}
+            </div>
+
+            {escrowRestData.moderator && (
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                Amount: {escrowRestData.amount}
+              </div>
+            )}
+
+            {escrowRestData.created_at && (
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                Created At: {escrowRestData.date}
+              </div>
+            )}
+
+            {escrowRestData.moderator && (
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                Receiver:{" "}
+                <span className="text-sm truncate max-w-[100%] block">{escrowRestData.receiver}</span>
+              </div>
+            )}
+
+            {escrowRestData.moderator && (
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                Moderator:{" "}
+                <span className="text-sm">
+                  {escrowRestData.moderator !== escrowRestData.receiver
+                    ? escrowRestData.moderator
+                    : "None"}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
