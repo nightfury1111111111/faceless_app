@@ -1041,15 +1041,23 @@ const Home = () => {
                           : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
                       }
                     >
-                      <div className="flex items-center">
-                        <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
-                        <div className="ml-[14px]">
-                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                          <div className="font-[500] text-[20px] leading-[23px]">
-                            {myEscrow.offchainData.description}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                          <div className="ml-[14px]">
+                            <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                            <div className="font-[500] text-[20px] leading-[23px]">
+                              {myEscrow.offchainData.description}
+                            </div>
                           </div>
                         </div>
+                        {myEscrow.disputeStatus && (
+                          <div className="bg-[#ad2c44] px-[24px] py-[3px] text-[12px] rounded-[40px]">
+                            Disputed
+                          </div>
+                        )}
                       </div>
+
                       <div className="mt-[20px]">
                         <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
@@ -1153,14 +1161,21 @@ const Home = () => {
                           : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
                       }
                     >
-                      <div className="flex items-center">
-                        <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
-                        <div className="ml-[14px]">
-                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                          <div className="font-[500] text-[20px] leading-[23px]">
-                            {myEscrow.offchainData.description}
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                          <div className="ml-[14px]">
+                            <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                            <div className="font-[500] text-[20px] leading-[23px]">
+                              {myEscrow.offchainData.description}
+                            </div>
                           </div>
                         </div>
+                        {myEscrow.disputeStatus && (
+                          <div className="bg-[#ad2c44] px-[24px] py-[3px] text-[12px] rounded-[40px]">
+                            Disputed
+                          </div>
+                        )}
                       </div>
                       <div className="mt-[20px]">
                         <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
