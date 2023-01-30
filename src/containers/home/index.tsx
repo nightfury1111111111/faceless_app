@@ -21,7 +21,7 @@ import { PublicKey, Transaction } from "@solana/web3.js";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
-import { validateAddress } from "../../utils/general";
+import { shortenAddress, validateAddress } from "../../utils/general";
 import { useAtom } from "jotai";
 import {
   dashboardStage,
@@ -94,6 +94,21 @@ const Home = () => {
   const [milestone5, setMilestone5] = useState("");
   const [amount5, setAmount5] = useState(0);
 
+  //define error
+  const [descriptionErr, setDescriptionErr] = useState("");
+  const [receiverErr, setReceiverErr] = useState("");
+  const [amountErr, setAmountErr] = useState("");
+  const [milestone1Err, setMilestone1Err] = useState("");
+  const [amount1Err, setAmount1Err] = useState("");
+  const [milestone2Err, setMilestone2Err] = useState("");
+  const [amount2Err, setAmount2Err] = useState("");
+  const [milestone3Err, setMilestone3Err] = useState("");
+  const [amount3Err, setAmount3Err] = useState("");
+  const [milestone4Err, setMilestone4Err] = useState("");
+  const [amount4Err, setAmount4Err] = useState("");
+  const [milestone5Err, setMilestone5Err] = useState("");
+  const [amount5Err, setAmount5Err] = useState("");
+
   const [user] = useAtom(profile);
   const [moderators] = useAtom(profileModerators);
   const [isLoading, setLoading] = useAtom(isLoadingOverlay);
@@ -144,12 +159,24 @@ const Home = () => {
     setAmount5(0);
   };
 
-  const inputNumberAmount = (val: any, func: Function) => {
-    console.log("value here: ", val, val == 0, func);
-    if (!val || val == 0) setAmount(0);
+  const resetError = () => {
+    setDescriptionErr("");
+    setReceiverErr("");
+    setAmountErr("");
+    setMilestone1Err("");
+    setAmount1Err("");
+    setMilestone2Err("");
+    setAmount2Err("");
+    setMilestone3Err("");
+    setAmount3Err("");
+    setMilestone4Err("");
+    setAmount4Err("");
+    setMilestone5Err("");
+    setAmount5Err("");
+  };
 
-    console.log("value here2: ", val);
-    console.log("value here: ", val.toString().replace(/^0+/, ""));
+  const inputNumberAmount = (val: any, func: Function) => {
+    if (!val || val == 0) setAmount(0);
 
     func(val.toString().replace(/^0+/, ""));
   };
@@ -161,6 +188,90 @@ const Home = () => {
   const toggleModerator = (add: string) => {
     setModerator(add);
     setModeratorVisibility(false);
+  };
+
+  const isValidEscrow = () => {
+    let status = true;
+    console.log(
+      currentMilestone > 0,
+      amount,
+      amount1 + amount2 + amount3 + amount4 + amount5
+    );
+    if (
+      currentMilestone > 0 &&
+      Number(amount) !==
+        Number(amount1) +
+          Number(amount2) +
+          Number(amount3) +
+          Number(amount4) +
+          Number(amount5)
+    ) {
+      setAmountErr("Must be matched to total amount of milestones!");
+      status = false;
+    }
+    if (description == "") {
+      setDescriptionErr("Name is required");
+      status = false;
+    } else setDescriptionErr("");
+    if (receiver == "") {
+      setReceiverErr("Receiver is required");
+      status = false;
+    } else setReceiverErr("");
+    if (amount == 0) {
+      setAmountErr("Amount is required");
+      status = false;
+    }
+    if (currentMilestone > 0) {
+      if (milestone1 == "") {
+        setMilestone1Err("Milestone name is required");
+        status = false;
+      } else setMilestone1Err("");
+      if (amount1 == 0) {
+        setAmount1Err("Amount is required");
+        status = false;
+      } else setAmount1Err("");
+    }
+    if (currentMilestone > 1) {
+      if (milestone2 == "") {
+        setMilestone2Err("Milestone name is required");
+        status = false;
+      } else setMilestone2Err("");
+      if (amount2 == 0) {
+        setAmount2Err("Amount is required");
+        status = false;
+      } else setAmount2Err("");
+    }
+    if (currentMilestone > 2) {
+      if (milestone3 == "") {
+        setMilestone3Err("Milestone name is required");
+        status = false;
+      } else setMilestone3Err("");
+      if (amount3 == 0) {
+        setAmount3Err("Amount is required");
+        status = false;
+      } else setAmount3Err("");
+    }
+    if (currentMilestone > 3) {
+      if (milestone4 == "") {
+        setMilestone4Err("Milestone name is required");
+        status = false;
+      } else setMilestone4Err("");
+      if (amount4 == 0) {
+        setAmount4Err("Amount is required");
+        status = false;
+      } else setAmount4Err("");
+    }
+    if (currentMilestone > 4) {
+      if (milestone5 == "") {
+        setMilestone5Err("Milestone name is required");
+        status = false;
+      } else setMilestone5Err("");
+      if (amount5 == 0) {
+        setAmount5Err("Amount is required");
+        status = false;
+      } else setAmount5Err("");
+    }
+    return status;
   };
 
   const getProvider = () => {
@@ -181,27 +292,7 @@ const Home = () => {
   };
 
   const createEscrow = async () => {
-    if (amount <= 0) {
-      toast("Total amount must be greater that 0");
-      return;
-    }
-    if (
-      currentMilestone > 0 &&
-      amount !== amount1 + amount2 + amount3 + amount4 + amount5
-    ) {
-      toast(
-        "Set the milestone payment correctly. Must be matched to total amount!"
-      );
-      return;
-    }
-    if (description === "") {
-      toast("Description is required");
-      return;
-    }
-    if (receiver === "") {
-      toast("receiver is required");
-      return;
-    }
+    if (!isValidEscrow()) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
@@ -534,7 +625,9 @@ const Home = () => {
         const result = tmpResult.map((escr, idx) => {
           return { ...escr, index: idx };
         });
-        console.log(result);
+        result.sort((a, b) => {
+          return b.offchainData.created_at - a.offchainData.created_at;
+        });
         setTotalValue(tmpLockedval);
         setEscrowData(result);
       });
@@ -716,6 +809,7 @@ const Home = () => {
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setSelectedMilestone(0);
+      getEscrow();
     } catch (err) {
       // console.log(err.message);
       console.log(err);
@@ -817,6 +911,7 @@ const Home = () => {
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setSelectedMilestone(0);
+      getEscrow();
     } catch (err) {
       // console.log(err.message);
       console.log(err);
@@ -871,6 +966,7 @@ const Home = () => {
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setSelectedMilestone(0);
+      getEscrow();
     } catch (err) {
       // console.log(err.message);
       console.log(err);
@@ -883,6 +979,7 @@ const Home = () => {
 
   useEffect(() => {
     if (stage === 0) getEscrow();
+    if (stage === 1) resetError();
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   return !isWalletConnected || !publicKey ? (
@@ -1258,25 +1355,35 @@ const Home = () => {
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Name
                 </div>
-                <input
-                  type="text"
-                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                  />
+                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                    {descriptionErr}
+                  </div>
+                </div>
               </div>
               <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Receiver
                 </div>
-                <input
-                  type="text"
-                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                  value={receiver}
-                  onChange={(e) => setReceiver(e.target.value)}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="text"
+                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    value={receiver}
+                    onChange={(e) => setReceiver(e.target.value)}
+                    required
+                  />
+                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                    {receiverErr}
+                  </div>
+                </div>
               </div>
               {/* {useModerator ? (
                 <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
@@ -1329,17 +1436,22 @@ const Home = () => {
                 <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                   Amount
                 </div>
-                <input
-                  type="number"
-                  className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                  value={amount}
-                  placeholder="0"
-                  onChange={(e) => {
-                    inputNumberAmount(e.target.value, setAmount);
-                  }}
-                  min={0}
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type="number"
+                    className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                    value={amount}
+                    placeholder="0"
+                    onChange={(e) => {
+                      inputNumberAmount(e.target.value, setAmount);
+                    }}
+                    min={0}
+                    required
+                  />
+                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                    {amountErr}
+                  </div>
+                </div>
                 <button className="absolute right-[1px] text-[12px] text-white bg-dark z-[2] leading-[38px] px-[10px] rounded-[5px] round-l-0">
                   USDC
                 </button>
@@ -1405,7 +1517,7 @@ const Home = () => {
                 </div>
                 <div className="flex flex-wrap">
                   <div
-                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] h-[40px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
                       if (currentMilestone < 5)
                         setCurrentMilestone(currentMilestone + 1);
@@ -1415,7 +1527,7 @@ const Home = () => {
                     ADD +
                   </div>
                   <div
-                    className="w-[110px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] h-[40px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => resetMilestone()}
                   >
                     Reset
@@ -1429,26 +1541,36 @@ const Home = () => {
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Milestone 1
                     </div>
-                    <input
-                      type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={milestone1}
-                      onChange={(e) => setMilestone1(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={milestone1}
+                        onChange={(e) => setMilestone1(e.target.value)}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {milestone1Err}
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
-                    <input
-                      type="number"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={amount1}
-                      onChange={(e) =>
-                        inputNumberAmount(e.target.value, setAmount1)
-                      }
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={amount1}
+                        onChange={(e) =>
+                          inputNumberAmount(e.target.value, setAmount1)
+                        }
+                        min={0}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {amount1Err}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1458,26 +1580,36 @@ const Home = () => {
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Milestone 2
                     </div>
-                    <input
-                      type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={milestone2}
-                      onChange={(e) => setMilestone2(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={milestone2}
+                        onChange={(e) => setMilestone2(e.target.value)}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {milestone2Err}
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
-                    <input
-                      type="number"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={amount2}
-                      onChange={(e) =>
-                        inputNumberAmount(e.target.value, setAmount2)
-                      }
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={amount2}
+                        onChange={(e) =>
+                          inputNumberAmount(e.target.value, setAmount2)
+                        }
+                        min={0}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {amount2Err}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1487,26 +1619,36 @@ const Home = () => {
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Milestone 3
                     </div>
-                    <input
-                      type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={milestone3}
-                      onChange={(e) => setMilestone3(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={milestone3}
+                        onChange={(e) => setMilestone3(e.target.value)}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {milestone3Err}
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
-                    <input
-                      type="number"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={amount3}
-                      onChange={(e) =>
-                        inputNumberAmount(e.target.value, setAmount3)
-                      }
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={amount3}
+                        onChange={(e) =>
+                          inputNumberAmount(e.target.value, setAmount3)
+                        }
+                        min={0}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {amount3Err}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1516,26 +1658,36 @@ const Home = () => {
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Milestone 4
                     </div>
-                    <input
-                      type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={milestone4}
-                      onChange={(e) => setMilestone4(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={milestone4}
+                        onChange={(e) => setMilestone4(e.target.value)}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {milestone4Err}
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
-                    <input
-                      type="number"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={amount4}
-                      onChange={(e) =>
-                        inputNumberAmount(e.target.value, setAmount4)
-                      }
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={amount4}
+                        onChange={(e) =>
+                          inputNumberAmount(e.target.value, setAmount4)
+                        }
+                        min={0}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {amount4Err}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -1545,41 +1697,56 @@ const Home = () => {
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Milestone 5
                     </div>
-                    <input
-                      type="text"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={milestone5}
-                      onChange={(e) => setMilestone5(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={milestone5}
+                        onChange={(e) => setMilestone5(e.target.value)}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {milestone5Err}
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
                     <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
                       Amount
                     </div>
-                    <input
-                      type="number"
-                      className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                      value={amount5}
-                      onChange={(e) =>
-                        inputNumberAmount(e.target.value, setAmount5)
-                      }
-                      min={0}
-                    />
+                    <div className="relative">
+                      <input
+                        type="number"
+                        className="w-[330px] max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        value={amount5}
+                        onChange={(e) =>
+                          inputNumberAmount(e.target.value, setAmount5)
+                        }
+                        min={0}
+                      />
+                      <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                        {amount5Err}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
             </div>
             <div className="flex flex-row">
               <div
-                className="w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={createEscrow}
               >
                 CREATE
               </div>
               <div
-                className="ml-[30px] w-[120px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="ml-[30px] w-[120px] h-[40px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => {
                   setStage(0);
+                  //reset escrow info
+                  setDescription("");
+                  setReceiver("");
+                  setAmount(0);
+                  resetMilestone;
                 }}
               >
                 CANCEL
@@ -1676,48 +1843,55 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
-              {escrowRestData.description}
-            </div>
-
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Escrow # {escrowData[currentEscrow].randomSeed}
-            </div>
-
-            {escrowRestData.moderator && (
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Amount: {escrowRestData.amount}
+            <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
+              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
+                {escrowRestData.description}
               </div>
-            )}
 
-            {escrowRestData.created_at && (
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Created At: {escrowRestData.date}
+                Escrow # {escrowData[currentEscrow].randomSeed}
               </div>
-            )}
 
-            {escrowRestData.moderator && (
+              {escrowRestData.moderator && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Amount: {escrowRestData.amount}
+                </div>
+              )}
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Created At: {escrowRestData.date}
+                </div>
+              )}
+
+              {escrowRestData.moderator && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex">
+                  Receiver:{" "}
+                  <span className="text-sm ml-[5px] truncate max-w-[100%] block">
+                    {shortenAddress(escrowRestData.receiver)}
+                  </span>
+                </div>
+              )}
+
+              {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Moderator:{" "}
+                  <span className="text-sm">
+                    {escrowData[currentEscrow].disputeStatus
+                      ? adminData?.resolver.toBase58()
+                      : "None"}
+                  </span>
+                </div>
+              )}
+
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Receiver:{" "}
-                <span className="text-sm truncate max-w-[100%] block">
-                  {escrowRestData.receiver}
-                </span>
+                Disputed:{" "}
+                {escrowData[currentEscrow].disputeStatus ? (
+                  <span className="text-[#ad2c44] font-bold">Yes</span>
+                ) : (
+                  "No"
+                )}
               </div>
-            )}
-
-            {escrowData[currentEscrow].disputeStatus && (
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Moderator:{" "}
-                <span className="text-sm">
-                  {escrowData[currentEscrow].disputeStatus
-                    ? adminData?.resolver.toBase58()
-                    : "None"}
-                </span>
-              </div>
-            )}
-
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Disputed: {escrowData[currentEscrow].disputeStatus ? "Yes" : "No"}
             </div>
           </div>
         </div>
@@ -1806,48 +1980,57 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
-              {escrowRestData.description}
-            </div>
-
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Escrow # {escrowData[currentEscrow].randomSeed}
-            </div>
-
-            {escrowRestData.moderator && (
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Amount: {escrowRestData.amount}
+            <div className="bg-[#221d20] mt-[10px] rounded-[10px] p-[20px] border-[1px] border-[#685e5e]">
+              <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[40px]">
+                {escrowRestData.description}
               </div>
-            )}
 
-            {escrowRestData.created_at && (
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Created At: {escrowRestData.date}
+                Escrow # {escrowData[currentEscrow].randomSeed}
               </div>
-            )}
 
-            {escrowRestData.moderator && (
+              {escrowRestData.moderator && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Amount: {escrowRestData.amount}
+                </div>
+              )}
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Created At: {escrowRestData.date}
+                </div>
+              )}
+
+              {escrowRestData.moderator && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex">
+                  Creator:{" "}
+                  <span className="text-sm ml-[5px] truncate max-w-[100%] block">
+                    {shortenAddress(
+                      escrowData[currentEscrow].initializerKey.toString()
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+                  Moderator:{" "}
+                  <span className="text-sm">
+                    {escrowData[currentEscrow].disputeStatus
+                      ? adminData?.resolver.toBase58()
+                      : "None"}
+                  </span>
+                </div>
+              )}
+
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Creator:{" "}
-                <span className="text-sm truncate max-w-[100%] block">
-                  {escrowData[currentEscrow].initializerKey.toString()}
-                </span>
+                Disputed:{" "}
+                {escrowData[currentEscrow].disputeStatus ? (
+                  <span className="text-[#ad2c44] font-bold">Yes</span>
+                ) : (
+                  "No"
+                )}
               </div>
-            )}
-
-            {escrowData[currentEscrow].disputeStatus && (
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Moderator:{" "}
-                <span className="text-sm">
-                  {escrowData[currentEscrow].disputeStatus
-                    ? adminData?.resolver.toBase58()
-                    : "None"}
-                </span>
-              </div>
-            )}
-
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Disputed: {escrowData[currentEscrow].disputeStatus ? "Yes" : "No"}
             </div>
           </div>
         </div>
