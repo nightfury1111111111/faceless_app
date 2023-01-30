@@ -118,6 +118,7 @@ const Home = () => {
       method: "get",
       url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`,
     }).then((result) => {
+      console.log(result.data);
       let date = new Date(result.data.created_at).toLocaleDateString("en");
       setEscrowRestData({ ...result.data, date: date });
     });
@@ -1541,14 +1542,8 @@ const Home = () => {
             {escrowRestData.description}
           </div>
           <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-            Escrow # {escrowData[currentEscrow].randomSeed}
+            Escrow {escrowData[currentEscrow].randomSeed}
           </div>
-
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Amount: {escrowRestData.amount}
-            </div>
-          )}
 
           {escrowRestData.created_at && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
@@ -1556,7 +1551,15 @@ const Home = () => {
             </div>
           )}
 
-          {escrowRestData.moderator && (
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Amount: {escrowRestData.amount}
+          </div>
+
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Receiver # {escrowData[currentEscrow].taker.toString()}
+          </div>
+
+          {escrowData[currentEscrow].disputeStatus && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
@@ -1630,7 +1633,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="w-[163px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                    className="w-[130px] h-[40px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     Complete
@@ -1647,7 +1650,7 @@ const Home = () => {
                 </div>
               )}
               <div
-                className="w-[163px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
+                className="w-[130px] h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -1665,20 +1668,24 @@ const Home = () => {
             Escrow # {escrowData[currentEscrow].randomSeed}
           </div>
 
-          {escrowRestData.moderator && (
+          {escrowRestData.created_at && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Amount: {escrowRestData.amount}
+              Created At: {escrowRestData.date}
             </div>
           )}
 
-          {escrowRestData.moderator && (
-            <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-              Receiver:{" "}
-              <span className="text-sm">{escrowRestData.receiver}</span>
-            </div>
-          )}
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Amount: {escrowRestData.amount}
+          </div>
 
-          {escrowRestData.moderator && (
+          <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+            Creator:{" "}
+            <span className="text-sm">
+              {escrowData[currentEscrow].initializerKey.toString()}
+            </span>
+          </div>
+
+          {escrowData[currentEscrow].disputeStatus && (
             <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
               Moderator:{" "}
               <span className="text-sm">
