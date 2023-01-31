@@ -1305,11 +1305,11 @@ const Home = () => {
                             </div>
                           </div>
                         </div>
-                        {myEscrow.disputeStatus && (
+                        {/* {myEscrow.disputeStatus && (
                           <div className="bg-[#ad2c44] px-[24px] py-[3px] text-[12px] rounded-[40px]">
                             Disputed
                           </div>
-                        )}
+                        )} */}
                       </div>
                       <div className="mt-[20px]">
                         <div className="flex justify-between sm:items-center w-full">
@@ -1333,7 +1333,17 @@ const Home = () => {
                             Status
                           </div>
                           <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
-                            {myEscrow.active ? "In progress" : "Completed"}
+                            {myEscrow.active ? (
+                              myEscrow.disputeStatus ? (
+                                <span className="text-[#f1102f]">Disputed</span>
+                              ) : (
+                                <span className="text-[#21c55b]">
+                                  In Progress
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-[#21c55b]">Completed</span>
+                            )}
                           </div>
                         </div>
                       </div>
