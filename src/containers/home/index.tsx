@@ -1111,7 +1111,7 @@ const Home = () => {
                 CREATE
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+            <div className="mt-[20px] md:mt-0 rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   myStatus === "active"
