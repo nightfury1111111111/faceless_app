@@ -532,6 +532,7 @@ const Home = () => {
       resetMilestone();
     } catch (err) {
       console.log(err);
+      toast("Action failed. Try again");
 
       axios({
         method: "delete",
@@ -816,6 +817,7 @@ const Home = () => {
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      toast("Action failed. Try again");
       console.log(err);
     }
   };
@@ -918,6 +920,7 @@ const Home = () => {
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      toast("Action failed. Try again");
       console.log(err);
     }
   };
@@ -973,6 +976,7 @@ const Home = () => {
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      toast("Action failed. Try again");
       console.log(err);
     }
   };
