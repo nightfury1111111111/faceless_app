@@ -1242,7 +1242,7 @@ const Home = () => {
           <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="flex items-center mr-[20px] mb-[1rem]">
               <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
-                Received Escrows
+                Incoming Escrows
               </div>
             </div>
             <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
