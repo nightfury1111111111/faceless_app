@@ -209,6 +209,10 @@ const Home = () => {
       setAmountErr("Must be matched to total amount of milestones!");
       status = false;
     }
+    if (!validateAddress(receiver)) {
+      setReceiverErr("Invalid address");
+      status = false;
+    }
     if (description == "") {
       setDescriptionErr("Name is required");
       status = false;
@@ -216,7 +220,7 @@ const Home = () => {
     if (receiver == "") {
       setReceiverErr("Receiver is required");
       status = false;
-    } else setReceiverErr("");
+    }
     if (amount == 0) {
       setAmountErr("Amount is required");
       status = false;
@@ -1073,8 +1077,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto"></div>
-                {/* Coming soon */}
+                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-30"></div>
+                Coming soon
               </div>
             </div>
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
@@ -1085,8 +1089,8 @@ const Home = () => {
                 </div>
               </div>
               <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto"></div>
-                {/* Coming soon */}
+                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-30"></div>
+                Coming soon
               </div>
             </div>
           </div>
@@ -1097,7 +1101,7 @@ const Home = () => {
                 My Escrows
               </div>
               <div
-                className="ml-[32px] md:rounded-[10px] rounded-[5px] md:w-[115px] w-[80px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="ml-[32px] md:rounded-[10px] rounded-[5px] md:w-[115px] w-[80px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => {
                   if (wallet) {
                     setStage(1);
@@ -1107,12 +1111,12 @@ const Home = () => {
                 CREATE
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[29px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   myStatus === "active"
-                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("active")}
               >
@@ -1121,8 +1125,8 @@ const Home = () => {
               <div
                 className={
                   myStatus === "completed"
-                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("completed")}
               >
@@ -1152,7 +1156,7 @@ const Home = () => {
                   >
                     <div
                       className={
-                        idx % 3 === 0
+                        myEscrow.disputeStatus
                           ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
                           : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
                       }
@@ -1167,11 +1171,11 @@ const Home = () => {
                             </div>
                           </div>
                         </div>
-                        {myEscrow.disputeStatus && (
+                        {/* {myEscrow.disputeStatus && (
                           <div className="bg-[#ad2c44] px-[24px] py-[3px] text-[12px] rounded-[40px]">
                             Disputed
                           </div>
-                        )}
+                        )} */}
                       </div>
 
                       <div className="mt-[20px]">
@@ -1196,7 +1200,11 @@ const Home = () => {
                             Status
                           </div>
                           <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
-                            {myEscrow.active ? "In progress" : "Completed"}
+                            {myEscrow.active
+                              ? myEscrow.disputeStatus
+                                ? "Disputed"
+                                : "In progress"
+                              : "Completed"}
                           </div>
                         </div>
                       </div>
@@ -1227,12 +1235,12 @@ const Home = () => {
                 Created for me
               </div>
             </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[29px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
                   forMeStatus === "active"
-                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setForMeStatus("active")}
               >
@@ -1241,8 +1249,8 @@ const Home = () => {
               <div
                 className={
                   forMeStatus === "completed"
-                    ? "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[24px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setForMeStatus("completed")}
               >
@@ -1769,7 +1777,6 @@ const Home = () => {
                 <div className="md:text-[20px] text-[14px] font-[600]">
                   {adminData && (
                     <div className="md:text-[20px] text-[14px] font-[600]">
-                      text-[20px]
                       {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
                     </div>
                   )}
