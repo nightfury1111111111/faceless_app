@@ -76,7 +76,7 @@ module.exports = {
         "profile-card-inner2-bgcolor":
           "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(130, 192, 82, 0.15) 99.98%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
         "milestone-index1-bgcolor":
-          "radial-gradient(100% 400% at 0% 0%, rgba(158, 159, 95, 0.026) 0%, rgba(37, 39, 62, 0.299) 57.81%, rgba(15, 16, 26, 0.65) 98.44%)",
+          "radial-gradient(100% 400% at 0% 0%, rgba(95, 147, 159, 0.195) 0%, rgba(37, 50, 62, 0.39) 61.98%, rgba(37, 39, 62, 0.65) 98.44%)",
         "milestone-index2-bgcolor":
           "radial-gradient(100% 400% at 0% 0%, rgb(28 241 241 / 11%) 0%, rgb(26 42 223 / 23%) 57.81%, rgb(87 98 209 / 50%) 98.44%)",
       }),

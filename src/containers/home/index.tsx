@@ -527,6 +527,7 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      toast("Escrow is successfully created.");
       setStage(0);
 
       resetMilestone();
@@ -813,6 +814,7 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      toast("Sent payment to receiver successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
@@ -916,6 +918,7 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      toast("Sent payment to creator successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
@@ -972,6 +975,7 @@ const Home = () => {
       const signedTx = await provider.wallet.signTransaction(transaction);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      toast("Disputed successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
@@ -1035,7 +1039,7 @@ const Home = () => {
               <div className="flex items-center">
                 <div className="bg-icon3 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
-                  Escrow Status
+                  Escrow Stats
                 </div>
               </div>
               <div className="mt-[20px]">
@@ -1044,7 +1048,7 @@ const Home = () => {
                     In Escrow
                   </div>
                   <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
-                    {totalValue}
+                    $ {totalValue}
                   </div>
                 </div>
                 <div className="mt-[28px] flex justify-between sm:items-center w-full">
@@ -1206,14 +1210,14 @@ const Home = () => {
                           <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
-                                <span className="text-[#f1102f]">Disputed</span>
+                                <span className="text-[#ffffff]">Disputed</span>
                               ) : (
-                                <span className="text-[#21c55b]">
+                                <span className="text-[#ffffff]">
                                   In Progress
                                 </span>
                               )
                             ) : (
-                              <span className="text-[#21c55b]">Completed</span>
+                              <span className="text-[#ffffff]">Completed</span>
                             )}
                           </div>
                         </div>
@@ -1335,14 +1339,14 @@ const Home = () => {
                           <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
-                                <span className="text-[#f1102f]">Disputed</span>
+                                <span className="text-[#ffffff]">Disputed</span>
                               ) : (
-                                <span className="text-[#21c55b]">
+                                <span className="text-[#ffffff]">
                                   In Progress
                                 </span>
                               )
                             ) : (
-                              <span className="text-[#21c55b]">Completed</span>
+                              <span className="text-[#ffffff]">Completed</span>
                             )}
                           </div>
                         </div>
@@ -1900,7 +1904,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     Complete
@@ -1909,7 +1913,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -1918,7 +1922,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -1927,55 +1931,52 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="bg-milestone-index2-bgcolor mt-[10px] rounded-[10px] p-[20px]">
+            <div className="border-[1px] border-[#7C98A9] mt-[10px] rounded-[10px] p-[20px]">
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
+                Escrow # {escrowData[currentEscrow].randomSeed}
+              </div>
+
               <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
 
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Escrow # {escrowData[currentEscrow].randomSeed}
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Amount</div>
+                <div className="font-[400]">{escrowRestData.amount} USDC</div>
               </div>
 
-              {escrowRestData.moderator && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                  Amount: {escrowRestData.amount}
-                </div>
-              )}
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Receiver</div>
+                <span className="text-sm ml-[5px] truncate max-w-[100%] block font-[400]">
+                  {shortenAddress(escrowRestData.receiver)}
+                </span>
+              </div>
 
-              {escrowRestData.created_at && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                  Created At: {escrowRestData.date}
-                </div>
-              )}
-
-              {escrowRestData.moderator && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex">
-                  Receiver:{" "}
-                  <span className="text-sm ml-[5px] truncate max-w-[100%] block">
-                    {shortenAddress(escrowRestData.receiver)}
-                  </span>
-                </div>
-              )}
-
-              {escrowData[currentEscrow].disputeStatus && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
+              {/* {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
                   Moderator:{" "}
-                  <span className="text-sm">
+                  <span className="text-sm font-[400]">
                     {escrowData[currentEscrow].disputeStatus && adminData
                       ? shortenAddress(adminData?.resolver.toBase58())
                       : "None"}
                   </span>
                 </div>
-              )}
+              )} */}
 
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Disputed:{" "}
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Disputed</div>
                 {escrowData[currentEscrow].disputeStatus ? (
                   <span className="text-[#ad2c44] font-bold">Yes</span>
                 ) : (
                   "No"
                 )}
               </div>
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex flex-row-reverse text-[#CFCFCF]">
+                  {escrowRestData.date}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -2049,7 +2050,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
                     Refund
@@ -2058,7 +2059,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -2067,7 +2068,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -2076,31 +2077,24 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="bg-milestone-index2-bgcolor mt-[10px] rounded-[10px] p-[20px]">
+            <div className="border-[1px] border-[#7C98A9] mt-[10px] rounded-[10px] p-[20px]">
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
+                Escrow # {escrowData[currentEscrow].randomSeed}
+              </div>
+
               <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
                 {escrowRestData.description}
               </div>
 
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Escrow # {escrowData[currentEscrow].randomSeed}
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Amount</div>
+                <div className="font-[400]">{escrowRestData.amount} USDC</div>
               </div>
 
               {escrowRestData.moderator && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                  Amount: {escrowRestData.amount}
-                </div>
-              )}
-
-              {escrowRestData.created_at && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                  Created At: {escrowRestData.date}
-                </div>
-              )}
-
-              {escrowRestData.moderator && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex">
-                  Creator:{" "}
-                  <span className="text-sm ml-[5px] truncate max-w-[100%] block">
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                  <div className=" text-[#CFCFCF]">Creator</div>
+                  <span className="text-sm ml-[5px] truncate max-w-[100%] block font-[400]">
                     {shortenAddress(
                       escrowData[currentEscrow].initializerKey.toString()
                     )}
@@ -2108,25 +2102,31 @@ const Home = () => {
                 </div>
               )}
 
-              {escrowData[currentEscrow].disputeStatus && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                  Moderator:{" "}
-                  <span className="text-sm">
+              {/* {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                  Moderator
+                  <span className="text-sm font-[400]">
                     {escrowData[currentEscrow].disputeStatus && adminData
                       ? shortenAddress(adminData?.resolver.toBase58())
                       : "None"}
                   </span>
                 </div>
-              )}
+              )} */}
 
-              <div className="mt-[14px] text-[14px] leading-[21px] font-[300]">
-                Disputed:{" "}
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Disputed</div>
                 {escrowData[currentEscrow].disputeStatus ? (
                   <span className="text-[#ad2c44] font-bold">Yes</span>
                 ) : (
                   "No"
                 )}
               </div>
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex flex-row-revers text-[#CFCFCF]">
+                  <span>{escrowRestData.date}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
