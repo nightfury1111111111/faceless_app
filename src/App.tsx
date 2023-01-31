@@ -16,7 +16,13 @@ import WalletContextProvider from "./components/WalletContextProvider";
 import "./App.css";
 import "./styles.scss";
 import { useAtom } from "jotai";
-import { dashboardStage, isLoadingOverlay, loadLocalStorage, profile, saveToLocalStorage } from "./utils/store";
+import {
+  dashboardStage,
+  isLoadingOverlay,
+  loadLocalStorage,
+  profile,
+  saveToLocalStorage,
+} from "./utils/store";
 import Profile from "./containers/profile";
 import LoadingOverlay from "./components/loading-overlay";
 
@@ -31,7 +37,7 @@ export type SolanaNetworkType = "mainnet-beta" | "devnet";
 
 export const LanguageContext = createContext<LanguageType>({
   language: "english",
-  setLanguage: () => { },
+  setLanguage: () => {},
 });
 
 const App = () => {
@@ -49,20 +55,20 @@ const App = () => {
         setAuthorized(isUser);
       }, 200);
     }
-  }, [user.walletAddress])
+  }, [user.walletAddress]);
 
   const handleLoadingOverlay = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }
+  };
 
   useEffect(() => {
     handleLoadingOverlay();
 
-    document.querySelector('body')?.classList.add('menu-opened');
-  }, [])
+    document.querySelector("body")?.classList.add("menu-opened");
+  }, []);
 
   return (
     <WalletContextProvider solanaNetwork={solanaNetwork}>
@@ -70,38 +76,43 @@ const App = () => {
         value={{ language: language, setLanguage: setLanguage }}
       >
         <BrowserRouter>
-          <div className={`w-full bg-secondary font-['Roboto'] text-[#FFFFFF] ${isAuthorized ? 'bg-secondary' : ''}`}>
-            {
-              isAuthorized ?
-                <>
-                  <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
+          <div
+            className={`w-full bg-secondary font-['Roboto'] text-[#FFFFFF] ${
+              isAuthorized ? "bg-secondary" : ""
+            }`}
+          >
+            {isAuthorized ? (
+              <>
+                <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
+                  {" "}
+                  This application is still in BETA.{" "}
+                  <span className="font-bold ml-[5px]">
                     {" "}
-                    This application is still in BETA.{" "}
-                    <span className="font-bold ml-[5px]">
-                      {" "}
-                      Fees have been set to 0% until launch.
-                    </span>
-                  </div>
-                  <Sidebar />
-                </>
-                : ""
-            }
+                    Fees have been set to 0% until launch.
+                  </span>
+                </div>
+                <Sidebar />
+              </>
+            ) : (
+              ""
+            )}
 
-            <div className={`overflow-auto relative  ${isAuthorized ? 'page-wrapper' : ''}`}>
+            <div
+              className={`overflow-auto relative  ${
+                isAuthorized ? "page-wrapper" : ""
+              }`}
+            >
               <Header solanaNetwork={solanaNetwork} />
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
               </Routes>
-              <ToastContainer />
+              <ToastContainer position="bottom-right" />
 
               <Footer />
             </div>
 
-            {
-              isLoading ?
-                <LoadingOverlay /> : ""
-            }
+            {isLoading ? <LoadingOverlay /> : ""}
           </div>
         </BrowserRouter>
       </LanguageContext.Provider>
