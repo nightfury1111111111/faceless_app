@@ -1290,7 +1290,7 @@ const Home = () => {
                   >
                     <div
                       className={
-                        idx % 3 === 0
+                        myEscrow.disputeStatus
                           ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
                           : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
                       }
