@@ -1074,27 +1074,27 @@ const Home = () => {
               </div>
             </div>
             <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] xl:px-[50px] px-[20px]">
-              <div className="flex items-center">
+              <div className="flex items-center opacity-10">
                 <div className="bg-icon1 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
                   Profile Score
                 </div>
               </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-30"></div>
-                Coming soon
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[36px] flex justify-center items-center">
+                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
+                <div className="translate-y-[-20px]">Coming soon</div>
               </div>
             </div>
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
-              <div className="flex items-center">
+              <div className="flex items-center opacity-10">
                 <div className="bg-icon2 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
                 <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
                   Feedback
                 </div>
               </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#a9f1d9] font-bold text-[36px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-30"></div>
-                Coming soon
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[36px] flex justify-center items-center">
+                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
+                <div className="translate-y-[-20px]">Coming soon</div>
               </div>
             </div>
           </div>
@@ -1204,11 +1204,17 @@ const Home = () => {
                             Status
                           </div>
                           <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
-                            {myEscrow.active
-                              ? myEscrow.disputeStatus
-                                ? "Disputed"
-                                : "In progress"
-                              : "Completed"}
+                            {myEscrow.active ? (
+                              myEscrow.disputeStatus ? (
+                                <span className="text-[#f1102f]">Disputed</span>
+                              ) : (
+                                <span className="text-[#21c55b]">
+                                  In Progress
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-[#21c55b]">Completed</span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -1236,7 +1242,7 @@ const Home = () => {
           <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="flex items-center mr-[20px] mb-[1rem]">
               <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
-                Created for me
+                Received Escrows
               </div>
             </div>
             <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
@@ -1884,7 +1890,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     Complete
@@ -1893,7 +1899,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -1902,7 +1908,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -2033,7 +2039,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
                     Refund
@@ -2042,7 +2048,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] bg-[#ad2c44] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -2051,7 +2057,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[120px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[163px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
