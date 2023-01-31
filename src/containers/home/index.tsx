@@ -983,14 +983,14 @@ const Home = () => {
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   return !isWalletConnected || !publicKey ? (
-    <div>
-      <img
+    <div className="bg-splash w-[100vw] h-[100vh] bg-center">
+      {/* <img
         src="/images/splash.png"
         width={1920}
         height={1080}
         alt="splash"
         className="w-[100vw] h-[100vh] fixed object-cover"
-      ></img>
+      ></img> */}
 
       <div className="fixed bottom-[100px] left-0 w-full">
         <div className="text-[18px] leading-[21px] text-center">
