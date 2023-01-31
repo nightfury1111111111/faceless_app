@@ -1867,6 +1867,8 @@ const Home = () => {
                                 <span className="text-[#21c55b]">
                                   Completed
                                 </span>
+                              ) : escrowData[currentEscrow].disputeStatus ? (
+                                <span className="text-[#f1102f]">Disputed</span>
                               ) : (
                                 "In Progress"
                               )}
@@ -2014,6 +2016,8 @@ const Home = () => {
                                 <span className="text-[#21c55b]">
                                   Completed
                                 </span>
+                              ) : escrowData[currentEscrow].disputeStatus ? (
+                                <span className="text-[#f1102f]">Disputed</span>
                               ) : (
                                 "In Progress"
                               )}
