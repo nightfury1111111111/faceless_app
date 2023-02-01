@@ -301,6 +301,7 @@ const Home = () => {
   const createEscrow = async () => {
     if (isLoading1) return;
     if (!isValidEscrow()) return;
+    resetError();
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
     const program = new Program(idl as Idl, programID, provider);
