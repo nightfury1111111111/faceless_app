@@ -114,6 +114,9 @@ const Home = () => {
   const [isLoading, setLoading] = useAtom(isLoadingOverlay);
   const [isWalletConnected, setWalletConnected] = useState(false);
 
+  const [isLoading1, setIsLoading1] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+
   const opts = {
     preflightCommitment: "processed",
   };
@@ -296,6 +299,7 @@ const Home = () => {
   };
 
   const createEscrow = async () => {
+    if (isLoading1) return;
     if (!isValidEscrow()) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
@@ -525,14 +529,21 @@ const Home = () => {
         await connection.getLatestBlockhash()
       ).blockhash;
       const signedTx = await provider.wallet.signTransaction(transaction);
+      setIsLoading1(true);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      setIsLoading1(false);
       toast("Escrow is successfully created.");
       setStage(0);
 
+      //reset data
+      setDescription("");
+      setReceiver("");
+      setAmount(0);
       resetMilestone();
     } catch (err) {
       console.log(err);
+      setIsLoading1(false);
       toast("Action failed. Try again");
 
       axios({
@@ -643,6 +654,7 @@ const Home = () => {
   };
 
   const approvePayment = async () => {
+    if (isLoading1) return;
     if (!adminData) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
@@ -812,19 +824,23 @@ const Home = () => {
         await connection.getLatestBlockhash()
       ).blockhash;
       const signedTx = await provider.wallet.signTransaction(transaction);
+      setIsLoading1(true);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      setIsLoading1(false);
       toast("Sent payment to receiver successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      setIsLoading1(false);
       toast("Action failed. Try again");
       console.log(err);
     }
   };
 
   const refundPayment = async () => {
+    if (isLoading1) return;
     if (!adminData) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
@@ -916,19 +932,23 @@ const Home = () => {
         await connection.getLatestBlockhash()
       ).blockhash;
       const signedTx = await provider.wallet.signTransaction(transaction);
+      setIsLoading1(true);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      setIsLoading1(false);
       toast("Sent payment to creator successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      setIsLoading1(false);
       toast("Action failed. Try again");
       console.log(err);
     }
   };
 
   const dispute = async () => {
+    if (isLoading2) return;
     if (!adminData) return;
     const provider = getProvider(); //checks & verify the dapp it can able to connect solana network
     if (!provider || !publicKey || !signTransaction) return;
@@ -973,13 +993,16 @@ const Home = () => {
         await connection.getLatestBlockhash()
       ).blockhash;
       const signedTx = await provider.wallet.signTransaction(transaction);
+      setIsLoading2(true);
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
+      setIsLoading2(false);
       toast("Disputed successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
       // console.log(err.message);
+      setIsLoading2(false);
       toast("Action failed. Try again");
       console.log(err);
     }
@@ -1812,7 +1835,11 @@ const Home = () => {
                 className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
                 onClick={createEscrow}
               >
-                CREATE
+                {!isLoading1 ? (
+                  "CREATE"
+                ) : (
+                  <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                )}
               </div>
               <div
                 className="ml-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
@@ -1907,7 +1934,11 @@ const Home = () => {
                     className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
-                    Complete
+                    {!isLoading1 ? (
+                      "Complete"
+                    ) : (
+                      <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                    )}
                   </div>
                 )}
               {escrowData[currentEscrow].active &&
@@ -1918,7 +1949,11 @@ const Home = () => {
                       dispute();
                     }}
                   >
-                    Dispute
+                    {!isLoading2 ? (
+                      "Dispute"
+                    ) : (
+                      <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                    )}
                   </div>
                 )}
               <div
@@ -2053,7 +2088,11 @@ const Home = () => {
                     className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
-                    Refund
+                    {!isLoading1 ? (
+                      "Refund"
+                    ) : (
+                      <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                    )}
                   </div>
                 )}
               {escrowData[currentEscrow].active &&
@@ -2064,7 +2103,11 @@ const Home = () => {
                       dispute();
                     }}
                   >
-                    Dispute
+                    {!isLoading2 ? (
+                      "Dispute"
+                    ) : (
+                      <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                    )}
                   </div>
                 )}
               <div
