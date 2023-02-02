@@ -24,7 +24,7 @@ const Footer = () => {
   const goToDashboard = () => {
     // navigate("/");
     setStage(0);
-  }
+  };
 
   return (
     // <div className="w-full bg-[#7C98A9]">
@@ -38,8 +38,13 @@ const Footer = () => {
     //   </div>
     // </div>
 
-    <div className="absolute bottom-0 h-[3rem] bg-primary w-full flex justify-center items-center">
-      <p className="text-white text-[14px] cursor-pointer" onClick={goToDashboard}>Developed by Faceless Labs @ {new Date().getFullYear()}</p>
+    <div className="absolute bottom-0 left-0 h-[3rem] bg-primary w-full flex justify-center items-center">
+      <p
+        className="text-white text-[14px] cursor-pointer"
+        onClick={goToDashboard}
+      >
+        Developed by Faceless Labs @ {new Date().getFullYear()}
+      </p>
     </div>
   );
 };

@@ -1081,7 +1081,7 @@ const Home = () => {
             <div className="rounded-[10px] bg-dashboard-card4-bgcolor p-[23px]">
               <div className="flex items-center">
                 <div className="bg-icon3 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
                   Escrow Stats
                 </div>
               </div>
@@ -1090,7 +1090,7 @@ const Home = () => {
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     In Escrow
                   </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                     $ {totalValue}
                   </div>
                 </div>
@@ -1098,7 +1098,7 @@ const Home = () => {
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Active
                   </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                     {
                       escrowData.filter((escrow) => {
                         return escrow.active === true;
@@ -1110,7 +1110,7 @@ const Home = () => {
                   <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
                     Completed
                   </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                     {
                       escrowData.filter((escrow) => {
                         return escrow.active === false;
@@ -1123,7 +1123,7 @@ const Home = () => {
             <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] xl:px-[50px] px-[20px]">
               <div className="flex items-center opacity-10">
                 <div className="bg-icon1 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
                   Profile Score
                 </div>
               </div>
@@ -1135,7 +1135,7 @@ const Home = () => {
             <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
               <div className="flex items-center opacity-10">
                 <div className="bg-icon2 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[800] text-[20px] leading-[23px]">
+                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
                   Feedback
                 </div>
               </div>
@@ -1234,7 +1234,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1250,7 +1250,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
                                 <span className="text-[#ffffff]">Disputed</span>
@@ -1363,7 +1363,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1379,7 +1379,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[800] font-[400]">
+                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
                                 <span className="text-[#ffffff]">Disputed</span>
@@ -1535,7 +1535,7 @@ const Home = () => {
               </div>
 
               {/* <div
-                className="w-[220px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[800] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem] ml-auto mt-[50px]"
+                className="w-[220px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[600] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem] ml-auto mt-[50px]"
                 onClick={() => {
                   if (useModerator) {
                     setModerator("");
@@ -1548,7 +1548,7 @@ const Home = () => {
               {/* <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div> */}
             </div>
             <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] hidden md:block">
-              <div className="font-[800] md:text-[32px] text-[20px] leading-[38px]">
+              <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
                 Fees
               </div>
               <div className="mt-[43px] flex justify-between sm:items-center w-full">
@@ -1596,7 +1596,7 @@ const Home = () => {
                 </div>
                 <div className="flex flex-wrap">
                   <div
-                    className="w-[110px] md:h-[40px] h-[32px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] md:h-[40px] h-[32px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => {
                       if (currentMilestone < 5)
                         setCurrentMilestone(currentMilestone + 1);
@@ -1606,7 +1606,7 @@ const Home = () => {
                     ADD +
                   </div>
                   <div
-                    className="w-[110px] md:h-[40px] h-[32px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
+                    className="w-[110px] md:h-[40px] h-[32px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
                     onClick={() => resetMilestone()}
                   >
                     Reset
@@ -1811,7 +1811,7 @@ const Home = () => {
               )}
             </div>
             <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] block md:hidden">
-              <div className="font-[800] md:text-[32px] text-[20px] leading-[38px]">
+              <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
                 Fees
               </div>
               <div className="mt-[43px] flex justify-between sm:items-center w-full">
@@ -1852,7 +1852,7 @@ const Home = () => {
             </div>
             <div className="flex flex-row">
               <div
-                className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
+                className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
                 onClick={createEscrow}
               >
                 {!isLoading1 ? (
@@ -1862,7 +1862,7 @@ const Home = () => {
                 )}
               </div>
               <div
-                className="ml-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[800] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
+                className="ml-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
                 onClick={() => {
                   setStage(0);
                   //reset escrow info
@@ -1889,7 +1889,7 @@ const Home = () => {
                       key={`milestone-${index}`}
                       className="flex items-center mt-[10px]"
                     >
-                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
+                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[600]">
                         {index + 1}
                       </div>
 
@@ -1951,7 +1951,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     {!isLoading1 ? (
@@ -1964,7 +1964,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -1977,7 +1977,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -2051,7 +2051,7 @@ const Home = () => {
                       key={`milestone-${index}`}
                       className="flex items-center mt-[10px]"
                     >
-                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[800]">
+                      <div className="flex justify-center items-center rounded-[40px] w-[40px] h-[40px] bg-milestone-index1-bgcolor text-[20px] font-[600]">
                         {index + 1}
                       </div>
 
@@ -2109,7 +2109,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
                     {!isLoading1 ? (
@@ -2122,7 +2122,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => {
                       dispute();
                     }}
@@ -2135,7 +2135,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[800] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back

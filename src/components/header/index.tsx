@@ -173,7 +173,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
         </div>
         <div className="flex items-center">
-          <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
+          {/* <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div> */}
           {renderWalletButton1()}
         </div>
 

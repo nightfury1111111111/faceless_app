@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "font-awesome/css/font-awesome.min.css";
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 import { history } from "./utils/history";
 // import logo from "./logo.svg";
@@ -42,9 +41,6 @@ export const LanguageContext = createContext<LanguageType>({
 });
 
 const App = () => {
-  const { publicKey, wallet, signTransaction, signAllTransactions } =
-    useWallet();
-
   const [language, setLanguage] = useState("english");
   const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
   const [isAuthorized, setAuthorized] = useState(false);
@@ -61,12 +57,6 @@ const App = () => {
       }, 200);
     }
   }, [user.walletAddress]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setWalletConnected(true);
-    }, 200);
-  }, [publicKey]);
 
   const handleLoadingOverlay = () => {
     setLoading(true);
@@ -119,8 +109,6 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
               </Routes>
               <ToastContainer position="bottom-right" />
-
-              {/* {isWalletConnected && publicKey && <Footer />} */}
             </div>
 
             {isLoading ? <LoadingOverlay /> : ""}
