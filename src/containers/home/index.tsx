@@ -18,6 +18,7 @@ import { Idl, seed } from "@project-serum/anchor/dist/cjs/idl";
 import React, { Component, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { PublicKey, Transaction } from "@solana/web3.js";
+import Footer from "../../components/footer";
 import idl from "../../idl.json";
 
 import { constants } from "../../constants";
@@ -1019,7 +1020,8 @@ const Home = () => {
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   return !isWalletConnected || !publicKey ? (
-    <div className="bg-splash w-[100vw] h-[100vh] bg-center">
+    <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+      <div className="bg-new-splash bg-cover w-[70vw] md:w-[30vw] h-[calc(70vw*2262/3056)] md:h-[calc(30vw*2262/3056)]"></div>
       {/* <img
         src="/images/splash.png"
         width={1920}
@@ -1030,7 +1032,7 @@ const Home = () => {
 
       <div className="fixed bottom-[100px] left-0 w-full">
         <div className="text-[18px] leading-[21px] text-center">
-          Connect with us
+          @ {new Date().getFullYear()} Faceless Labs
         </div>
         <div className="mt-[14px] flex justify-center">
           <a
@@ -2175,6 +2177,7 @@ const Home = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };
