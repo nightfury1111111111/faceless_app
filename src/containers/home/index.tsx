@@ -1029,6 +1029,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [stage]);
+
+  useEffect(() => {
     if (stage === 0) getEscrow();
     if (stage === 1) resetError();
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
@@ -1853,7 +1857,9 @@ const Home = () => {
             <div className="flex flex-row">
               <div
                 className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
-                onClick={createEscrow}
+                onClick={() => {
+                  createEscrow();
+                }}
               >
                 {!isLoading1 ? (
                   "CREATE"
