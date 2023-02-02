@@ -810,25 +810,30 @@ const Home = () => {
       }
     }
 
+    let currentIdx = 0;
+    for (let idx = 0; idx < 5; idx++) {
+      if (escrowData[currentEscrow].initializerAmount[idx] > 0) {
+        currentIdx = idx;
+        break;
+      }
+    }
+
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
-      const tx = await program.transaction.approve(
-        new anchor.BN(selectedMilestone),
-        {
-          accounts: {
-            initializer: provider.wallet.publicKey,
-            adminState: adminKey,
-            admin1TokenAccount: admin1AssiciatedToken,
-            admin2TokenAccount: admin2AssiciatedToken,
-            takerTokenAccount: takerAssiciatedToken,
-            vault: vaultKey,
-            vaultAuthority: vaultAuthorityKey,
-            escrowState: escrowStateKey,
-            tokenProgram: TOKEN_PROGRAM_ID,
-          },
-          signers: [],
-        }
-      );
+      const tx = await program.transaction.approve(new anchor.BN(currentIdx), {
+        accounts: {
+          initializer: provider.wallet.publicKey,
+          adminState: adminKey,
+          admin1TokenAccount: admin1AssiciatedToken,
+          admin2TokenAccount: admin2AssiciatedToken,
+          takerTokenAccount: takerAssiciatedToken,
+          vault: vaultKey,
+          vaultAuthority: vaultAuthorityKey,
+          escrowState: escrowStateKey,
+          tokenProgram: TOKEN_PROGRAM_ID,
+        },
+        signers: [],
+      });
       transaction.add(tx);
       transaction.feePayer = provider.wallet.publicKey;
       transaction.recentBlockhash = (
@@ -1029,7 +1034,7 @@ const Home = () => {
   }, [wallet, publicKey, signTransaction, signAllTransactions, stage]);
 
   return !isWalletConnected || !publicKey ? (
-    <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+    <div className="w-[100vw] h-[100vh] flex justify-center items-center font-['Gagalin']">
       <div className="bg-new-splash bg-cover w-[70vw] md:w-[30vw] h-[calc(70vw*2262/3056)] md:h-[calc(30vw*2262/3056)]"></div>
       {/* <img
         src="/images/splash.png"
@@ -1119,7 +1124,7 @@ const Home = () => {
                   Profile Score
                 </div>
               </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[36px] flex justify-center items-center">
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[30px] flex justify-center items-center">
                 <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
                 <div className="translate-y-[-20px]">Coming soon</div>
               </div>
@@ -1131,7 +1136,7 @@ const Home = () => {
                   Feedback
                 </div>
               </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[36px] flex justify-center items-center">
+              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[30px] flex justify-center items-center">
                 <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
                 <div className="translate-y-[-20px]">Coming soon</div>
               </div>
@@ -1888,12 +1893,12 @@ const Home = () => {
                       <div
                         className={
                           index === selectedMilestone
-                            ? "ml-[14px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer grow"
+                            ? "ml-[14px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer grow"
                             : "ml-[14px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer grow"
                         }
-                        onClick={() => {
-                          setSelectedMilestone(index);
-                        }}
+                        // onClick={() => {
+                        //   setSelectedMilestone(index);
+                        // }}
                       >
                         <div className="flex items-center">
                           {escrowData[currentEscrow].initializerAmount[
@@ -1911,13 +1916,13 @@ const Home = () => {
                           {escrowRestData.milestone1}
                         </div>
                         <div className="mt-[15px]">
-                          <div className="flex justify-end items-center">
+                          <div className="flex justify-between items-center">
                             <div>Amount:</div>
                             <div className="text-[#21c55b] ml-[10px]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
-                          <div className="flex justify-end items-center">
+                          <div className="flex justify-between items-center">
                             <div>Status: </div>
                             <div className="text-[#f1102f] ml-[10px]">
                               {escrowData[currentEscrow].initializerAmount[
@@ -2048,10 +2053,10 @@ const Home = () => {
                       </div>
 
                       <div
-                        className="ml-[14px] rounded-[10px] bg-milestone-index2-bgcolor p-[23px] cursor-pointer grow"
-                        onClick={() => {
-                          setSelectedMilestone(index);
-                        }}
+                        className="ml-[14px] rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer grow"
+                        // onClick={() => {
+                        //   setSelectedMilestone(index);
+                        // }}
                       >
                         <div className="flex items-center">
                           {escrowData[currentEscrow].initializerAmount[
@@ -2069,13 +2074,13 @@ const Home = () => {
                           {escrowRestData.milestone1}
                         </div>
                         <div className="mt-[15px]">
-                          <div className="flex justify-end items-center">
+                          <div className="flex justify-between items-center">
                             <div>Amount:</div>
                             <div className="text-[#21c55b] ml-[10px]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
-                          <div className="flex justify-end items-center">
+                          <div className="flex justify-between items-center">
                             <div>Status: </div>
                             <div className="text-[#f1102f] ml-[10px]">
                               {escrowData[currentEscrow].initializerAmount[

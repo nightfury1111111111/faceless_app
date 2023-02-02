@@ -24,6 +24,12 @@
   /* font-weight: 400; */
   src: url('../fonts/gagalin/Gagalin-Regular.otf') format('opentype');
 }
+@font-face {
+  font-family: 'SansThirteenBlack';
+  font-style: normal;
+  /* font-weight: 400; */
+  src: url('../fonts/SansThirteenBlack/SansThirteenBlack.ttf') format('truetype');
+}
 .transition-fade-enter,
 .transition-fade-exit {
   transition: opacity 1000ms ease-out;

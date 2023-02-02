@@ -88,7 +88,7 @@ const App = () => {
       >
         <BrowserRouter>
           <div
-            className={`w-full bg-secondary font-['Gagalin'] text-[#FFFFFF] ${
+            className={`w-full bg-secondary font-['Montserrat'] text-[#FFFFFF] ${
               isAuthorized ? "bg-secondary" : ""
             }`}
           >
