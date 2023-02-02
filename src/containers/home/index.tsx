@@ -1048,6 +1048,9 @@ const Home = () => {
         <div className="text-[12px] leading-[21px] text-center">
           © {new Date().getFullYear()} Faceless Labs
         </div>
+        <div className="text-[12px] leading-[21px] text-center">
+          #THEMISFITS
+        </div>
         <div className="mt-[14px] flex justify-center">
           <a
             className="w-[20px] h-[20px] bg-discord bg-cover cursor-pointer hover:brightness-50"
@@ -1917,22 +1920,22 @@ const Home = () => {
                         </div>
                         <div className="mt-[15px]">
                           <div className="flex justify-between items-center">
-                            <div>Amount:</div>
-                            <div className="text-[#21c55b] ml-[10px]">
+                            <div className="text-[#CFCFCF]">Amount</div>
+                            <div className="text-[#ffffff] ml-[10px] font-[600]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <div>Status: </div>
-                            <div className="text-[#f1102f] ml-[10px]">
+                            <div className="text-[#CFCFCF]">Status </div>
+                            <div className="text-[#ffffff] ml-[10px] font-[600]">
                               {escrowData[currentEscrow].initializerAmount[
                                 index
                               ] === 0 ? (
-                                <span className="text-[#21c55b]">
+                                <span className="text-[#ffffff]">
                                   Completed
                                 </span>
                               ) : escrowData[currentEscrow].disputeStatus ? (
-                                <span className="text-[#f1102f]">Disputed</span>
+                                <span className="text-[#ffffff]">Disputed</span>
                               ) : (
                                 "In Progress"
                               )}
@@ -2075,22 +2078,22 @@ const Home = () => {
                         </div>
                         <div className="mt-[15px]">
                           <div className="flex justify-between items-center">
-                            <div>Amount:</div>
-                            <div className="text-[#21c55b] ml-[10px]">
+                            <div className="text-[#CFCFCF]">Amount</div>
+                            <div className="text-[#ffffff] ml-[10px] font-[600]">
                               {`${item.amount} USDC`}
                             </div>
                           </div>
                           <div className="flex justify-between items-center">
-                            <div>Status: </div>
-                            <div className="text-[#f1102f] ml-[10px]">
+                            <div className="text-[#CFCFCF]">Status </div>
+                            <div className="text-[#ffffff] font-[600] ml-[10px]">
                               {escrowData[currentEscrow].initializerAmount[
                                 index
                               ] === 0 ? (
-                                <span className="text-[#21c55b]">
+                                <span className="text-[#ffffff]">
                                   Completed
                                 </span>
                               ) : escrowData[currentEscrow].disputeStatus ? (
-                                <span className="text-[#f1102f]">Disputed</span>
+                                <span className="text-[#ffffff]">Disputed</span>
                               ) : (
                                 "In Progress"
                               )}
