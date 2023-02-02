@@ -102,8 +102,16 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }, 2000);
   };
 
-  const renderWalletButton = () => {
+  const renderWalletButton1 = () => {
     return <WalletMultiButton className="bg-secondary hover:bg-[#15539a]" />;
+  };
+
+  const renderWalletButton2 = () => {
+    return (
+      <WalletMultiButton className="before-connected hover:bg-[#15539a]">
+        Connect
+      </WalletMultiButton>
+    );
   };
 
   const mobileMenuHandler = () => {
@@ -166,7 +174,7 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
         </div>
         <div className="flex items-center">
           <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div>
-          {renderWalletButton()}
+          {renderWalletButton1()}
         </div>
 
         <div
@@ -177,8 +185,8 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     </div>
   ) : (
     <div className="relative w-full z-[20]" ref={ref}>
-      <div className="fixed top-[30px] lg:right-[17vw] right-0 md:right-[5vw] sm:px-[48px] px-[20px] w-full h-[83px] flex flex-row items-center justify-end z-10">
-        <div className="flex items-center">{renderWalletButton()}</div>
+      <div className="fixed top-0 right-0 sm:px-[28px] px-[20px] w-full h-[83px] flex flex-row items-center justify-end z-10">
+        <div className="flex items-center">{renderWalletButton2()}</div>
       </div>
     </div>
   );

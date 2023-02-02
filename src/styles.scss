@@ -112,6 +112,21 @@ html::-webkit-scrollbar-thumb,
       color: #1a1f2e;
     }
   }
+
+  &.before-connected {
+    background-color: aliceblue;
+    border-radius: 50px;
+    height: 35px;
+    width: 130px;
+    display: flex;
+    justify-content: center;
+    color: #1a1f2e;
+    justify-content: center;
+
+    &:hover {
+      color: aliceblue;
+    }
+  }
 }
 
 // Loading Overlay Effect

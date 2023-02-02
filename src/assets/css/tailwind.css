@@ -17,7 +17,13 @@
     url('../fonts/poppins-v15-latin-regular.svg#Poppins') format('svg');
   /* Legacy iOS */
 }
-
+/* poppins-regular - latin */
+@font-face {
+  font-family: 'Gagalin';
+  font-style: normal;
+  /* font-weight: 400; */
+  src: url('../fonts/gagalin/Gagalin-Regular.otf') format('opentype');
+}
 .transition-fade-enter,
 .transition-fade-exit {
   transition: opacity 1000ms ease-out;
