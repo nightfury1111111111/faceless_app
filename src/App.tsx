@@ -84,7 +84,7 @@ const App = () => {
           >
             {isAuthorized ? (
               <>
-                <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#7791a2] text-[9px] sm:text-[12px] text-[#000000] flex items-center justify-center z-10">
+                <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#272942] text-[9px] sm:text-[12px] text-[#E0E0E0] flex items-center justify-center z-10">
                   {" "}
                   This application is still in BETA.{" "}
                   <span className="font-bold ml-[5px]">

@@ -73,8 +73,8 @@ html::-webkit-scrollbar-thumb,
 @media screen and (min-width: 1024px) {
   .menu-opened {
     .page-wrapper {
-      margin-left: 300px;
-      width: calc(100% - 300px);
+      margin-left: 240px;
+      width: calc(100% - 240px);
       padding: 0;
       overflow-x: hidden !important;
     }
@@ -84,12 +84,12 @@ html::-webkit-scrollbar-thumb,
     }
 
     .header {
-      width: calc(100% - 300px);
+      width: calc(100% - 240px);
     }
   }
 
   .header {
-    width: calc(100% - 300px);
+    width: calc(100% - 240px);
   }
 
   .page-wrapper {
