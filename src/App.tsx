@@ -67,7 +67,6 @@ const App = () => {
 
   useEffect(() => {
     // handleLoadingOverlay();
-
     document.querySelector("body")?.classList.add("menu-opened");
   }, []);
 
