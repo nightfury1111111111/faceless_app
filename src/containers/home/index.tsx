@@ -77,7 +77,7 @@ const Home = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [entireVal, setEntireVal] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
-  const [forMeStatus, setForMeStatus] = useState("active");
+  const [forMeStatus, setForMeStatus] = useState("created");
   const [showModerator, setModeratorVisibility] = useState(false);
   const [useModerator, setUseModerator] = useState(true);
 
@@ -146,13 +146,10 @@ const Home = () => {
       method: "get",
       url: `${process.env.REACT_APP_SERVER_URL}/escrows/${seed}`,
     }).then((result) => {
-      console.log(result.data);
       let createdDate = date.format(
         new Date(result.data.created_at),
         "YYYY/MM/DD HH:mm:ss"
       );
-      console.log(createdDate);
-      // let date = new Date(result.data.created_at).toLocaleDateString("en");
       setEscrowRestData({
         ...result.data,
         date: createdDate,
@@ -196,9 +193,9 @@ const Home = () => {
     func(val.toString().replace(/^0+/, ""));
   };
 
-  // useEffect(() => {
-  //   console.log("dsfffff", amount);
-  // }, [amount]);
+  const numberWithCommas = (x: number) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const toggleModerator = (add: string) => {
     setModerator(add);
@@ -207,11 +204,6 @@ const Home = () => {
 
   const isValidEscrow = () => {
     let status = true;
-    console.log(
-      currentMilestone > 0,
-      amount,
-      amount1 + amount2 + amount3 + amount4 + amount5
-    );
     if (
       currentMilestone > 0 &&
       Number(amount) !==
@@ -644,7 +636,6 @@ const Home = () => {
               newData.initializerAmount[3] +
               newData.initializerAmount[4];
             tmpLockedval += lockedVal;
-            console.log(offchainData.data.milestones);
             offchainData.data.milestones.map((val: any) => {
               tmpEntireVal += val.amount;
               return true;
@@ -858,7 +849,6 @@ const Home = () => {
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
-      // console.log(err.message);
       setIsLoading1(false);
       toast("Action failed. Try again");
       console.log(err);
@@ -966,7 +956,6 @@ const Home = () => {
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
-      // console.log(err.message);
       setIsLoading1(false);
       toast("Action failed. Try again");
       console.log(err);
@@ -1027,7 +1016,6 @@ const Home = () => {
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
-      // console.log(err.message);
       setIsLoading2(false);
       toast("Action failed. Try again");
       console.log(err);
@@ -1082,7 +1070,7 @@ const Home = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-[100vh] sm:px-[49px] md:px-[120px] pb-[20px]">
+    <div className="min-h-[100vh] px-[15px] sm:px-[49px] md:px-[120px] pb-[20px]">
       {stage === 0 && (
         <div>
           <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
@@ -1096,17 +1084,29 @@ const Home = () => {
             services.
           </div>
           <div className="md:mt-0 my-[30px] md:h-[204px] flex flex-col md:flex-row justify-center items-center">
-            <div className="md:mt-0 mt-[15px] flex flex-col items-center font-[600] px-[40px] md:border-r-[3px] border-r-[#1e1e22]">
-              <div className="text-[#747474] text-[20px]">ALL TIME VOLUME</div>
-              <div className="text-[#ffffff] text-[26px]">{entireVal}</div>
-            </div>
             <div className="flex flex-col items-center font-[600] px-[40px] md:border-r-[3px] border-r-[#1e1e22]">
-              <div className="text-[#747474] text-[20px]">IN ESCROW</div>
-              <div className="text-[#ffffff] text-[26px]">{totalValue}</div>
+              <div className="text-[#747474] md:text-[20px] text-[16px]">
+                ALL TIME VOLUME
+              </div>
+              <div className="text-[#ffffff] md:text-[26px] text-[20px] flex items-center">
+                {numberWithCommas(entireVal)}
+                <div className="ml-[5px] md:w-[30px] md:h-[30px] w-[24px] h-[24px] bg-usdc bg-cover"></div>
+              </div>
+            </div>
+            <div className="md:mt-0 mt-[15px] flex flex-col items-center font-[600] px-[40px] md:border-r-[3px] border-r-[#1e1e22]">
+              <div className="text-[#747474] md:text-[20px] text-[16px]">
+                IN ESCROW
+              </div>
+              <div className="text-[#ffffff] md:text-[26px] text-[20px] flex items-center">
+                {numberWithCommas(totalValue)}
+                <div className="ml-[5px] md:w-[30px] md:h-[30px] w-[24px] h-[24px] bg-usdc bg-cover"></div>
+              </div>
             </div>
             <div className="md:mt-0 mt-[15px] flex flex-col items-center font-[600] px-[40px]">
-              <div className="text-[#747474] text-[20px]">ACTIVE ESCROWS</div>
-              <div className="text-[#ffffff] text-[26px]">
+              <div className="text-[#747474] md:text-[20px] text-[16px]">
+                ACTIVE ESCROWS
+              </div>
+              <div className="text-[#ffffff] md:text-[26px] text-[20px]">
                 {
                   escrowData.filter((escrow) => {
                     return escrow.active === true;
@@ -1116,16 +1116,36 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="border-b-[3px] border-b-[#121217] flex justify-center items-center">
-            <div className="flex items-center md:translate-x-[72px] md:text-[18px] text-[14px] font-[600]">
-              <div className="md:w-[144px] w-[80px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer">
+          <div className="border-b-[3px] border-b-[#121217] flex justify-start items-center">
+            <div className="flex items-center md:text-[18px] text-[14px] font-[600]">
+              <div
+                className={
+                  forMeStatus === "created"
+                    ? "md:w-[144px] w-[100px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer"
+                    : "md:w-[144px] w-[100px] md:h-[55px] h-[40px] flex justify-center items-center bg-transparent hover:bg-[#242020] rounded-t-[10px] cursor-pointer"
+                }
+                onClick={() => {
+                  setForMeStatus("created");
+                  setMyStatus("active");
+                }}
+              >
                 Created
               </div>
-              <div className="md:ml-[10px] ml-[6px] md:w-[144px] w-[80px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer">
+              <div
+                className={
+                  forMeStatus === "received"
+                    ? "ml-[10px] md:w-[144px] w-[100px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer"
+                    : "ml-[10px] md:w-[144px] w-[100px] md:h-[55px] h-[40px] flex justify-center items-center bg-transparent hover:bg-[#242020] rounded-t-[10px] cursor-pointer"
+                }
+                onClick={() => {
+                  setForMeStatus("received");
+                  setMyStatus("active");
+                }}
+              >
                 Received
               </div>
               <div
-                className="md:ml-[20px] ml-[6px] md:w-[124px] w-[75px] md:h-[41px] h-[36px] hover:bg-[#121217] rounded-[30px] border-[3px] border-[#017CE9] flex justify-center items-center md:text-[16px] text-[12px] font-[700] cursor-pointer"
+                className="md:ml-[20px] ml-[6px] md:w-[124px] w-[90px] md:h-[41px] h-[36px] hover:bg-[#242020] rounded-[30px] border-[3px] border-[#017CE9] flex justify-center items-center md:text-[16px] text-[12px] font-[700] cursor-pointer"
                 onClick={() => {
                   if (wallet) {
                     setStage(1);
@@ -1137,22 +1157,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
-            <div className="flex items-center mr-[20px] mb-[1rem]">
-              <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
-                My Escrows
-              </div>
-              <div
-                className="ml-[32px] md:rounded-[10px] rounded-[5px] md:w-[115px] w-[80px] h-[35px] flex justify-center items-center bg-dashboard-button1-bgcolor font-[600] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
-                onClick={() => {
-                  if (wallet) {
-                    setStage(1);
-                  } else toast("Please connect wallet");
-                }}
-              >
-                CREATE
-              </div>
-            </div>
+          <div className="mt-[35px] flex flex-row-reverse justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="mt-[20px] md:mt-0 rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
               <div
                 className={
@@ -1176,19 +1181,33 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-16">
+          <div className="my-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-16">
             {escrowData
               .filter((escrow) => {
-                if (myStatus === "active")
-                  return (
-                    escrow.initializerKey.toString() === publicKey.toString() &&
-                    escrow.active === true
-                  );
-                if (myStatus === "completed")
-                  return (
-                    escrow.initializerKey.toString() === publicKey.toString() &&
-                    escrow.active === false
-                  );
+                if (myStatus === "active") {
+                  if (forMeStatus === "created")
+                    return (
+                      escrow.initializerKey.toString() ===
+                        publicKey.toString() && escrow.active === true
+                    );
+                  if (forMeStatus === "received")
+                    return (
+                      escrow.taker.toString() === publicKey.toString() &&
+                      escrow.active === true
+                    );
+                }
+                if (myStatus === "completed") {
+                  if (forMeStatus === "created")
+                    return (
+                      escrow.initializerKey.toString() ===
+                        publicKey.toString() && escrow.active === false
+                    );
+                  if (forMeStatus === "received")
+                    return (
+                      escrow.taker.toString() === publicKey.toString() &&
+                      escrow.active === false
+                    );
+                }
               })
               .map((myEscrow, idx) => {
                 return (
@@ -1265,137 +1284,8 @@ const Home = () => {
                         getEscrowDate(myEscrow.randomSeed);
                         setCurrentEscrow(myEscrow.index);
                         setSelectedMilestone(0);
-                        setStage(2);
-                      }}
-                    >
-                      <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
-                      <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
-                        View Escrow
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-          <div className="border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-          <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
-            <div className="flex items-center mr-[20px] mb-[1rem]">
-              <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
-                Incoming Escrows
-              </div>
-            </div>
-            <div className="rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
-              <div
-                className={
-                  forMeStatus === "active"
-                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                }
-                onClick={() => setForMeStatus("active")}
-              >
-                Active
-              </div>
-              <div
-                className={
-                  forMeStatus === "completed"
-                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                }
-                onClick={() => setForMeStatus("completed")}
-              >
-                Completed
-              </div>
-            </div>
-          </div>
-          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-16">
-            {escrowData
-              .filter((escrow) => {
-                if (forMeStatus === "active")
-                  return (
-                    escrow.taker.toString() === publicKey.toString() &&
-                    escrow.active === true
-                  );
-                if (forMeStatus === "completed")
-                  return (
-                    escrow.taker.toString() === publicKey.toString() &&
-                    escrow.active === false
-                  );
-              })
-              .map((myEscrow, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor"
-                  >
-                    <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
-                    <div
-                      className={
-                        myEscrow.disputeStatus
-                          ? `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
-                          : `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
-                      }
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
-                          <div className="ml-[14px]">
-                            <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                            <div className="font-[500] text-[20px] leading-[23px]">
-                              {myEscrow.offchainData.description}
-                            </div>
-                          </div>
-                        </div>
-                        {/* {myEscrow.disputeStatus && (
-                          <div className="bg-[#ad2c44] px-[24px] py-[3px] text-[12px] rounded-[40px]">
-                            Disputed
-                          </div>
-                        )} */}
-                      </div>
-                      <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center w-full">
-                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
-                            Amount
-                          </div>
-                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
-                            {`$ ${
-                              myEscrow.initializerAmount[0] +
-                              myEscrow.initializerAmount[1] +
-                              myEscrow.initializerAmount[2] +
-                              myEscrow.initializerAmount[3] +
-                              myEscrow.initializerAmount[4]
-                            }`}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-[20px]">
-                        <div className="flex justify-between sm:items-center w-full">
-                          <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
-                            Status
-                          </div>
-                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
-                            {myEscrow.active ? (
-                              myEscrow.disputeStatus ? (
-                                <span className="text-[#ffffff]">Disputed</span>
-                              ) : (
-                                <span className="text-[#ffffff]">
-                                  In Progress
-                                </span>
-                              )
-                            ) : (
-                              <span className="text-[#ffffff]">Completed</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="flex flex-row-reverse py-[12px] px-[23px] items-center cursor-pointer"
-                      onClick={async () => {
-                        console.log("myEscrow.index", myEscrow);
-                        getEscrowDate(myEscrow.randomSeed);
-                        setCurrentEscrow(myEscrow.index);
-                        setSelectedMilestone(0);
-                        setStage(3);
+                        if (forMeStatus === "created") setStage(2);
+                        if (forMeStatus === "received") setStage(3);
                       }}
                     >
                       <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />

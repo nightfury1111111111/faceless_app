@@ -46,6 +46,7 @@ module.exports = {
         "mobile-close": "url('./assets/images/header/mobileclose.png')",
         chart: "url('./assets/images/home/chart.svg')",
         stars: "url('./assets/images/home/stars.svg')",
+        usdc: "url('./assets/images/usdc.png')",
         completed: "url('./assets/images/home/completed.svg')",
         "sidebar-bgcolor":
           "linear-gradient(170.52deg, #1B192B 21.73%, rgba(27, 25, 43, 0.05) 77.83%);",
