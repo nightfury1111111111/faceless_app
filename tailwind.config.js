@@ -17,7 +17,7 @@ module.exports = {
       colors: {
         primary: "#7C98A9",
         dark: "#26363E",
-        secondary: "#0F0F19",
+        secondary: "#08080e",
       },
       backgroundImage: (theme) => ({
         arrow: "url('./assets/images/footer/arrow.png')",
@@ -42,6 +42,8 @@ module.exports = {
         staking: "url('./assets/images/sidebar/staking.svg')",
         twitter: "url('./assets/images/sidebar/twitter.svg')",
         discord: "url('./assets/images/sidebar/discord.svg')",
+        "mobile-open": "url('./assets/images/header/mobileopen.png')",
+        "mobile-close": "url('./assets/images/header/mobileclose.png')",
         chart: "url('./assets/images/home/chart.svg')",
         stars: "url('./assets/images/home/stars.svg')",
         completed: "url('./assets/images/home/completed.svg')",
@@ -58,9 +60,9 @@ module.exports = {
         "dashboard-card2-bgcolor":
           "linear-gradient(124.78deg, #2E2D3A 0%, rgba(27, 25, 43, 0) 100%)",
         "dashboard-card2-interior1-bgcolor":
-          "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
+          "linear-gradient(80deg, #017CE9,  #817b70)",
         "dashboard-card2-interior2-bgcolor":
-          "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(130, 192, 82, 0.15) 99.98%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
+          "radial-gradient(50.15% 58.33% at 49.85% 50.21%, rgba(24, 29, 38, 0.8) 0%, rgba(24, 29, 38, 0.16) 97.4%)",
         "dashboard-card2-interior3-bgcolor":
           "linear-gradient(109.17deg, rgba(0, 0, 0, 0.09) 0%, rgba(130, 192, 82, 0.15) 99.98%, rgba(206, 82, 82, 0.33) 99.99%, #12191D 100%)",
         "dashboard-button1-bgcolor":

@@ -65,11 +65,6 @@ const App = () => {
     }, 2000);
   };
 
-  useEffect(() => {
-    // handleLoadingOverlay();
-    document.querySelector("body")?.classList.add("menu-opened");
-  }, []);
-
   return (
     <WalletContextProvider solanaNetwork={solanaNetwork}>
       <LanguageContext.Provider
@@ -83,7 +78,7 @@ const App = () => {
           >
             {isAuthorized ? (
               <>
-                <div className=" fixed left-0 top-0 w-full h-[30px] bg-[#272942] text-[9px] sm:text-[12px] text-[#E0E0E0] flex items-center justify-center z-10">
+                <div className=" fixed left-0 top-0 w-full h-[30px] md:h-[43px] bg-[#181D26] text-[10px] sm:text-[14px] text-[#E0E0E0] flex items-center justify-center z-10">
                   {" "}
                   This application is still in BETA.{" "}
                   <span className="font-bold ml-[5px]">
@@ -91,7 +86,6 @@ const App = () => {
                     Fees have been set to 0% until launch.
                   </span>
                 </div>
-                <Sidebar />
               </>
             ) : (
               ""

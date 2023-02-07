@@ -106,6 +106,7 @@ html::-webkit-scrollbar-thumb,
 .wallet-adapter-button {
   &.bg-secondary {
     background-color: #1a1f2e;
+    border-radius: 10px;
 
     &:hover {
       background-color: #fff;

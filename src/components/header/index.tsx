@@ -17,6 +17,7 @@ import { LanguageContext } from "../../App";
 
 import { SolanaNetworkType } from "../../App";
 import {
+  dashboardStage,
   isLoadingOverlay,
   profile,
   profileModerators,
@@ -46,12 +47,22 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const [, setStage] = useAtom(dashboardStage);
   const [user, setUser] = useAtom(profile);
   const [, setMods] = useAtom(profileModerators);
   const [, setRoles] = useAtom(profileRoles);
   const [isLoading, setLoading] = useAtom(isLoadingOverlay);
+  const window = useWindowSize();
 
   const wallet = useWallet();
+
+  useEffect(() => {
+    if (window.width < 640) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  });
 
   useEffect(() => {
     if (user.walletAddress !== wallet.publicKey) {
@@ -95,6 +106,11 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }
   }, [isWalletConnected]);
 
+  const goToDasboard = () => {
+    navigate("/");
+    setStage(0);
+  };
+
   const handleLoadingOverlay = () => {
     setLoading(true);
     setTimeout(() => {
@@ -103,7 +119,18 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   };
 
   const renderWalletButton1 = () => {
-    return <WalletMultiButton className="bg-secondary hover:bg-[#15539a]" />;
+    return (
+      <div className="hidden sm:block">
+        <WalletMultiButton className="bg-secondary hover:bg-[#15539a]" />
+      </div>
+    );
+  };
+
+  const renderMobileWalletButton = () => {
+    if (mobileClicked)
+      return (
+        <WalletMultiButton className="mt-[40px] bg-secondary hover:bg-[#15539a]" />
+      );
   };
 
   const renderWalletButton2 = () => {
@@ -137,7 +164,6 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
   useEffect(() => {
     if (size.width < 1024) {
       setIsMobile(true);
-      toggleSidebar();
     } else setIsMobile(false);
   }, [size]);
 
@@ -160,28 +186,97 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }
   });
 
-  console.log();
-
-  const toggleSidebar = () => {
-    document.querySelector("body")?.classList.toggle("menu-opened");
-  };
-
   return wallet.publicKey ? (
     <div className="relative w-full z-[20]" ref={ref}>
-      <div className="fixed header top-[30px] sm:px-[48px] px-[20px] w-full h-[83px] bg-secondary flex flex-row items-center justify-between z-10">
-        <div className="flex flex-row cursor-pointer" onClick={toggleSidebar}>
-          <div className="bg-hidden bg-cover bg-center w-[30px] h-[30px]" />
+      <div className="fixed header top-[30px] md:top-[43px] sm:px-[48px] px-[20px] w-full h-[83px] md:h-[100px] border-b-[2px] border-b-[#121217] bg-secondary flex flex-row items-center justify-between z-10">
+        <div className="flex flex-row cursor-pointer">
+          <div
+            className="bg-logo bg-cover bg-center w-[40px] md:w-[60px] h-[40px] md:h-[60px]"
+            onClick={() => {
+              goToDasboard();
+            }}
+          />
         </div>
-        <div className="flex items-center">
-          {/* <div className="bg-user bg-cover w-[32px] h-[32px] mr-[33px] cursor-pointer hidden sm:block"></div> */}
+        <div className="flex items-center text-[14px] md:text-[18px] font-[600] text-[#545454]">
+          <div
+            className="mr-[40px] cursor-pointer hidden sm:block font-[700] text-[#FFFFFF]"
+            onClick={() => {
+              goToDasboard();
+            }}
+          >
+            DASHBOARD
+          </div>
+          <div className="mr-[40px] cursor-pointer hidden sm:block">
+            PROFILE
+          </div>
+          <div className="mr-[40px] cursor-pointer hidden sm:block">
+            LEADERBOARD
+          </div>
+          <div className="mr-[56px] cursor-pointer hidden sm:block">
+            STAKING
+          </div>
+          <a
+            className="mr-[36px] cursor-pointer hidden sm:block w-[30px] h-[30px] bg-discord bg-cover"
+            href={"https://discord.com/invite/HRhdNPhB2A"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
+          <a
+            className="mr-[40px] cursor-pointer hidden sm:block w-[30px] h-[30px] bg-twitter bg-cover"
+            href={"https://twitter.com/facelesslabsnft"}
+            target="_blank"
+            rel="noreferrer"
+          ></a>
           {renderWalletButton1()}
+          {!mobileClicked ? (
+            <div
+              className="bg-mobile-open bg-cover w-[40px] h-[40px] block sm:hidden"
+              onClick={() => {
+                setMobileClicked(true);
+              }}
+            ></div>
+          ) : (
+            <div
+              className="bg-mobile-close bg-cover w-[40px] h-[40px] block sm:hidden"
+              onClick={() => {
+                setMobileClicked(false);
+              }}
+            ></div>
+          )}
         </div>
 
-        <div
-          className="overlay fixed w-full h-full top-0 z-[30] left-0 lg:hidden"
-          onClick={toggleSidebar}
-        ></div>
+        <div className="overlay fixed w-full h-full top-0 z-[30] left-0 lg:hidden"></div>
       </div>
+      {mobileClicked && (
+        <div className="fixed top-[113px] left-0 w-full h-[calc(100vh-113px)] bg-secondary flex flex-col items-center text-[20px]">
+          <div
+            className="mt-[40px] cursor-pointer font-[700] text-[#FFFFFF]"
+            onClick={() => {
+              goToDasboard();
+            }}
+          >
+            DASHBOARD
+          </div>
+          <div className="mt-[40px] cursor-pointer">PROFILE</div>
+          <div className="mt-[40px] cursor-pointer">LEADERBOARD</div>
+          <div className="mt-[40px] cursor-pointer">STAKING</div>
+          <div className="flex mt-[40px]">
+            <a
+              className="cursor-pointer w-[30px] h-[30px] bg-discord bg-cover"
+              href={"https://discord.com/invite/HRhdNPhB2A"}
+              target="_blank"
+              rel="noreferrer"
+            ></a>
+            <a
+              className="ml-[40px] cursor-pointer w-[30px] h-[30px] bg-twitter bg-cover"
+              href={"https://twitter.com/facelesslabsnft"}
+              target="_blank"
+              rel="noreferrer"
+            ></a>
+          </div>
+          {renderMobileWalletButton()}
+        </div>
+      )}
     </div>
   ) : (
     <div className="relative w-full z-[20]" ref={ref}>

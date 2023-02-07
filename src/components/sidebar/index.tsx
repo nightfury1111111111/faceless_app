@@ -24,10 +24,6 @@ export default function Sidebar() {
     setStage(0);
   };
 
-  const toggleSidebar = () => {
-    document.querySelector("body")?.classList.toggle("menu-opened");
-  };
-
   return (
     <div className="fixed left-0 top-[30px] w-[240px] h-[100vh] bg-[#000] text-[#FFFFFF] sidebar z-[30]">
       <div className="w-full h-full absolute z-[-1]  bg-[#07070C]"></div>
@@ -41,7 +37,6 @@ export default function Sidebar() {
         }
         onClick={() => {
           goToDasboard();
-          if (isMobile) toggleSidebar();
         }}
       >
         <div className="bg-dashboard w-[24px] h-[24px] bg-cover mr-[20px]"></div>

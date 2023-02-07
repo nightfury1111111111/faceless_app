@@ -34,6 +34,7 @@ import {
 import axios from "axios";
 import { async } from "q";
 import { fadeInRightShorter } from "../../utils/keyframes";
+import { off } from "process";
 
 export interface EscrowData {
   randomSeed: number;
@@ -74,6 +75,7 @@ const Home = () => {
   const [escrowRestData, setEscrowRestData] = useState<any>({});
   const [escrowOffchainData, setEscrowOffchainData] = useState();
   const [totalValue, setTotalValue] = useState(0);
+  const [entireVal, setEntireVal] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
   const [forMeStatus, setForMeStatus] = useState("active");
   const [showModerator, setModeratorVisibility] = useState(false);
@@ -586,6 +588,7 @@ const Home = () => {
         program.programId
       )[0];
       let tmpLockedval = 0;
+      let tmpEntireVal = 0;
       await Promise.all(
         (
           await connection.getProgramAccounts(programID)
@@ -641,6 +644,12 @@ const Home = () => {
               newData.initializerAmount[3] +
               newData.initializerAmount[4];
             tmpLockedval += lockedVal;
+            console.log(offchainData.data.milestones);
+            offchainData.data.milestones.map((val: any) => {
+              tmpEntireVal += val.amount;
+              return true;
+            });
+
             return {
               ...newData,
               pubkey: tx.pubkey.toString(),
@@ -657,6 +666,7 @@ const Home = () => {
           return b.offchainData.created_at - a.offchainData.created_at;
         });
         setTotalValue(tmpLockedval);
+        setEntireVal(tmpEntireVal);
         setEscrowData(result);
       });
     } catch (err) {
@@ -1072,84 +1082,61 @@ const Home = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-[100vh] sm:px-[49px] px-[20px] pb-[20px]">
+    <div className="min-h-[100vh] sm:px-[49px] md:px-[120px] pb-[20px]">
       {stage === 0 && (
         <div>
-          <div className="font-[600] md:text-[40px] text-[30px] pt-[130px]">
-            Dashboard
+          <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
+            Welcome To <span className="text-[#017CE9]">Faceless Labs</span>{" "}
+            Escrow Platform
           </div>
-          <div className="mt-[14px] md:text-[14px] text-[12px] leading-[21px] font-[300]">
-            Overview of your escrows and performance.
+          <div className="mt-[14px] md:text-[24px] text-[16px] leading-[21px] font-[300] text-center">
+            Create secure and seamless{" "}
+            <span className="font-[600]">transactions</span> using our trusted{" "}
+            <span className="font-[600]">escrow </span>
+            services.
           </div>
-          <div className="mt-[35px] grid md:grid-cols-3 grid-cols-1 gap-4">
-            <div className="rounded-[10px] bg-dashboard-card4-bgcolor p-[23px]">
-              <div className="flex items-center">
-                <div className="bg-icon3 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
-                  Escrow Stats
-                </div>
-              </div>
-              <div className="mt-[20px]">
-                <div className="flex justify-between sm:items-center w-full">
-                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
-                    In Escrow
-                  </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
-                    $ {totalValue}
-                  </div>
-                </div>
-                <div className="mt-[28px] flex justify-between sm:items-center w-full">
-                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
-                    Active
-                  </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
-                    {
-                      escrowData.filter((escrow) => {
-                        return escrow.active === true;
-                      }).length
-                    }
-                  </div>
-                </div>
-                <div className="mt-[28px] flex justify-between sm:items-center w-full">
-                  <div className="font-[500] text-[#fff] text-[14px] leading-[17px]">
-                    Completed
-                  </div>
-                  <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
-                    {
-                      escrowData.filter((escrow) => {
-                        return escrow.active === false;
-                      }).length
-                    }
-                  </div>
-                </div>
-              </div>
+          <div className="md:mt-0 my-[30px] md:h-[204px] flex flex-col md:flex-row justify-center items-center">
+            <div className="md:mt-0 mt-[15px] flex flex-col items-center font-[600] px-[40px] md:border-r-[3px] border-r-[#1e1e22]">
+              <div className="text-[#747474] text-[20px]">ALL TIME VOLUME</div>
+              <div className="text-[#ffffff] text-[26px]">{entireVal}</div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card1-bgcolor py-[23px] xl:px-[50px] px-[20px]">
-              <div className="flex items-center opacity-10">
-                <div className="bg-icon1 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
-                  Profile Score
-                </div>
-              </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[30px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-chart w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
-                <div className="translate-y-[-20px]">Coming soon</div>
-              </div>
+            <div className="flex flex-col items-center font-[600] px-[40px] md:border-r-[3px] border-r-[#1e1e22]">
+              <div className="text-[#747474] text-[20px]">IN ESCROW</div>
+              <div className="text-[#ffffff] text-[26px]">{totalValue}</div>
             </div>
-            <div className="rounded-[10px] bg-dashboard-card3-bgcolor p-[23px]">
-              <div className="flex items-center opacity-10">
-                <div className="bg-icon2 bg-cover md:w-[40px] w-[30px] md:h-[40px] h-[30px]" />
-                <div className="ml-[14px] font-[600] text-[20px] leading-[23px]">
-                  Feedback
-                </div>
-              </div>
-              <div className="relative mt-[20px] w-[235px] h-[118px] mx-auto text-[#8e8e8e] font-bold text-[30px] flex justify-center items-center">
-                <div className="absolute left-0 top-0 bg-stars w-[235px] h-[118px] bg-cover m-auto opacity-10"></div>
-                <div className="translate-y-[-20px]">Coming soon</div>
+            <div className="md:mt-0 mt-[15px] flex flex-col items-center font-[600] px-[40px]">
+              <div className="text-[#747474] text-[20px]">ACTIVE ESCROWS</div>
+              <div className="text-[#ffffff] text-[26px]">
+                {
+                  escrowData.filter((escrow) => {
+                    return escrow.active === true;
+                  }).length
+                }
               </div>
             </div>
           </div>
-          <div className="mt-[51px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
+
+          <div className="border-b-[3px] border-b-[#121217] flex justify-center items-center">
+            <div className="flex items-center md:translate-x-[72px] md:text-[18px] text-[14px] font-[600]">
+              <div className="md:w-[144px] w-[80px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer">
+                Created
+              </div>
+              <div className="md:ml-[10px] ml-[6px] md:w-[144px] w-[80px] md:h-[55px] h-[40px] flex justify-center items-center bg-[#121217] rounded-t-[10px] cursor-pointer">
+                Received
+              </div>
+              <div
+                className="md:ml-[20px] ml-[6px] md:w-[124px] w-[75px] md:h-[41px] h-[36px] hover:bg-[#121217] rounded-[30px] border-[3px] border-[#017CE9] flex justify-center items-center md:text-[16px] text-[12px] font-[700] cursor-pointer"
+                onClick={() => {
+                  if (wallet) {
+                    setStage(1);
+                  } else toast("Please connect wallet");
+                }}
+              >
+                + CREATE
+              </div>
+            </div>
+          </div>
+
           <div className="mt-[35px] flex justify-between sm:items-center sm:flex-row w-full flex-wrap">
             <div className="flex items-center mr-[20px] mb-[1rem]">
               <div className="font-[600] md:text-[22px] text-[18px] leading-[26px]">
@@ -1189,7 +1176,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-4">
+          <div className="mt-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-16">
             {escrowData
               .filter((escrow) => {
                 if (myStatus === "active")
@@ -1207,13 +1194,14 @@ const Home = () => {
                 return (
                   <div
                     key={idx}
-                    className="rounded-[10px] bg-dashboard-card2-bgcolor"
+                    className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor"
                   >
+                    <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
                     <div
                       className={
                         myEscrow.disputeStatus
-                          ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
-                          : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
+                          ? `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
+                          : `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
                       }
                     >
                       <div className="flex items-center justify-between">
@@ -1233,12 +1221,12 @@ const Home = () => {
                         )} */}
                       </div>
 
-                      <div className="mt-[20px]">
+                      <div className="mt-[27px]">
                         <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1249,12 +1237,12 @@ const Home = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="mt-[20px]">
+                      <div className="mt-[27px]">
                         <div className="flex justify-between sm:items-center w-full">
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
                                 <span className="text-[#ffffff]">Disputed</span>
@@ -1319,7 +1307,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-4">
+          <div className="mt-[46px] pb-[177px] grid md:grid-cols-3 grid-cols-1 gap-16">
             {escrowData
               .filter((escrow) => {
                 if (forMeStatus === "active")
@@ -1337,13 +1325,14 @@ const Home = () => {
                 return (
                   <div
                     key={idx}
-                    className="rounded-[10px] bg-dashboard-card2-bgcolor"
+                    className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor"
                   >
+                    <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
                     <div
                       className={
                         myEscrow.disputeStatus
-                          ? `bg-dashboard-card2-interior1-bgcolor p-[23px] rounded-[10px]`
-                          : `bg-dashboard-card2-interior2-bgcolor p-[23px] rounded-[10px]`
+                          ? `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
+                          : `bg-dashboard-card2-interior2-bgcolor py-[28px] px-[35px] rounded-b-[10px]`
                       }
                     >
                       <div className="flex items-center justify-between">
@@ -1367,7 +1356,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
                             {`$ ${
                               myEscrow.initializerAmount[0] +
                               myEscrow.initializerAmount[1] +
@@ -1383,7 +1372,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="md:text-[20px] text-[16px] leading-[23px] md:font-[600] font-[400]">
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
                                 <span className="text-[#ffffff]">Disputed</span>
@@ -1423,7 +1412,7 @@ const Home = () => {
       {stage === 1 && (
         <div className="pb-[249px]">
           <div className="flex items-center">
-            <div className="font-[600] md:text-[40px] text-[30px] pt-[130px]">
+            <div className="font-[600] md:text-[40px] text-[30px] pt-[185px]">
               Create Escrow
             </div>
           </div>
