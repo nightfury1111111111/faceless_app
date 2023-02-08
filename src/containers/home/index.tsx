@@ -78,7 +78,7 @@ const Home = () => {
   const [entireVal, setEntireVal] = useState(0);
   const [myStatus, setMyStatus] = useState("active");
   const [forMeStatus, setForMeStatus] = useState("created");
-  const [showModerator, setModeratorVisibility] = useState(false);
+  const [showMilestone, setMilestoneVisibility] = useState(false);
   const [useModerator, setUseModerator] = useState(true);
 
   const [currentMilestone, setCurrentMilestone] = useState(0);
@@ -199,7 +199,7 @@ const Home = () => {
 
   const toggleModerator = (add: string) => {
     setModerator(add);
-    setModeratorVisibility(false);
+    setMilestoneVisibility(false);
   };
 
   const isValidEscrow = () => {
@@ -1070,7 +1070,7 @@ const Home = () => {
       </div>
     </div>
   ) : (
-    <div className="min-h-[100vh] px-[15px] sm:px-[49px] md:px-[120px] pb-[20px]">
+    <div className="min-h-[100vh] px-[15px] sm:px-[40px] lg:px-[100px] pb-[20px]">
       {stage === 0 && (
         <div>
           <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
@@ -1181,7 +1181,7 @@ const Home = () => {
             </div>
             <div className="text-[#AFAFAF] text-[14px] font-[600]">ACTIVE</div>
           </div>
-          <div className="my-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-16">
+          <div className="my-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 lg:gap-16 gap-4">
             {escrowData
               .filter((escrow) => {
                 if (myStatus === "active") {
@@ -1305,66 +1305,61 @@ const Home = () => {
         </div>
       )}
       {stage === 1 && (
-        <div className="pb-[249px]">
-          <div className="flex items-center">
-            <div className="font-[600] md:text-[40px] text-[30px] pt-[185px]">
-              Create Escrow
+        <div className="pb-[249px] lg:px-[100px]">
+          <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
+            Create a Secure <span className="text-[#017CE9]">Escrow </span>{" "}
+            Payment
+          </div>
+          <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-x-[5rem] gap-y-8">
+            <div className="flex justify-start flex-col w-full">
+              <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                Escrow Name <span className="text-[#820000]">*</span>
+              </div>
+              <div className="relative mt-[10px]">
+                <input
+                  type="text"
+                  className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D] focus-visible:border-[#053665]"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+                <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                  {descriptionErr}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="mt-[14px] md:text-[14px] text-[12px] leading-[21px] font-[300]">
-            Create a new escrow and protect your payments.
-          </div>
-          <div className="mt-[35px] grid grid-cols-1 lg:grid-cols-2 gap-[5rem]">
-            <div className="pt-[23px] md:border-b-[2px] border-[#7c98a9]">
-              <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                  Name
-                </div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                  />
-                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
-                    {descriptionErr}
-                  </div>
+            <div className="flex justify-between flex-col w-full">
+              <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                Receiver Wallet <span className="text-[#820000]">*</span>
+              </div>
+              <div className="relative mt-[10px]">
+                <input
+                  type="text"
+                  className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
+                  value={receiver}
+                  onChange={(e) => setReceiver(e.target.value)}
+                  required
+                />
+                <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                  {receiverErr}
                 </div>
               </div>
-              <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                  Receiver
-                </div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                    value={receiver}
-                    onChange={(e) => setReceiver(e.target.value)}
-                    required
-                  />
-                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
-                    {receiverErr}
-                  </div>
-                </div>
-              </div>
-              {/* {useModerator ? (
-                <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                  <div className="w-[110px] text-[20px] mb-[.5rem] sm:mb-0">
+            </div>
+            {/* {useModerator ? (
+                <div className="mt-[30px] flex justify-between flex-col w-full">
+                  <div className="w-[180px] text-[20px] mb-[.5rem] sm:mb-0">
                     Moderator
                   </div>
-                  <div className="relative">
+                  <div className="relative mt-[10px]">
                     <input
                       type="text"
-                      className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                      className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                       value={moderator}
                       onChange={(e) => setModerator(e.target.value)}
                     />
 
-                    {showModerator ? (
-                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#7C98A9] z-[3]">
+                    {showMilestone ? (
+                      <ul className="absolute w-full bg-primary rounded-b-[5px] mt-[1px] border-[#053665] z-[3]">
                         {moderators.map((item, index) => (
                           <li
                             key={`mod-${index}`}
@@ -1380,13 +1375,13 @@ const Home = () => {
                     )}
 
                     <div
-                      className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem] bg-secondary text-center z-[3] border-[#7C98A9] border-[1px] border-l-0
+                      className="moderator-toggle cursor-pointer absolute right-0 top-0 h-full w-[2rem] bg-secondary text-center z-[3] border-[#053665] border-[3px] border-l-0
                      rounded-r-[5px]"
                       onClick={() => {
-                        setModeratorVisibility(!showModerator);
+                        setMilestoneVisibility(!showMilestone);
                       }}
                     >
-                      {showModerator ? (
+                      {showMilestone ? (
                         <i className="fa fa-angle-up"></i>
                       ) : (
                         <i className="fa fa-angle-down"></i>
@@ -1397,32 +1392,67 @@ const Home = () => {
               ) : (
                 ""
               )} */}
-              <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full relative">
-                <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                  Amount
+            <div className="flex justify-between flex-col w-full relative">
+              <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                Payment Amount <span className="text-[#820000]">*</span>
+              </div>
+              <div className="relative mt-[10px]">
+                <input
+                  type="number"
+                  className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
+                  value={amount}
+                  placeholder="0"
+                  onChange={(e) => {
+                    inputNumberAmount(e.target.value, setAmount);
+                  }}
+                  min={0}
+                  required
+                />
+                <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
+                  {amountErr}
                 </div>
-                <div className="relative">
-                  <input
-                    type="number"
-                    className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
-                    value={amount}
-                    placeholder="0"
-                    onChange={(e) => {
-                      inputNumberAmount(e.target.value, setAmount);
-                    }}
-                    min={0}
-                    required
-                  />
-                  <div className="absolute top-[42px] text-[11px] text-[#ad2c44]">
-                    {amountErr}
+              </div>
+              <button className="absolute right-[1px] top-[40px] md:top-[41px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                USDC{" "}
+                <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                v
+              </button>
+            </div>
+
+            <div className="flex justify-between flex-col w-full relative">
+              <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                Milestones
+              </div>
+              <div className="relative mt-[10px]">
+                <div className="w-[100px] h-[40px] pl-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D] flex items-center justify-between">
+                  {currentMilestone}
+                  <div
+                    className="cursor-pointer w-[25px] h-[34px] flex items-center justify-center border-l-[1px] border-l-[#239489]"
+                    onClick={() => setMilestoneVisibility(true)}
+                  >
+                    v
                   </div>
                 </div>
-                <button className="absolute right-[1px] top-[30px] md:top-[1px] text-[12px] text-white bg-dark z-[2] leading-[38px] px-[10px] rounded-[5px] round-l-0">
-                  USDC
-                </button>
+                {showMilestone && (
+                  <ul className="absolute w-[100px] bg-primary rounded-b-[5px] mt-[1px] border-[#053665] z-[3]">
+                    {[0, 1, 2, 3, 4, 5].map((item, index) => (
+                      <li
+                        key={`mod-${index}`}
+                        className="w-full cursor-pointer py-[.5rem] px-[.5rem] overflow-hidden truncate hover:bg-primary bg-dark"
+                        onClick={() => {
+                          setCurrentMilestone(item);
+                          setMilestoneVisibility(false);
+                        }}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+            </div>
 
-              {/* <div
+            {/* <div
                 className="w-[220px] h-[40px] mr-[0] px-[12px] rounded-[5px] bg-[#7C98A9] flex justify-center items-center font-[600] text-[18px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem] ml-auto mt-[50px]"
                 onClick={() => {
                   if (useModerator) {
@@ -1433,85 +1463,20 @@ const Home = () => {
               >
                 {useModerator ? "Don't need Moderator" : "Need Moderator"}
               </div> */}
-              {/* <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div> */}
-            </div>
-            <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] hidden md:block">
-              <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
-                Fees
-              </div>
-              <div className="mt-[43px] flex justify-between sm:items-center w-full">
-                <div className="md:text-[20px] text-[14px] leading-[23px]">
-                  Platform fee {`(${adminData?.adminFee}%)`}
-                </div>
-                {adminData && (
-                  <div className="md:text-[20px] text-[14px] font-[600]">
-                    {`${(amount * adminData?.adminFee) / 100}`} USDC
-                  </div>
-                )}
-              </div>
-              {/* <div className="mt-[27px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="text-[20px] leading-[23px">
-                  Holder Discount {`(${adminData?.resolverFee}%)`}
-                </div>
-                <div className="text-[20px] font-[600]">
-                  {adminData && (
-                    <div className="text-[20px] font-[600]">
-                      {`${(amount * adminData?.resolverFee) / 100}`} USDC
-                    </div>
-                  )}
-                </div>
-              </div> */}
-              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-              <div className="mt-[25px] flex justify-between sm:items-center w-full">
-                <div className="md:text-[20px] text-[14px] leading-[23px]">
-                  Receiver will get
-                </div>
-                <div className="md:text-[20px] text-[14px] font-[600]">
-                  {adminData && (
-                    <div className="md:text-[20px] text-[14px] font-[600]">
-                      {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
           </div>
-          <div className="mt-[47px] grid lg:grid-cols-2 grid-cols-1 gap-[5rem]">
+          <div className="mt-[30px] border-b-[2px] border-[#65686e] opacity-20 h-0"></div>
+          <div>
             <div>
-              <div className="flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                <div className="w-[110px] md:text-[20px] text-[18px] mb-[.5rem] sm:mb-0">
-                  Milestones
-                </div>
-                <div className="flex flex-wrap">
-                  <div
-                    className="w-[110px] md:h-[40px] h-[32px] mr-[30px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
-                    onClick={() => {
-                      if (currentMilestone < 5)
-                        setCurrentMilestone(currentMilestone + 1);
-                      else toast("Max milestone number is 5");
-                    }}
-                  >
-                    ADD +
-                  </div>
-                  <div
-                    className="w-[110px] md:h-[40px] h-[32px] mr-[0] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer sm:mb-0 mb-[1rem]"
-                    onClick={() => resetMilestone()}
-                  >
-                    Reset
-                  </div>
-                </div>
-              </div>
-
               {currentMilestone > 0 && (
-                <div>
-                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone 1
+                <div className="grid lg:grid-cols-2 grid-cols-1 md:gap-[5rem] gap-[1rem]">
+                  <div className="mt-[36px] flex justify-between flex-col w-full">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Milestone 1 <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="text"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={milestone1}
                         onChange={(e) => setMilestone1(e.target.value)}
                       />
@@ -1520,14 +1485,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Amount
+                  <div className="mt-[30px] flex justify-between flex-col w-full relative">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Amount <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="number"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={amount1}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount1)
@@ -1538,19 +1503,24 @@ const Home = () => {
                         {amount1Err}
                       </div>
                     </div>
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                      USDC{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      v
+                    </button>
                   </div>
                 </div>
               )}
               {currentMilestone > 1 && (
-                <div>
-                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone 2
+                <div className="grid lg:grid-cols-2 grid-cols-1 md:gap-[5rem] gap-[1rem]">
+                  <div className="mt-[36px] flex justify-between flex-col w-full">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Milestone 2 <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="text"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={milestone2}
                         onChange={(e) => setMilestone2(e.target.value)}
                       />
@@ -1559,14 +1529,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Amount
+                  <div className="mt-[30px] flex justify-between flex-col w-full relative">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Amount <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="number"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={amount2}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount2)
@@ -1577,19 +1547,24 @@ const Home = () => {
                         {amount2Err}
                       </div>
                     </div>
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                      USDC{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      v
+                    </button>
                   </div>
                 </div>
               )}
               {currentMilestone > 2 && (
-                <div>
-                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone 3
+                <div className="grid lg:grid-cols-2 grid-cols-1 md:gap-[5rem] gap-[1rem]">
+                  <div className="mt-[36px] flex justify-between flex-col w-full">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Milestone 3 <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="text"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={milestone3}
                         onChange={(e) => setMilestone3(e.target.value)}
                       />
@@ -1598,14 +1573,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Amount
+                  <div className="mt-[30px] flex justify-between flex-col w-full relative">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Amount <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="number"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={amount3}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount3)
@@ -1616,19 +1591,24 @@ const Home = () => {
                         {amount3Err}
                       </div>
                     </div>
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                      USDC{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      v
+                    </button>
                   </div>
                 </div>
               )}
               {currentMilestone > 3 && (
-                <div>
-                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone 4
+                <div className="grid lg:grid-cols-2 grid-cols-1 md:gap-[5rem] gap-[1rem]">
+                  <div className="mt-[36px] flex justify-between flex-col w-full">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Milestone 4 <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="text"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={milestone4}
                         onChange={(e) => setMilestone4(e.target.value)}
                       />
@@ -1637,14 +1617,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Amount
+                  <div className="mt-[30px] flex justify-between flex-col w-full relative">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Amount <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="number"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={amount4}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount4)
@@ -1655,19 +1635,24 @@ const Home = () => {
                         {amount4Err}
                       </div>
                     </div>
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                      USDC{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      v
+                    </button>
                   </div>
                 </div>
               )}
               {currentMilestone > 4 && (
-                <div>
-                  <div className="mt-[36px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone 5
+                <div className="grid lg:grid-cols-2 grid-cols-1 md:gap-[5rem] gap-[1rem]">
+                  <div className="mt-[36px] flex justify-between flex-col w-full">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Milestone 5 <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="text"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={milestone5}
                         onChange={(e) => setMilestone5(e.target.value)}
                       />
@@ -1676,14 +1661,14 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-[30px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
-                    <div className="w-[110px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Amount
+                  <div className="mt-[30px] flex justify-between flex-col w-full relative">
+                    <div className="w-[180px] md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
+                      Amount <span className="text-[#820000]">*</span>
                     </div>
-                    <div className="relative">
+                    <div className="relative mt-[10px]">
                       <input
                         type="number"
-                        className="md:w-[330px] w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[1px] border-[#7C98A9] bg-black"
+                        className="w-full max-w-full h-[40px] px-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D]"
                         value={amount5}
                         onChange={(e) =>
                           inputNumberAmount(e.target.value, setAmount5)
@@ -1694,25 +1679,33 @@ const Home = () => {
                         {amount5Err}
                       </div>
                     </div>
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#239489] bg-transparent">
+                      USDC{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      v
+                    </button>
                   </div>
                 </div>
               )}
             </div>
-            <div className="rounded-[10px] bg-fee-panel-bgcolor md:py-[23px] py-[10px] md:px-[43px] px-[16px] block md:hidden">
-              <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
-                Fees
-              </div>
-              <div className="mt-[43px] flex justify-between sm:items-center w-full">
-                <div className="md:text-[20px] text-[14px] leading-[23px]">
-                  Platform fee {`(${adminData?.adminFee}%)`}
+            <div className="mt-[30px] rounded-[10px] bg-fee-panel-bgcolor block md:hidden">
+              <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
+              <div className="md:py-[23px] py-[10px] md:px-[43px] px-[16px]">
+                <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
+                  Fees
                 </div>
-                {adminData && (
-                  <div className="md:text-[20px] text-[14px] font-[600]">
-                    {`${(amount * adminData?.adminFee) / 100}`} USDC
+                <div className="mt-[43px] flex justify-between sm:items-center w-full">
+                  <div className="md:text-[20px] text-[14px] leading-[23px]">
+                    Platform fee {`(${adminData?.adminFee}%)`}
                   </div>
-                )}
-              </div>
-              {/* <div className="mt-[27px] flex justify-between sm:items-center flex-col sm:flex-row w-full">
+                  {adminData && (
+                    <div className="md:text-[20px] text-[14px] font-[600] flex items-center">
+                      {`${(amount * adminData?.adminFee) / 100}`}{" "}
+                      <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                    </div>
+                  )}
+                </div>
+                {/* <div className="mt-[27px] flex justify-between flex-col w-full">
                 <div className="text-[20px] leading-[23px">
                   Holder Discount {`(${adminData?.resolverFee}%)`}
                 </div>
@@ -1724,45 +1717,97 @@ const Home = () => {
                   )}
                 </div>
               </div> */}
-              <div className="mt-[30px] border-b-[2px] border-[#7c98a9] opacity-[0.4] h-0"></div>
-              <div className="mt-[25px] flex justify-between sm:items-center w-full">
-                <div className="md:text-[20px] text-[14px] leading-[23px]">
-                  Receiver will get
-                </div>
-                <div className="md:text-[20px] text-[14px] font-[600]">
-                  {adminData && (
-                    <div className="md:text-[20px] text-[14px] font-[600]">
-                      {`${(amount * (100 - adminData?.adminFee)) / 100}`} USDC
-                    </div>
-                  )}
+                <div className="mt-[30px] border-b-[2px] border-[#053665] opacity-[0.4] h-0"></div>
+                <div className="mt-[25px] flex justify-between sm:items-center w-full">
+                  <div className="md:text-[20px] text-[14px] leading-[23px]">
+                    Receiver will get
+                  </div>
+                  <div className="md:text-[20px] text-[14px] font-[600]">
+                    {adminData && (
+                      <div className="md:text-[20px] text-[14px] font-[600] flex items-center">
+                        {`${(amount * (100 - adminData?.adminFee)) / 100}`}{" "}
+                        <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex flex-row">
-              <div
-                className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#7C98A9] hover:bg-transparent hover:border-[#7C98A9] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
-                onClick={() => {
-                  createEscrow();
-                }}
-              >
-                {!isLoading1 ? (
-                  "CREATE"
-                ) : (
-                  <div className="bg-loading bg-cover w-[60px] h-[60px]" />
-                )}
+          </div>
+          <div className="mt-[56px] grid lg:grid-cols-2 grid-cols-1 gap-x-[5rem]">
+            <div></div>
+            <div>
+              <div className="rounded-[10px] bg-fee-panel-bgcolor hidden md:block">
+                <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
+                <div className="md:py-[23px] py-[10px] md:px-[43px] px-[16px]">
+                  <div className="font-[600] md:text-[32px] text-[20px] leading-[38px]">
+                    Fees
+                  </div>
+                  <div className="mt-[43px] flex justify-between sm:items-center w-full">
+                    <div className="md:text-[20px] text-[14px] leading-[23px]">
+                      Platform fee {`(${adminData?.adminFee}%)`}
+                    </div>
+                    {adminData && (
+                      <div className="md:text-[20px] text-[14px] font-[600] flex items-center">
+                        {`${(amount * adminData?.adminFee) / 100}`}{" "}
+                        <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                      </div>
+                    )}
+                  </div>
+                  {/* <div className="mt-[27px] flex justify-between flex-col w-full">
+                <div className="text-[20px] leading-[23px">
+                  Holder Discount {`(${adminData?.resolverFee}%)`}
+                </div>
+                <div className="text-[20px] font-[600]">
+                  {adminData && (
+                    <div className="text-[20px] font-[600]">
+                      {`${(amount * adminData?.resolverFee) / 100}`} USDC
+                    </div>
+                  )}
+                </div>
+              </div> */}
+                  <div className="mt-[30px] border-b-[2px] border-[#053665] opacity-[0.4] h-0"></div>
+                  <div className="mt-[25px] flex justify-between sm:items-center w-full">
+                    <div className="md:text-[20px] text-[14px] leading-[23px]">
+                      Receiver will get
+                    </div>
+                    <div className="md:text-[20px] text-[14px] font-[600]">
+                      {adminData && (
+                        <div className="md:text-[20px] text-[14px] font-[600] flex items-center">
+                          {`${(amount * (100 - adminData?.adminFee)) / 100}`}{" "}
+                          <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div
-                className="ml-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-[#7C98A9] border-[#7C98A9] border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] leading-[21px] cursor-pointer"
-                onClick={() => {
-                  setStage(0);
-                  //reset escrow info
-                  setDescription("");
-                  setReceiver("");
-                  setAmount(0);
-                  resetMilestone;
-                }}
-              >
-                CANCEL
+              <div className="md:mt-[43px] flex flex-row-reverse">
+                <div
+                  className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#017CE9] hover:bg-transparent hover:border-[#053665] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] text-[#FFFFFF] leading-[21px] cursor-pointer"
+                  onClick={() => {
+                    createEscrow();
+                  }}
+                >
+                  {!isLoading1 ? (
+                    "CREATE"
+                  ) : (
+                    <div className="bg-loading bg-cover w-[60px] h-[60px]" />
+                  )}
+                </div>
+                <div
+                  className="mr-[30px] w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] hover:bg-transparent hover:border-[1px] hover:border-[#14161d] bg-[#14161d] flex justify-center items-center font-[600] md:text-[18px] text-[14px] text-[#a1a2a5] leading-[21px] cursor-pointer"
+                  onClick={() => {
+                    setStage(0);
+                    //reset escrow info
+                    setDescription("");
+                    setReceiver("");
+                    setAmount(0);
+                    resetMilestone;
+                  }}
+                >
+                  CANCEL
+                </div>
               </div>
             </div>
           </div>
@@ -1841,7 +1886,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#053665] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => approvePayment()}
                   >
                     {!isLoading1 ? (
@@ -1867,7 +1912,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#053665] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -1876,7 +1921,7 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="border-[1px] border-[#7C98A9] mt-[10px] rounded-[10px] p-[20px]">
+            <div className="border-[1px] border-[#053665] mt-[10px] rounded-[10px] p-[20px]">
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
                 Escrow # {escrowData[currentEscrow].randomSeed}
               </div>
@@ -1999,7 +2044,7 @@ const Home = () => {
               {escrowData[currentEscrow].active &&
                 !escrowData[currentEscrow].disputeStatus && (
                   <div
-                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#7C98A9] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                    className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#7C98A9] hover:border-[1px] hover:border-[#053665] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                     onClick={() => refundPayment()}
                   >
                     {!isLoading1 ? (
@@ -2025,7 +2070,7 @@ const Home = () => {
                   </div>
                 )}
               <div
-                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#7C98A9] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#053665] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                 onClick={() => setStage(0)}
               >
                 Back
@@ -2034,7 +2079,7 @@ const Home = () => {
           </div>
 
           <div className="order-1 md:order-2">
-            <div className="border-[1px] border-[#7C98A9] mt-[10px] rounded-[10px] p-[20px]">
+            <div className="border-[1px] border-[#053665] mt-[10px] rounded-[10px] p-[20px]">
               <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
                 Escrow # {escrowData[currentEscrow].randomSeed}
               </div>
