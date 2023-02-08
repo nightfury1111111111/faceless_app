@@ -1157,29 +1157,29 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="mt-[35px] flex flex-row-reverse justify-between sm:items-center sm:flex-row w-full flex-wrap">
-            <div className="mt-[20px] md:mt-0 rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[246px] md:h-[42px] h-[35px] p-[3px] flex justify-between sm:items-center sm:flex-row mb-[1rem]">
+          <div className="mt-[35px] flex flex-row-reverse items-center w-full flex-wrap">
+            <div className="text-[#AFAFAF] text-[14px] font-[600]">
+              COMPLETED
+            </div>
+            <div className="mx-[8px] rounded-[20px] bg-dashboard-buttonwrapper-bgcolor w-[40px] md:h-[20px] h-[20px] px-[3px] flex justify-between items-center sm:flex-row">
               <div
                 className={
                   myStatus === "active"
-                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[16px] md:h-[16px] h-[16px] flex justify-center items-center bg-[#017CE9] md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[16px] md:h-[16px] h-[16px] flex justify-center items-center md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("active")}
-              >
-                Active
-              </div>
+              ></div>
               <div
                 className={
                   myStatus === "completed"
-                    ? "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
-                    : "w-[115.69px] md:h-[35px] h-[30px] flex justify-center items-center hover:bg-dashboard-button1-bgcolor md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    ? "w-[16px] md:h-[16px] h-[16px] flex justify-center items-center bg-[#017CE9] md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
+                    : "w-[16px] md:h-[16px] h-[16px] flex justify-center items-center md:text-[18px] text-[16px] leading-[22px] font-[500] rounded-[20px] cursor-pointer"
                 }
                 onClick={() => setMyStatus("completed")}
-              >
-                Completed
-              </div>
+              ></div>
             </div>
+            <div className="text-[#AFAFAF] text-[14px] font-[600]">ACTIVE</div>
           </div>
           <div className="my-[46px] pb-[60px] grid md:grid-cols-3 grid-cols-1 gap-16">
             {escrowData
@@ -1224,11 +1224,11 @@ const Home = () => {
                       }
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
-                          <div className="ml-[14px]">
-                            <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                            <div className="font-[500] text-[20px] leading-[23px]">
+                        <div>
+                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
+                          <div className="mt-[10px] flex items-center">
+                            <div className="bg-icon5 bg-cover w-[20px] h-[20px]" />
+                            <div className="ml-[10px] font-[500] text-[20px] leading-[23px]">
                               {myEscrow.offchainData.description}
                             </div>
                           </div>
@@ -1246,13 +1246,13 @@ const Home = () => {
                             Amount
                           </div>
                           <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
-                            {`$ ${
+                            {`$ ${numberWithCommas(
                               myEscrow.initializerAmount[0] +
-                              myEscrow.initializerAmount[1] +
-                              myEscrow.initializerAmount[2] +
-                              myEscrow.initializerAmount[3] +
-                              myEscrow.initializerAmount[4]
-                            }`}
+                                myEscrow.initializerAmount[1] +
+                                myEscrow.initializerAmount[2] +
+                                myEscrow.initializerAmount[3] +
+                                myEscrow.initializerAmount[4]
+                            )}`}
                           </div>
                         </div>
                       </div>
@@ -1276,21 +1276,21 @@ const Home = () => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      className="flex flex-row-reverse py-[12px] px-[23px] items-center cursor-pointer"
-                      onClick={async () => {
-                        console.log("myEscrow.index", myEscrow);
-                        getEscrowDate(myEscrow.randomSeed);
-                        setCurrentEscrow(myEscrow.index);
-                        setSelectedMilestone(0);
-                        if (forMeStatus === "created") setStage(2);
-                        if (forMeStatus === "received") setStage(3);
-                      }}
-                    >
-                      <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
-                      <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
-                        View Escrow
+                      <div
+                        className="flex flex-row-reverse mt-[31px] items-center cursor-pointer"
+                        onClick={async () => {
+                          console.log("myEscrow.index", myEscrow);
+                          getEscrowDate(myEscrow.randomSeed);
+                          setCurrentEscrow(myEscrow.index);
+                          setSelectedMilestone(0);
+                          if (forMeStatus === "created") setStage(2);
+                          if (forMeStatus === "received") setStage(3);
+                        }}
+                      >
+                        <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
+                        <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
+                          View Escrow
+                        </div>
                       </div>
                     </div>
                   </div>

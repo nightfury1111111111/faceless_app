@@ -28,6 +28,7 @@ module.exports = {
         icon2: "url('./assets/images/home/icon2.svg')",
         icon3: "url('./assets/images/home/icon3.svg')",
         icon4: "url('./assets/images/home/icon4.svg')",
+        icon5: "url('./assets/images/home/icon5.svg')",
         link: "url('./assets/images/home/link-external.svg')",
         logo: "url('./assets/images/logo.png')",
         loading: "url('./assets/images/loading.svg')",
