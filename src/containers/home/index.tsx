@@ -1261,7 +1261,7 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Status
                           </div>
-                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400] flex items-center">
                             {myEscrow.active ? (
                               myEscrow.disputeStatus ? (
                                 <span className="text-[#ffffff]">Disputed</span>
@@ -1272,6 +1272,11 @@ const Home = () => {
                               )
                             ) : (
                               <span className="text-[#ffffff]">Completed</span>
+                            )}
+                            {myEscrow.disputeStatus ? (
+                              <div className="ml-[10px] bg-dispute bg-cover w-[18px] h-[18px]"></div>
+                            ) : (
+                              <div className="ml-[10px] bg-progress bg-cover w-[18px] h-[18px]"></div>
                             )}
                           </div>
                         </div>

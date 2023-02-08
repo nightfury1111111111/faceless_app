@@ -33,6 +33,8 @@ module.exports = {
         logo: "url('./assets/images/logo.png')",
         loading: "url('./assets/images/loading.svg')",
         splash: "url('./assets/images/splash.png')",
+        dispute: "url('./assets/images/dispute.svg')",
+        progress: "url('./assets/images/progress.svg')",
         "new-splash": "url('./assets/images/new-splash.png')",
         hidden: "url('./assets/images/header/hidden.png')",
         user: "url('./assets/images/header/user.png')",
