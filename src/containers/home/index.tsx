@@ -1502,7 +1502,7 @@ const Home = () => {
                   </div>
                   <div className="mt-[30px] flex justify-between flex-col w-full relative">
                     <div className="md:text-[20px] text-[14px] mb-[.5rem] sm:mb-0">
-                      Milestone1 Amount{" "}
+                      Milestone 1 Amount{" "}
                       <span className="text-[#820000]">*</span>
                     </div>
                     <div className="relative mt-[10px]">
@@ -1799,8 +1799,8 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-[43px] flex flex-row-reverse items-center md:text-[18px] text-[12px]">
-            <div>
+          <div className="md:mt-[43px] flex flex-row-reverse items-start md:text-[18px] md:leading-[20px] text-[12px]">
+            <div className="h-[20px]">
               I agree that <span className="font-[700]">Faceless Labs</span>{" "}
               will get final decision over any{" "}
               <span className="font-[700]">disputes</span> that may arise.{" "}
@@ -1812,7 +1812,7 @@ const Home = () => {
               onClick={() => toggleChecked()}
             />
           </div>
-          <div className="md:mt-[43px] flex flex-row-reverse">
+          <div className="mt-[43px] flex flex-row-reverse">
             <div
               className="w-[120px] md:h-[40px] h-[32px] px-[12px] rounded-[5px] bg-[#017CE9] hover:bg-transparent hover:border-[#053665] hover:border-[1px] flex justify-center items-center font-[600] md:text-[18px] text-[14px] text-[#FFFFFF] leading-[21px] cursor-pointer"
               onClick={() => {
@@ -1846,6 +1846,61 @@ const Home = () => {
           <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
             View, Dispute, Complete your{" "}
             <span className="text-[#017CE9]">Escrow</span>
+          </div>
+          <div className="order-1 md:order-2">
+            <div className="mt-[10px] p-[20px] flex items-center">
+              <div>
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
+                  Escrow # {escrowData[currentEscrow].randomSeed}
+                </div>
+
+                <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
+                  {escrowRestData.description}
+                </div>
+              </div>
+
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Amount</div>
+                <div className="font-[600] text-[18px]">
+                  {escrowRestData.amount} USDC
+                </div>
+              </div>
+
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Receiver</div>
+                <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px]">
+                  {shortenAddress(escrowRestData.receiver)}
+                </span>
+              </div>
+
+              {/* {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                  Moderator:{" "}
+                  <span className="text-sm font-[400]">
+                    {escrowData[currentEscrow].disputeStatus && adminData
+                      ? shortenAddress(adminData?.resolver.toBase58())
+                      : "None"}
+                  </span>
+                </div>
+              )} */}
+
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Disputed</div>
+                {escrowData[currentEscrow].disputeStatus ? (
+                  <span className="text-[#ad2c44] font-[600] text-[18px]">
+                    Yes
+                  </span>
+                ) : (
+                  <span className="font-[600] text-[18px]">No</span>
+                )}
+              </div>
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[16px] leading-[21px] font-[300] flex flex-row-reverse text-[#CFCFCF]">
+                  {escrowRestData.date}
+                </div>
+              )}
+            </div>
           </div>
           <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
             <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] w-full">
@@ -1954,60 +2009,6 @@ const Home = () => {
                 </div>
               </div>
             </div>
-
-            <div className="order-1 md:order-2">
-              <div className="border-[1px] border-[#053665] mt-[10px] rounded-[10px] p-[20px]">
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
-                  Escrow # {escrowData[currentEscrow].randomSeed}
-                </div>
-
-                <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
-                  {escrowRestData.description}
-                </div>
-
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  <div className=" text-[#CFCFCF]">Amount</div>
-                  <div className="font-[600] text-[18px]">
-                    {escrowRestData.amount} USDC
-                  </div>
-                </div>
-
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  <div className=" text-[#CFCFCF]">Receiver</div>
-                  <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px]">
-                    {shortenAddress(escrowRestData.receiver)}
-                  </span>
-                </div>
-
-                {/* {escrowData[currentEscrow].disputeStatus && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  Moderator:{" "}
-                  <span className="text-sm font-[400]">
-                    {escrowData[currentEscrow].disputeStatus && adminData
-                      ? shortenAddress(adminData?.resolver.toBase58())
-                      : "None"}
-                  </span>
-                </div>
-              )} */}
-
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  <div className=" text-[#CFCFCF]">Disputed</div>
-                  {escrowData[currentEscrow].disputeStatus ? (
-                    <span className="text-[#ad2c44] font-[600] text-[18px]">
-                      Yes
-                    </span>
-                  ) : (
-                    <span className="font-[600] text-[18px]">No</span>
-                  )}
-                </div>
-
-                {escrowRestData.created_at && (
-                  <div className="mt-[14px] text-[16px] leading-[21px] font-[300] flex flex-row-reverse text-[#CFCFCF]">
-                    {escrowRestData.date}
-                  </div>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -2016,6 +2017,65 @@ const Home = () => {
           <div className="md:text-[44px] text-[30px] pt-[185px] font-[700] text-center">
             View, Dispute, Refund your{" "}
             <span className="text-[#017CE9]">Escrow</span>
+          </div>
+          <div className="order-1 md:order-2">
+            <div className="mt-[10px] p-[20px] flex items-center">
+              <div>
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
+                  Escrow # {escrowData[currentEscrow].randomSeed}
+                </div>
+
+                <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
+                  {escrowRestData.description}
+                </div>
+              </div>
+
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Amount</div>
+                <div className="font-[600] text-[18px]">
+                  {escrowRestData.amount} USDC
+                </div>
+              </div>
+
+              {escrowRestData.moderator && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                  <div className=" text-[#CFCFCF]">Creator</div>
+                  <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px]">
+                    {shortenAddress(
+                      escrowData[currentEscrow].initializerKey.toString()
+                    )}
+                  </span>
+                </div>
+              )}
+
+              {/* {escrowData[currentEscrow].disputeStatus && (
+                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                  Moderator
+                  <span className="text-sm font-[400]">
+                    {escrowData[currentEscrow].disputeStatus && adminData
+                      ? shortenAddress(adminData?.resolver.toBase58())
+                      : "None"}
+                  </span>
+                </div>
+              )} */}
+
+              <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
+                <div className=" text-[#CFCFCF]">Disputed</div>
+                {escrowData[currentEscrow].disputeStatus ? (
+                  <span className="text-[#ad2c44] font-[600] text-[18px]">
+                    Yes
+                  </span>
+                ) : (
+                  <span className="font-[600] text-[18px]">No</span>
+                )}
+              </div>
+
+              {escrowRestData.created_at && (
+                <div className="mt-[14px] text-[16px] leading-[21px] font-[300] flex flex-row-revers text-[#CFCFCF]">
+                  <span>{escrowRestData.date}</span>
+                </div>
+              )}
+            </div>
           </div>
           <div className="mb-[150px] grid md:grid-cols-2 gap-[3rem] mt-[10rem] grid-cols-1">
             <div className="order-2 md:order-1  md:max-w-none sm:max-w-[420px] w-full">
@@ -2118,64 +2178,6 @@ const Home = () => {
                 >
                   Back
                 </div>
-              </div>
-            </div>
-
-            <div className="order-1 md:order-2">
-              <div className="border-[1px] border-[#053665] mt-[10px] rounded-[10px] p-[20px]">
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] text-[#CFCFCF]">
-                  Escrow # {escrowData[currentEscrow].randomSeed}
-                </div>
-
-                <div className="font-[600] lg:text-[40px] sm:text-[30px] text-[24px]">
-                  {escrowRestData.description}
-                </div>
-
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  <div className=" text-[#CFCFCF]">Amount</div>
-                  <div className="font-[600] text-[18px]">
-                    {escrowRestData.amount} USDC
-                  </div>
-                </div>
-
-                {escrowRestData.moderator && (
-                  <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                    <div className=" text-[#CFCFCF]">Creator</div>
-                    <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px]">
-                      {shortenAddress(
-                        escrowData[currentEscrow].initializerKey.toString()
-                      )}
-                    </span>
-                  </div>
-                )}
-
-                {/* {escrowData[currentEscrow].disputeStatus && (
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  Moderator
-                  <span className="text-sm font-[400]">
-                    {escrowData[currentEscrow].disputeStatus && adminData
-                      ? shortenAddress(adminData?.resolver.toBase58())
-                      : "None"}
-                  </span>
-                </div>
-              )} */}
-
-                <div className="mt-[14px] text-[14px] leading-[21px] font-[300] flex justify-between">
-                  <div className=" text-[#CFCFCF]">Disputed</div>
-                  {escrowData[currentEscrow].disputeStatus ? (
-                    <span className="text-[#ad2c44] font-[600] text-[18px]">
-                      Yes
-                    </span>
-                  ) : (
-                    <span className="font-[600] text-[18px]">No</span>
-                  )}
-                </div>
-
-                {escrowRestData.created_at && (
-                  <div className="mt-[14px] text-[16px] leading-[21px] font-[300] flex flex-row-revers text-[#CFCFCF]">
-                    <span>{escrowRestData.date}</span>
-                  </div>
-                )}
               </div>
             </div>
           </div>
