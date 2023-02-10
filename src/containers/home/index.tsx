@@ -1251,14 +1251,15 @@ const Home = () => {
                           <div className="font-[300] text-[#C7C7C7] text-[14px] leading-[17px]">
                             Amount
                           </div>
-                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400]">
-                            {`$ ${numberWithCommas(
+                          <div className="md:text-[20px] text-[18px] leading-[23px] md:font-[600] font-[400] flex items-center">
+                            {numberWithCommas(
                               myEscrow.initializerAmount[0] +
                                 myEscrow.initializerAmount[1] +
                                 myEscrow.initializerAmount[2] +
                                 myEscrow.initializerAmount[3] +
                                 myEscrow.initializerAmount[4]
-                            )}`}
+                            )}
+                            <div className="ml-[10px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                           </div>
                         </div>
                       </div>
@@ -1887,8 +1888,9 @@ const Home = () => {
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Amount
                   </div>
-                  <div className="font-[600] text-[18px] md:text-[20px]">
-                    {numberWithCommas(Number(escrowRestData.amount))} USDC
+                  <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
+                    {numberWithCommas(Number(escrowRestData.amount))}
+                    <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
                   </div>
                 </div>
 
@@ -1945,8 +1947,8 @@ const Home = () => {
                       <div
                         className={
                           index === selectedMilestone
-                            ? "rounded-[10px] bg-milestone-index1-bgcolor  cursor-pointer grow"
-                            : "rounded-[10px] bg-milestone-index1-bgcolor cursor-pointer grow"
+                            ? "rounded-[10px] bg-dashboard-card2-interior2-bgcolor  cursor-pointer grow"
+                            : "rounded-[10px] bg-dashboard-card2-interior2-bgcolor cursor-pointer grow"
                         }
                         // onClick={() => {
                         //   setSelectedMilestone(index);
@@ -1958,11 +1960,11 @@ const Home = () => {
                             {escrowData[currentEscrow].initializerAmount[
                               index
                             ] === 0 ? (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
                                 <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
                               </div>
                             ) : (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
                                 <div className="text-[#017CE9] text-[16px] font-[700]">
                                   {index + 1}
                                 </div>
@@ -2105,8 +2107,9 @@ const Home = () => {
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Amount
                   </div>
-                  <div className="font-[600] text-[18px] md:text-[20px]">
-                    {numberWithCommas(Number(escrowRestData.amount))} USDC
+                  <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
+                    {numberWithCommas(Number(escrowRestData.amount))}
+                    <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
                   </div>
                 </div>
 
@@ -2159,7 +2162,7 @@ const Home = () => {
                       </div> */}
 
                       <div
-                        className="rounded-[10px] bg-milestone-index1-bgcolor cursor-pointer grow"
+                        className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor cursor-pointer grow"
                         // onClick={() => {
                         //   setSelectedMilestone(index);
                         // }}
@@ -2170,11 +2173,11 @@ const Home = () => {
                             {escrowData[currentEscrow].initializerAmount[
                               index
                             ] === 0 ? (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
                                 <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
                               </div>
                             ) : (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
                                 <div className="text-[#017CE9] text-[16px] font-[700]">
                                   {index + 1}
                                 </div>
