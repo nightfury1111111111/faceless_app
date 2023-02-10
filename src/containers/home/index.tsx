@@ -1958,9 +1958,15 @@ const Home = () => {
                             {escrowData[currentEscrow].initializerAmount[
                               index
                             ] === 0 ? (
-                              <div className="bg-completed bg-cover w-[40px] h-[40px]" />
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                                <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
+                              </div>
                             ) : (
-                              <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                                <div className="text-[#017CE9] text-[16px] font-[700]">
+                                  {index + 1}
+                                </div>
+                              </div>
                             )}{" "}
                             <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
                               {item?.mileston}
@@ -1969,16 +1975,19 @@ const Home = () => {
                           <div className="mt-[15px] break-all text-[#ADADAD]">
                             {escrowRestData.milestone1}
                           </div>
-                          <div className="mt-[15px]">
+                          <div className="mt-[32px]">
                             <div className="flex justify-between items-center">
-                              <div className="text-[#CFCFCF]">Amount</div>
-                              <div className="text-[#ffffff] ml-[10px] font-[600]">
-                                {`${item.amount} USDC`}
+                              <div className="text-[#CFCFCF] md:text-[14px]">
+                                Amount
+                              </div>
+                              <div className="text-[#ffffff] ml-[10px] md:text-[18px] font-[600] flex items-center">
+                                {numberWithCommas(item.amount)}
+                                <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
                               </div>
                             </div>
-                            <div className="flex justify-between items-center">
+                            <div className="mt-[27px] flex justify-between items-center">
                               <div className="text-[#CFCFCF]">Status </div>
-                              <div className="text-[#ffffff] ml-[10px] font-[600]">
+                              <div className="text-[#ffffff] ml-[10px] font-[600] flex items-center">
                                 {escrowData[currentEscrow].initializerAmount[
                                   index
                                 ] === 0 ? (
@@ -1991,6 +2000,11 @@ const Home = () => {
                                   </span>
                                 ) : (
                                   "In Progress"
+                                )}
+                                {escrowData[currentEscrow].disputeStatus ? (
+                                  <div className="ml-[10px] bg-dispute bg-cover w-[18px] h-[18px]"></div>
+                                ) : (
+                                  <div className="ml-[10px] bg-progress bg-cover w-[18px] h-[18px]"></div>
                                 )}
                               </div>
                             </div>
@@ -2018,7 +2032,7 @@ const Home = () => {
             {escrowData[currentEscrow].active &&
               !escrowData[currentEscrow].disputeStatus && (
                 <div
-                  className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                  className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] text-[#C20000] hover:text-[#FFFFFF] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                   onClick={() => {
                     dispute();
                   }}
@@ -2031,7 +2045,7 @@ const Home = () => {
                 </div>
               )}
             <div
-              className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#053665] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+              className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] text-[#a1a2a5] hover:border-[1px] hover:border-[#14161d] bg-[#14161d] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
               onClick={() => {
                 setStage(0);
                 setCurrentIdx(0);
@@ -2145,7 +2159,7 @@ const Home = () => {
                       </div> */}
 
                       <div
-                        className="rounded-[10px] bg-milestone-index1-bgcolor p-[23px] cursor-pointer grow"
+                        className="rounded-[10px] bg-milestone-index1-bgcolor cursor-pointer grow"
                         // onClick={() => {
                         //   setSelectedMilestone(index);
                         // }}
@@ -2156,9 +2170,15 @@ const Home = () => {
                             {escrowData[currentEscrow].initializerAmount[
                               index
                             ] === 0 ? (
-                              <div className="bg-completed bg-cover w-[40px] h-[40px]" />
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                                <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
+                              </div>
                             ) : (
-                              <div className="bg-icon4 bg-cover w-[40px] h-[40px]" />
+                              <div className="w-[30px] h-[30px] border-[5px] border-[#5a5a5a] rounded-[50px] flex justify-center items-center">
+                                <div className="text-[#017CE9] text-[16px] font-[700]">
+                                  {index + 1}
+                                </div>
+                              </div>
                             )}{" "}
                             <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
                               {item?.mileston}
@@ -2167,16 +2187,19 @@ const Home = () => {
                           <div className="mt-[15px] break-all text-[#ADADAD]">
                             {escrowRestData.milestone1}
                           </div>
-                          <div className="mt-[15px]">
+                          <div className="mt-[32px]">
                             <div className="flex justify-between items-center">
-                              <div className="text-[#CFCFCF]">Amount</div>
-                              <div className="text-[#ffffff] ml-[10px] font-[600]">
-                                {`${item.amount} USDC`}
+                              <div className="text-[#CFCFCF] md:text-[14px]">
+                                Amount
+                              </div>
+                              <div className="text-[#ffffff] ml-[10px] md:text-[18px] font-[600] flex items-center">
+                                {numberWithCommas(item.amount)}{" "}
+                                <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
                               </div>
                             </div>
-                            <div className="flex justify-between items-center">
+                            <div className="mt-[27px] flex justify-between items-center">
                               <div className="text-[#CFCFCF]">Status </div>
-                              <div className="text-[#ffffff] font-[600] ml-[10px]">
+                              <div className="text-[#ffffff] font-[600] ml-[10px] flex items-center">
                                 {escrowData[currentEscrow].initializerAmount[
                                   index
                                 ] === 0 ? (
@@ -2189,6 +2212,11 @@ const Home = () => {
                                   </span>
                                 ) : (
                                   "In Progress"
+                                )}
+                                {escrowData[currentEscrow].disputeStatus ? (
+                                  <div className="ml-[10px] bg-dispute bg-cover w-[18px] h-[18px]"></div>
+                                ) : (
+                                  <div className="ml-[10px] bg-progress bg-cover w-[18px] h-[18px]"></div>
                                 )}
                               </div>
                             </div>
@@ -2216,7 +2244,7 @@ const Home = () => {
             {escrowData[currentEscrow].active &&
               !escrowData[currentEscrow].disputeStatus && (
                 <div
-                  className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+                  className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] bg-[#1f0d14] border-[1px] border-[#C20000] hover:bg-[#C20000] text-[#C20000] hover:text-[#FFFFFF] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
                   onClick={() => {
                     dispute();
                   }}
@@ -2229,7 +2257,7 @@ const Home = () => {
                 </div>
               )}
             <div
-              className="md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] border-[1px] border-[#053665] hover:bg-[#7C98A9] flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
+              className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] text-[#a1a2a5] hover:border-[1px] hover:border-[#14161d] bg-[#14161d] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
               onClick={() => {
                 setStage(0);
                 setCurrentIdx(0);
