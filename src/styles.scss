@@ -130,6 +130,23 @@ html::-webkit-scrollbar-thumb,
   }
 }
 
+.fa-clone {
+  font-weight: bold !important;
+  scale: 1.2 !important;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.border-gradient {
+  border-radius: 10px;
+  border-image: linear-gradient(#017ce9, #817b70) 80;
+  // border-image: linear-gradient(#f6b73c, #4d9f0c) 30;
+  border-width: 4px;
+  border-style: solid;
+}
 // Loading Overlay Effect
 .pl {
   display: block;

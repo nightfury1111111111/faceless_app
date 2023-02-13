@@ -826,20 +826,23 @@ const Home = () => {
     }
     try {
       //post request will verify the lib.json and using metadata address it will verify the programID and create the block in solana
-      const tx = await program.transaction.approve(new anchor.BN(currentIdx), {
-        accounts: {
-          initializer: provider.wallet.publicKey,
-          adminState: adminKey,
-          admin1TokenAccount: admin1AssiciatedToken,
-          admin2TokenAccount: admin2AssiciatedToken,
-          takerTokenAccount: takerAssiciatedToken,
-          vault: vaultKey,
-          vaultAuthority: vaultAuthorityKey,
-          escrowState: escrowStateKey,
-          tokenProgram: TOKEN_PROGRAM_ID,
-        },
-        signers: [],
-      });
+      const tx = await program.transaction.approve(
+        new anchor.BN(selectedMilestone),
+        {
+          accounts: {
+            initializer: provider.wallet.publicKey,
+            adminState: adminKey,
+            admin1TokenAccount: admin1AssiciatedToken,
+            admin2TokenAccount: admin2AssiciatedToken,
+            takerTokenAccount: takerAssiciatedToken,
+            vault: vaultKey,
+            vaultAuthority: vaultAuthorityKey,
+            escrowState: escrowStateKey,
+            tokenProgram: TOKEN_PROGRAM_ID,
+          },
+          signers: [],
+        }
+      );
       transaction.add(tx);
       transaction.feePayer = provider.wallet.publicKey;
       transaction.recentBlockhash = (
@@ -1294,13 +1297,14 @@ const Home = () => {
                           console.log("myEscrow.index", myEscrow);
                           setCurrentEscrow(myEscrow.index);
                           setSelectedMilestone(0);
+                          let restMilestoneNum = 0;
                           for (let idx = 0; idx < 5; idx++) {
                             console.log(idx, myEscrow.initializerAmount[idx]);
                             if (myEscrow.initializerAmount[idx] > 0) {
-                              setCurrentIdx(idx);
-                              break;
+                              restMilestoneNum++;
                             }
                           }
+                          setCurrentIdx(restMilestoneNum);
                           getEscrowDate(myEscrow.randomSeed);
                         }}
                       >
@@ -1424,7 +1428,7 @@ const Home = () => {
                   {amountErr}
                 </div>
               </div>
-              <button className="absolute right-[1px] top-[40px] md:top-[41px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+              <button className="absolute right-[1px] top-[40px] md:top-[41px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                 USDC{" "}
                 <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                 <i className="fas fa fa-angle-down" />
@@ -1439,7 +1443,7 @@ const Home = () => {
                 <div className="w-[100px] h-[40px] pl-[12px] rounded-[5px] border-[3px] border-[#053665] bg-[#0D0D0D] flex items-center justify-between">
                   {currentMilestone}
                   <div
-                    className="cursor-pointer w-[25px] h-[34px] flex items-center justify-center border-l-[1px] border-l-[#0c1823]"
+                    className="cursor-pointer w-[25px] h-[34px] flex items-center justify-center "
                     onClick={() => {
                       if (!showMilestone) setMilestoneVisibility(true);
                       if (showMilestone) setMilestoneVisibility(false);
@@ -1519,7 +1523,7 @@ const Home = () => {
                         {amount1Err}
                       </div>
                     </div>
-                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                       USDC{" "}
                       <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                     </button>
@@ -1563,7 +1567,7 @@ const Home = () => {
                         {amount2Err}
                       </div>
                     </div>
-                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                       USDC{" "}
                       <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                     </button>
@@ -1607,7 +1611,7 @@ const Home = () => {
                         {amount3Err}
                       </div>
                     </div>
-                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                       USDC{" "}
                       <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                     </button>
@@ -1651,7 +1655,7 @@ const Home = () => {
                         {amount4Err}
                       </div>
                     </div>
-                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                       USDC{" "}
                       <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                     </button>
@@ -1695,7 +1699,7 @@ const Home = () => {
                         {amount5Err}
                       </div>
                     </div>
-                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center border-l-[1px] border-l-[#0c1823] bg-transparent">
+                    <button className="absolute right-[1px] top-[40px] md:top-[47px] text-[12px] md:text-[16px] font-[400] text-white z-[2] leading-[38px] px-[10px] flex items-center  bg-transparent">
                       USDC{" "}
                       <div className="mx-[7px] bg-usdc bg-cover w-[20px] h-[20px]"></div>
                     </button>
@@ -1864,16 +1868,25 @@ const Home = () => {
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Receiver
                   </div>
-                  <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px] md:text-[20px]">
-                    {shortenAddress(escrowRestData.receiver)}
-                  </span>
+                  <div className="flex items-center">
+                    <span className="ml-[5px] truncate max-w-[100%] block font-[600] text-[18px] md:text-[20px]">
+                      {shortenAddress(escrowRestData.receiver)}
+                    </span>
+                    <i
+                      className="ml-[10px] fas fa fa-solid fa-clone"
+                      onClick={() => {
+                        navigator.clipboard.writeText(escrowRestData.receiver);
+                        toast("Address Copied");
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="mt-[30px] text-[14px] leading-[21px] font-[300] flex justify-between rounded-[10px] bg-dashboard-card2-interior2-bgcolor h-[60px] px-[20px] items-center">
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Milestones
                   </div>
                   <span className="font-[600] text-[18px] md:text-[20px]">
-                    {currentIdx + 1}/
+                    {currentIdx}/
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
@@ -1931,7 +1944,7 @@ const Home = () => {
           <div className="mt-[40px] md:text-[30px] text-[20px] font-[700]">
             Milestones
           </div>
-          <div className="grid md:grid-cols-3 gap-[3rem] mt-[50px] grid-cols-1">
+          <div className="grid md:grid-cols-3 gap-16 mt-[50px] grid-cols-1">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -1947,67 +1960,70 @@ const Home = () => {
                       <div
                         className={
                           index === selectedMilestone
-                            ? "rounded-[10px] bg-dashboard-card2-interior2-bgcolor  cursor-pointer grow"
+                            ? "rounded-[10px] bg-dashboard-card2-interior1-bgcolor p-[3px] cursor-pointer grow"
                             : "rounded-[10px] bg-dashboard-card2-interior2-bgcolor cursor-pointer grow"
                         }
-                        // onClick={() => {
-                        //   setSelectedMilestone(index);
-                        // }}
+                        onClick={() => {
+                          setSelectedMilestone(index);
+                        }}
                       >
                         <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
-                        <div className="p-[23px]">
-                          <div className="flex items-center">
-                            {escrowData[currentEscrow].initializerAmount[
-                              index
-                            ] === 0 ? (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
-                                <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
+                        <div className="bg-[#08080e] rounded-[7px]">
+                          <div className="py-[28px] px-[35px] bg-dashboard-card2-interior2-bgcolor">
+                            <div className="flex items-center">
+                              {escrowData[currentEscrow].initializerAmount[
+                                index
+                              ] === 0 ? (
+                                <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
+                                  <div className="bg-check bg-cover w-[9.6px] h-[7.2px]" />
+                                </div>
+                              ) : (
+                                <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
+                                  <div className="text-[#017CE9] text-[16px] font-[700]">
+                                    {index + 1}
+                                  </div>
+                                </div>
+                              )}{" "}
+                              <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
+                                {item?.mileston}
                               </div>
-                            ) : (
-                              <div className="w-[30px] h-[30px] border-[5px] border-[#0e1622] rounded-[50px] flex justify-center items-center">
-                                <div className="text-[#017CE9] text-[16px] font-[700]">
-                                  {index + 1}
+                            </div>
+                            <div className="mt-[15px] break-all text-[#ADADAD]">
+                              {escrowRestData.milestone1}
+                            </div>
+                            <div className="mt-[32px]">
+                              <div className="flex justify-between items-center">
+                                <div className="text-[#CFCFCF] md:text-[14px]">
+                                  Amount
+                                </div>
+                                <div className="text-[#ffffff] ml-[10px] md:text-[18px] font-[600] flex items-center">
+                                  {numberWithCommas(item.amount)}
+                                  <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
                                 </div>
                               </div>
-                            )}{" "}
-                            <div className="ml-[13px] text-[20px] leading-[23px] font-[400] grow break-all">
-                              {item?.mileston}
-                            </div>
-                          </div>
-                          <div className="mt-[15px] break-all text-[#ADADAD]">
-                            {escrowRestData.milestone1}
-                          </div>
-                          <div className="mt-[32px]">
-                            <div className="flex justify-between items-center">
-                              <div className="text-[#CFCFCF] md:text-[14px]">
-                                Amount
-                              </div>
-                              <div className="text-[#ffffff] ml-[10px] md:text-[18px] font-[600] flex items-center">
-                                {numberWithCommas(item.amount)}
-                                <div className="ml-[10px] md:w-[18px] md:h-[18px] w-[14px] h-[14px] bg-usdc bg-cover"></div>
-                              </div>
-                            </div>
-                            <div className="mt-[27px] flex justify-between items-center">
-                              <div className="text-[#CFCFCF]">Status </div>
-                              <div className="text-[#ffffff] ml-[10px] font-[600] flex items-center">
-                                {escrowData[currentEscrow].initializerAmount[
-                                  index
-                                ] === 0 ? (
-                                  <span className="text-[#ffffff]">
-                                    Completed
-                                  </span>
-                                ) : escrowData[currentEscrow].disputeStatus ? (
-                                  <span className="text-[#ffffff]">
-                                    Disputed
-                                  </span>
-                                ) : (
-                                  "In Progress"
-                                )}
-                                {escrowData[currentEscrow].disputeStatus ? (
-                                  <div className="ml-[10px] bg-dispute bg-cover w-[18px] h-[18px]"></div>
-                                ) : (
-                                  <div className="ml-[10px] bg-progress bg-cover w-[18px] h-[18px]"></div>
-                                )}
+                              <div className="mt-[27px] flex justify-between items-center">
+                                <div className="text-[#CFCFCF]">Status </div>
+                                <div className="text-[#ffffff] ml-[10px] font-[600] flex items-center">
+                                  {escrowData[currentEscrow].initializerAmount[
+                                    index
+                                  ] === 0 ? (
+                                    <span className="text-[#ffffff]">
+                                      Completed
+                                    </span>
+                                  ) : escrowData[currentEscrow]
+                                      .disputeStatus ? (
+                                    <span className="text-[#ffffff]">
+                                      Disputed
+                                    </span>
+                                  ) : (
+                                    "In Progress"
+                                  )}
+                                  {escrowData[currentEscrow].disputeStatus ? (
+                                    <div className="ml-[10px] bg-dispute bg-cover w-[18px] h-[18px]"></div>
+                                  ) : (
+                                    <div className="ml-[10px] bg-progress bg-cover w-[18px] h-[18px]"></div>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -2050,7 +2066,7 @@ const Home = () => {
               className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] text-[#a1a2a5] hover:border-[1px] hover:border-[#14161d] bg-[#14161d] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
               onClick={() => {
                 setStage(0);
-                setCurrentIdx(0);
+                setSelectedMilestone(0);
               }}
             >
               Back
@@ -2092,7 +2108,7 @@ const Home = () => {
                     Milestones
                   </div>
                   <span className="font-[600] text-[18px] md:text-[20px]">
-                    {currentIdx + 1}/
+                    {currentIdx}/
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
@@ -2148,7 +2164,7 @@ const Home = () => {
           <div className="mt-[40px] md:text-[30px] text-[20px] font-[700]">
             Milestones
           </div>
-          <div className="grid md:grid-cols-3 gap-[3rem] mt-[50px] grid-cols-1">
+          <div className="grid md:grid-cols-3 gap-16 mt-[50px] grid-cols-1">
             {escrowRestData.milestones &&
               escrowRestData.milestones.map(
                 (item: any, index: number) =>
@@ -2168,7 +2184,7 @@ const Home = () => {
                         // }}
                       >
                         <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
-                        <div className="p-[23px]">
+                        <div className="py-[28px] px-[35px]">
                           <div className="flex items-center">
                             {escrowData[currentEscrow].initializerAmount[
                               index
@@ -2263,7 +2279,7 @@ const Home = () => {
               className="md:mr-[23px] mr-[10px] md:h-[40px] h-[32px] px-[12px] grow max-w-[100px] md:max-w-[130px] rounded-[5px] text-[#a1a2a5] hover:border-[1px] hover:border-[#14161d] bg-[#14161d] hover:bg-transparent flex justify-center items-center md:font-[600] font-[400] md:text-[18px] text-[16px] leading-[21px] cursor-pointer"
               onClick={() => {
                 setStage(0);
-                setCurrentIdx(0);
+                setSelectedMilestone(0);
               }}
             >
               Back
