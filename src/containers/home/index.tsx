@@ -1296,7 +1296,7 @@ const Home = () => {
                         onClick={async () => {
                           console.log("myEscrow.index", myEscrow);
                           setCurrentEscrow(myEscrow.index);
-                          setSelectedMilestone(0);
+                          setSelectedMilestone(10);
                           let restMilestoneNum = 0;
                           for (let idx = 0; idx < 5; idx++) {
                             console.log(idx, myEscrow.initializerAmount[idx]);
