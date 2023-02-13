@@ -1296,7 +1296,7 @@ const Home = () => {
                         onClick={async () => {
                           console.log("myEscrow.index", myEscrow);
                           setCurrentEscrow(myEscrow.index);
-                          setSelectedMilestone(10);
+                          setSelectedMilestone(0);
                           let restMilestoneNum = 0;
                           for (let idx = 0; idx < 5; idx++) {
                             console.log(idx, myEscrow.initializerAmount[idx]);
@@ -1886,7 +1886,10 @@ const Home = () => {
                     Milestones
                   </div>
                   <span className="font-[600] text-[18px] md:text-[20px]">
-                    {currentIdx}/
+                    {escrowRestData.milestones.filter((milestone: any) => {
+                      return milestone.amount > 0;
+                    }).length - currentIdx}
+                    /
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
@@ -2108,7 +2111,10 @@ const Home = () => {
                     Milestones
                   </div>
                   <span className="font-[600] text-[18px] md:text-[20px]">
-                    {currentIdx}/
+                    {escrowRestData.milestones.filter((milestone: any) => {
+                      return milestone.amount > 0;
+                    }).length - currentIdx}
+                    /
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
