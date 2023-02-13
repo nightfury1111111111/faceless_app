@@ -1887,17 +1887,17 @@ const Home = () => {
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Milestones
                   </div>
-                  <span className="font-[600] text-[18px] md:text-[20px]">
+                  <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
                     {escrowRestData.milestones.filter((milestone: any) => {
                       return milestone.amount > 0;
                     }).length - currentIdx}
-                    /
+                    <span className="mx-[5px]">/</span>
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
                       }).length
                     }
-                  </span>
+                  </div>
                 </div>
               </div>
 
@@ -2112,17 +2112,17 @@ const Home = () => {
                   <div className=" text-[#747474] md:text-[20px] font-[600]">
                     Milestones
                   </div>
-                  <span className="font-[600] text-[18px] md:text-[20px]">
+                  <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
                     {escrowRestData.milestones.filter((milestone: any) => {
                       return milestone.amount > 0;
                     }).length - currentIdx}
-                    /
+                    <span className="mx-[5px]">/</span>
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
                         return milestone.amount > 0;
                       }).length
                     }
-                  </span>
+                  </div>
                 </div>
               </div>
 
