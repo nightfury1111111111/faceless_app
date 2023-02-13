@@ -853,7 +853,11 @@ const Home = () => {
       const txId = await connection.sendRawTransaction(signedTx.serialize());
       await connection.confirmTransaction(txId);
       setIsLoading1(false);
-      toast("Payment sent successfully.");
+      if (currentIdx === 1)
+        toast(
+          "Thank you for using Faceless Labs. You have completed the escrow"
+        );
+      else toast("Payment sent successfully.");
       setSelectedMilestone(0);
       getEscrow();
     } catch (err) {
@@ -1222,7 +1226,21 @@ const Home = () => {
                 return (
                   <div
                     key={idx}
-                    className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor"
+                    className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor cursor-pointer"
+                    onClick={async () => {
+                      console.log("myEscrow.index", myEscrow);
+                      setCurrentEscrow(myEscrow.index);
+                      setSelectedMilestone(0);
+                      let restMilestoneNum = 0;
+                      for (let idx = 0; idx < 5; idx++) {
+                        console.log(idx, myEscrow.initializerAmount[idx]);
+                        if (myEscrow.initializerAmount[idx] > 0) {
+                          restMilestoneNum++;
+                        }
+                      }
+                      setCurrentIdx(restMilestoneNum);
+                      getEscrowDate(myEscrow.randomSeed);
+                    }}
                   >
                     <div className="h-[10px] bg-dashboard-card2-interior1-bgcolor rounded-t-[10px]"></div>
                     <div
@@ -1291,23 +1309,7 @@ const Home = () => {
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="flex flex-row-reverse mt-[31px] items-center cursor-pointer"
-                        onClick={async () => {
-                          console.log("myEscrow.index", myEscrow);
-                          setCurrentEscrow(myEscrow.index);
-                          setSelectedMilestone(0);
-                          let restMilestoneNum = 0;
-                          for (let idx = 0; idx < 5; idx++) {
-                            console.log(idx, myEscrow.initializerAmount[idx]);
-                            if (myEscrow.initializerAmount[idx] > 0) {
-                              restMilestoneNum++;
-                            }
-                          }
-                          setCurrentIdx(restMilestoneNum);
-                          getEscrowDate(myEscrow.randomSeed);
-                        }}
-                      >
+                      <div className="flex flex-row-reverse mt-[31px] items-center cursor-pointer">
                         <div className="bg-link bg-cover w-[12px] h-[12px] cursor-pointer" />
                         <div className="font-[500] md:text-[16px] text-[14px] leading-[19px] mr-[10px]">
                           View Escrow
