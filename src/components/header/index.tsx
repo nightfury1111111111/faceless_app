@@ -257,9 +257,11 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           >
             DASHBOARD
           </div>
-          <div className="mt-[40px] cursor-pointer">PROFILE</div>
-          <div className="mt-[40px] cursor-pointer">LEADERBOARD</div>
-          <div className="mt-[40px] cursor-pointer">STAKING</div>
+          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">PROFILE</div>
+          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+            LEADERBOARD
+          </div>
+          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">STAKING</div>
           <div className="flex mt-[40px]">
             <a
               className="cursor-pointer w-[30px] h-[30px] bg-discord bg-cover"
