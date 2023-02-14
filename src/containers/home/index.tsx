@@ -1252,8 +1252,8 @@ const Home = () => {
                     >
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div>
-                          <div className="mt-[10px] flex items-center">
+                          {/* <div className="text-[#ADADAD] font-[300] text-[10px] leading-[12px]">{`Escrow #${myEscrow.randomSeed}`}</div> */}
+                          <div className="flex items-center">
                             <div className="bg-icon5 bg-cover w-[20px] h-[20px]" />
                             <div className="ml-[10px] font-[500] text-[20px] leading-[23px]">
                               {myEscrow.offchainData.description}
