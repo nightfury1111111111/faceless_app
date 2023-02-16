@@ -553,6 +553,7 @@ const Home = () => {
       await connection.confirmTransaction(txId);
       setIsLoading1(false);
       toast("Escrow created successfully.");
+      setCheckedAll(false);
       setStage(0);
 
       //reset data
@@ -1836,6 +1837,7 @@ const Home = () => {
               onClick={() => {
                 resetMilestone();
                 setStage(0);
+                setCheckedAll(false);
                 //reset escrow info
                 setDescription("");
                 setReceiver("");
