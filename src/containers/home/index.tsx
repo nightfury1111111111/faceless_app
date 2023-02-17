@@ -629,8 +629,8 @@ const Home = () => {
                 )}`,
               });
             } catch (err) {
-              toast("Server Error");
-              return;
+              // toast("Server Error");
+              return true;
             }
             const newData = {
               ...fetchData,
@@ -664,11 +664,15 @@ const Home = () => {
           }
         )
       ).then((tmpResult) => {
-        tmpResult.splice(tmpResult.indexOf(true), 1);
-        const result = tmpResult.map((escr, idx) => {
-          return { ...escr, index: idx };
-        });
-        result.sort((a, b) => {
+        const result = tmpResult
+          .reduce(
+            (result, item) => (item === true ? result : [...result, item]),
+            []
+          )
+          .map((escr: any, idx: number) => {
+            return { ...escr, index: idx };
+          });
+        result.sort((a: any, b: any) => {
           return b.offchainData.created_at - a.offchainData.created_at;
         });
         setTotalValue(tmpLockedval);
