@@ -511,18 +511,18 @@ const Home = () => {
         seed,
         currentMilestone === 0
           ? [
-              new anchor.BN(amount * 1e9),
+              new anchor.BN(amount * 1e6),
               new anchor.BN(0),
               new anchor.BN(0),
               new anchor.BN(0),
               new anchor.BN(0),
             ]
           : [
-              new anchor.BN(amount1 * 1e9),
-              new anchor.BN(amount2 * 1e9),
-              new anchor.BN(amount3 * 1e9),
-              new anchor.BN(amount4 * 1e9),
-              new anchor.BN(amount5 * 1e9),
+              new anchor.BN(amount1 * 1e6),
+              new anchor.BN(amount2 * 1e6),
+              new anchor.BN(amount3 * 1e6),
+              new anchor.BN(amount4 * 1e6),
+              new anchor.BN(amount5 * 1e6),
             ],
         {
           accounts: {
@@ -635,11 +635,11 @@ const Home = () => {
             const newData = {
               ...fetchData,
               initializerAmount: [
-                Number(fetchData.initializerAmount[0] / 1e9),
-                Number(fetchData.initializerAmount[1] / 1e9),
-                Number(fetchData.initializerAmount[2] / 1e9),
-                Number(fetchData.initializerAmount[3] / 1e9),
-                Number(fetchData.initializerAmount[4] / 1e9),
+                Number(fetchData.initializerAmount[0] / 1e6),
+                Number(fetchData.initializerAmount[1] / 1e6),
+                Number(fetchData.initializerAmount[2] / 1e6),
+                Number(fetchData.initializerAmount[3] / 1e6),
+                Number(fetchData.initializerAmount[4] / 1e6),
               ],
               randomSeed: Number(fetchData.randomSeed),
               offchainData: offchainData.data,
