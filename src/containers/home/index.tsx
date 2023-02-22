@@ -55,6 +55,12 @@ export interface AdminData {
   admin1: PublicKey;
   admin2: PublicKey;
   resolver: PublicKey;
+  totalAmount: number;
+  lockedAmount: number;
+  activeEscrow: number;
+  completedEscrow: number;
+  disputedEscrow: number;
+  refundedEscrow: number;
 }
 
 const programID = new PublicKey(idl.metadata.address);
@@ -594,6 +600,23 @@ const Home = () => {
         ],
         program.programId
       )[0];
+
+      const fetchData: any = await program.account.adminState.fetch(adminKey);
+      console.log(fetchData);
+      const newData = {
+        ...fetchData,
+        adminFee: Number(fetchData.adminFee),
+        resolverFee: Number(fetchData.resolverFee),
+        totalAmount: Number(fetchData.totalAmount),
+        lockedAmount: Number(fetchData.lockedAmount),
+        activeEscrow: Number(fetchData.activeEscrow),
+        completedEscrow: Number(fetchData.completedEscrow),
+        disputedEscrow: Number(fetchData.disputedEscrow),
+        refundedEscrow: Number(fetchData.refundedEscrow),
+      };
+      console.log("admin data", newData);
+      setAdminData(newData);
+
       let tmpLockedval = 0;
       let tmpEntireVal = 0;
       await Promise.all(

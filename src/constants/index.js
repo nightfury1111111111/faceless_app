@@ -1,8 +1,8 @@
 export const constants = {
-  mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", // token address
-  admin1: "53qbGgFf1dmkLnCt8utjqgHHsFAHoqEQVw2xZSBNJsHA", // my address
+  mint: "Ad4JSN6xUeok3JVgow9LTJ8GW1K1y8W397nsZrNYYW5E", // token address
+  admin1: "HtjDrqiL7fLVGKwNK96M54pVDwXmas5G7hNSPPfzRZJd", // my address
   admin2: "BddjKVEuSUbmAv7cyXKyzBUQDUHshwihWmkoqwXmpwvi", // admin address
-  moderator: "4b2mrvjxPjwzASUXYDNVhuy8bbp5jVZC2TJms1veYRJf", // disputor address
+  moderator: "3Y3HS9Twxsm6wRcqmgDBzmz1ggD87siqDvS3FzmPBnvH", // disputor address
 
   adminSeed: "admin",
   stateSeed: "state",

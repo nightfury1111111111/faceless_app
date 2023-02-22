@@ -42,7 +42,7 @@ export const LanguageContext = createContext<LanguageType>({
 
 const App = () => {
   const [language, setLanguage] = useState("english");
-  const [solanaNetwork] = useState<SolanaNetworkType>("mainnet-beta");
+  const [solanaNetwork] = useState<SolanaNetworkType>("devnet");
   const [isAuthorized, setAuthorized] = useState(false);
   const [user] = useAtom(profile);
   const [isLoading, setLoading] = useAtom(isLoadingOverlay);

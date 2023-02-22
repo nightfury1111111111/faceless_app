@@ -424,6 +424,30 @@
           {
             "name": "resolver",
             "type": "publicKey"
+          },
+          {
+            "name": "totalAmount",
+            "type": "u64"
+          },
+          {
+            "name": "lockedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "activeEscrow",
+            "type": "u64"
+          },
+          {
+            "name": "completedEscrow",
+            "type": "u64"
+          },
+          {
+            "name": "disputedEscrow",
+            "type": "u64"
+          },
+          {
+            "name": "refundedEscrow",
+            "type": "u64"
           }
         ]
       }
@@ -459,6 +483,10 @@
             "type": "bool"
           },
           {
+            "name": "refundStatus",
+            "type": "bool"
+          },
+          {
             "name": "mint",
             "type": "publicKey"
           },
@@ -475,6 +503,6 @@
     }
   ],
   "metadata": {
-    "address": "4NVK3ABAU9tyF4eENdN7ZE9fTZH1dmLaEhknt5mgtYuE"
+    "address": "8sfznUEMJY9awunmQcFzAtYk3chSDpZzdZ63azfs9yjR"
   }
 }
