@@ -503,6 +503,7 @@ const Home = () => {
       data: {
         description: description,
         seed: seed.toString(10),
+        creator: publicKey.toString(),
         receiver: receiverAddress,
         moderator: receiverAddress, // ignore
         amount: amount,
@@ -602,13 +603,12 @@ const Home = () => {
       )[0];
 
       const fetchData: any = await program.account.adminState.fetch(adminKey);
-      console.log(fetchData);
       const newData = {
         ...fetchData,
         adminFee: Number(fetchData.adminFee),
         resolverFee: Number(fetchData.resolverFee),
-        totalAmount: Number(fetchData.totalAmount),
-        lockedAmount: Number(fetchData.lockedAmount),
+        totalAmount: Number(fetchData.totalAmount / 1e6),
+        lockedAmount: Number(fetchData.lockedAmount / 1e6),
         activeEscrow: Number(fetchData.activeEscrow),
         completedEscrow: Number(fetchData.completedEscrow),
         disputedEscrow: Number(fetchData.disputedEscrow),
@@ -617,44 +617,27 @@ const Home = () => {
       console.log("admin data", newData);
       setAdminData(newData);
 
-      let tmpLockedval = 0;
-      let tmpEntireVal = 0;
-      await Promise.all(
-        (
-          await connection.getProgramAccounts(programID)
-        ).map(
-          async (
-            tx,
-            index //no need to write smartcontract to get the data, just pulling all transaction respective programID and showing to user
-          ) => {
-            if (tx.pubkey.toString() === adminKey.toString()) {
-              const fetchData: any = await program.account.adminState.fetch(
-                tx.pubkey
-              );
-              const newData = {
-                ...fetchData,
-                adminFee: Number(fetchData.adminFee),
-                resolverFee: Number(fetchData.resolverFee),
-              };
-              console.log("admin data", newData);
-              setAdminData(newData);
-              return true;
-            }
+      try {
+        const mydata = await axios({
+          method: "post",
+          url: `${process.env.REACT_APP_SERVER_URL}/escrows/findByWallet`,
+          data: { wallet: publicKey.toString() },
+        });
+
+        await Promise.all(
+          mydata.data.map(async (offchainData: any) => {
+            const escrowStateKey = PublicKey.findProgramAddressSync(
+              [
+                Buffer.from(anchor.utils.bytes.utf8.encode(stateSeed)),
+                new anchor.BN(offchainData.seed).toArrayLike(Buffer, "le", 8),
+              ],
+              program.programId
+            )[0];
+
             const fetchData: any = await program.account.escrowState.fetch(
-              tx.pubkey
+              escrowStateKey
             );
-            let offchainData;
-            try {
-              offchainData = await axios({
-                method: "get",
-                url: `${process.env.REACT_APP_SERVER_URL}/escrows/${Number(
-                  fetchData.randomSeed
-                )}`,
-              });
-            } catch (err) {
-              // toast("Server Error");
-              return true;
-            }
+
             const newData = {
               ...fetchData,
               initializerAmount: [
@@ -665,43 +648,115 @@ const Home = () => {
                 Number(fetchData.initializerAmount[4] / 1e6),
               ],
               randomSeed: Number(fetchData.randomSeed),
-              offchainData: offchainData.data,
+              offchainData: offchainData,
             };
+
             const lockedVal =
               newData.initializerAmount[0] +
               newData.initializerAmount[1] +
               newData.initializerAmount[2] +
               newData.initializerAmount[3] +
               newData.initializerAmount[4];
-            tmpLockedval += lockedVal;
-            offchainData.data.milestones.map((val: any) => {
-              tmpEntireVal += val.amount;
-              return true;
-            });
-
             return {
               ...newData,
-              pubkey: tx.pubkey.toString(),
+              pubkey: escrowStateKey,
               active: lockedVal > 0 ? true : false,
             };
-          }
-        )
-      ).then((tmpResult) => {
-        const result = tmpResult
-          .reduce(
-            (result, item) => (item === true ? result : [...result, item]),
-            []
-          )
-          .map((escr: any, idx: number) => {
-            return { ...escr, index: idx };
+          })
+        ).then((tmpResult) => {
+          const result = tmpResult
+            .reduce(
+              (result, item) => (item === true ? result : [...result, item]),
+              []
+            )
+            .map((escr: any, idx: number) => {
+              return { ...escr, index: idx };
+            });
+          result.sort((a: any, b: any) => {
+            return b.offchainData.created_at - a.offchainData.created_at;
           });
-        result.sort((a: any, b: any) => {
-          return b.offchainData.created_at - a.offchainData.created_at;
+          setEscrowData(result);
         });
-        setTotalValue(tmpLockedval);
-        setEntireVal(tmpEntireVal);
-        setEscrowData(result);
-      });
+      } catch (err) {
+        // toast("Server Error");
+        console.log(err);
+      }
+
+      // let tmpLockedval = 0;
+      // let tmpEntireVal = 0;
+      // await Promise.all(
+      //   (
+      //     await connection.getProgramAccounts(programID)
+      //   ).map(
+      //     async (
+      //       tx,
+      //       index //no need to write smartcontract to get the data, just pulling all transaction respective programID and showing to user
+      //     ) => {
+      //       if (tx.pubkey.toString() === adminKey.toString()) {
+      //         return true;
+      //       }
+      //       const fetchData: any = await program.account.escrowState.fetch(
+      //         tx.pubkey
+      //       );
+      //       let offchainData;
+      //       try {
+      //         offchainData = await axios({
+      //           method: "get",
+      //           url: `${process.env.REACT_APP_SERVER_URL}/escrows/${Number(
+      //             fetchData.randomSeed
+      //           )}`,
+      //         });
+      //       } catch (err) {
+      //         // toast("Server Error");
+      //         return true;
+      //       }
+      //       const newData = {
+      //         ...fetchData,
+      //         initializerAmount: [
+      //           Number(fetchData.initializerAmount[0] / 1e6),
+      //           Number(fetchData.initializerAmount[1] / 1e6),
+      //           Number(fetchData.initializerAmount[2] / 1e6),
+      //           Number(fetchData.initializerAmount[3] / 1e6),
+      //           Number(fetchData.initializerAmount[4] / 1e6),
+      //         ],
+      //         randomSeed: Number(fetchData.randomSeed),
+      //         offchainData: offchainData.data,
+      //       };
+      //       const lockedVal =
+      //         newData.initializerAmount[0] +
+      //         newData.initializerAmount[1] +
+      //         newData.initializerAmount[2] +
+      //         newData.initializerAmount[3] +
+      //         newData.initializerAmount[4];
+      //       tmpLockedval += lockedVal;
+      //       offchainData.data.milestones.map((val: any) => {
+      //         tmpEntireVal += val.amount;
+      //         return true;
+      //       });
+
+      //       return {
+      //         ...newData,
+      //         pubkey: tx.pubkey.toString(),
+      //         active: lockedVal > 0 ? true : false,
+      //       };
+      //     }
+      //   )
+      // ).then((tmpResult) => {
+      //   const result = tmpResult
+      //     .reduce(
+      //       (result, item) => (item === true ? result : [...result, item]),
+      //       []
+      //     )
+      //     .map((escr: any, idx: number) => {
+      //       return { ...escr, index: idx };
+      //     });
+      //   result.sort((a: any, b: any) => {
+      //     return b.offchainData.created_at - a.offchainData.created_at;
+      //   });
+      //   setTotalValue(tmpLockedval);
+      //   setEntireVal(tmpEntireVal);
+      //   setEscrowData(result);
+      // });
     } catch (err) {
       console.log(err);
     }
@@ -1129,7 +1184,7 @@ const Home = () => {
                 ALL TIME VOLUME
               </div>
               <div className="text-[#ffffff] md:text-[26px] text-[20px] flex items-center">
-                {numberWithCommas(entireVal)}
+                {adminData && numberWithCommas(adminData.totalAmount)}
                 <div className="ml-[5px] md:w-[30px] md:h-[30px] w-[24px] h-[24px] bg-usdc bg-cover"></div>
               </div>
             </div>
@@ -1138,7 +1193,7 @@ const Home = () => {
                 IN ESCROW
               </div>
               <div className="text-[#ffffff] md:text-[26px] text-[20px] flex items-center">
-                {numberWithCommas(totalValue)}
+                {adminData && numberWithCommas(adminData.lockedAmount)}
                 <div className="ml-[5px] md:w-[30px] md:h-[30px] w-[24px] h-[24px] bg-usdc bg-cover"></div>
               </div>
             </div>
@@ -1147,11 +1202,7 @@ const Home = () => {
                 ACTIVE ESCROWS
               </div>
               <div className="text-[#ffffff] md:text-[26px] text-[20px]">
-                {
-                  escrowData.filter((escrow) => {
-                    return escrow.active === true;
-                  }).length
-                }
+                {adminData && numberWithCommas(adminData.activeEscrow)}
               </div>
             </div>
           </div>
