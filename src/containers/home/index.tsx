@@ -634,9 +634,14 @@ const Home = () => {
               program.programId
             )[0];
 
-            const fetchData: any = await program.account.escrowState.fetch(
-              escrowStateKey
-            );
+            let fetchData: any;
+            try {
+              fetchData = await program.account.escrowState.fetch(
+                escrowStateKey
+              );
+            } catch (err) {
+              return true;
+            }
 
             const newData = {
               ...fetchData,
@@ -1282,11 +1287,12 @@ const Home = () => {
                       escrow.initializerKey.toString() ===
                         publicKey.toString() && escrow.active === true
                     );
-                  if (forMeStatus === "received")
+                  if (forMeStatus === "received") {
                     return (
                       escrow.taker.toString() === publicKey.toString() &&
                       escrow.active === true
                     );
+                  }
                 }
                 if (myStatus === "completed") {
                   if (forMeStatus === "created")
@@ -1307,12 +1313,10 @@ const Home = () => {
                     key={idx}
                     className="rounded-[10px] bg-dashboard-card2-interior2-bgcolor cursor-pointer"
                     onClick={async () => {
-                      console.log("myEscrow.index", myEscrow);
                       setCurrentEscrow(myEscrow.index);
                       setSelectedMilestone(0);
                       let restMilestoneNum = 0;
                       for (let idx = 0; idx < 5; idx++) {
-                        console.log(idx, myEscrow.initializerAmount[idx]);
                         if (myEscrow.initializerAmount[idx] > 0) {
                           restMilestoneNum++;
                         }
@@ -1970,7 +1974,12 @@ const Home = () => {
                   <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
                     {escrowRestData.milestones.filter((milestone: any) => {
                       return milestone.amount > 0;
-                    }).length - currentIdx}
+                    }).length -
+                      escrowData[currentEscrow].initializerAmount.filter(
+                        (milestone: any) => {
+                          return milestone > 0;
+                        }
+                      ).length}
                     <span className="mx-[5px]">/</span>
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
@@ -2195,7 +2204,12 @@ const Home = () => {
                   <div className="font-[600] text-[18px] md:text-[20px] flex items-center">
                     {escrowRestData.milestones.filter((milestone: any) => {
                       return milestone.amount > 0;
-                    }).length - currentIdx}
+                    }).length -
+                      escrowData[currentEscrow].initializerAmount.filter(
+                        (milestone: any) => {
+                          return milestone > 0;
+                        }
+                      ).length}
                     <span className="mx-[5px]">/</span>
                     {
                       escrowRestData.milestones.filter((milestone: any) => {
