@@ -247,6 +247,10 @@ const Home = () => {
       setReceiverErr("Receiver is required");
       status = false;
     }
+    if (receiver == publicKey?.toString()) {
+      setReceiverErr("You can't be receiver. Please use another address.");
+      status = false;
+    }
     if (amount == 0) {
       setAmountErr("Amount is required");
       status = false;

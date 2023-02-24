@@ -208,12 +208,15 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           </div>
           <div className="mr-[40px] cursor-pointer hidden sm:block">
             PROFILE
+            <span className="ml-[10px] text-[12px]">soon</span>
           </div>
           <div className="mr-[40px] cursor-pointer hidden sm:block">
             LEADERBOARD
+            <span className="ml-[10px] text-[12px]">soon</span>
           </div>
           <div className="mr-[56px] cursor-pointer hidden sm:block">
             STAKING
+            <span className="ml-[10px] text-[12px]">soon</span>
           </div>
           <a
             className="mr-[36px] cursor-pointer hidden sm:block w-[30px] h-[30px] bg-discord bg-cover"
@@ -257,11 +260,18 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           >
             DASHBOARD
           </div>
-          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">PROFILE</div>
+          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+            PROFILE
+            <span className="ml-[10px] text-[12px]">soon</span>
+          </div>
           <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
             LEADERBOARD
+            <span className="ml-[10px] text-[12px]">soon</span>
           </div>
-          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">STAKING</div>
+          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+            STAKING
+            <span className="ml-[10px] text-[12px]">soon</span>
+          </div>
           <div className="flex mt-[40px]">
             <a
               className="cursor-pointer w-[30px] h-[30px] bg-discord bg-cover"
