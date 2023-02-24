@@ -186,6 +186,10 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
     }
   });
 
+  const showComingSoon = () => {
+    toast("Coming soon.");
+  };
+
   return wallet.publicKey ? (
     <div className="relative w-full z-[20]" ref={ref}>
       <div className="fixed header top-[30px] md:top-[43px] sm:px-[48px] px-[20px] w-full h-[83px] md:h-[100px] border-b-[2px] border-b-[#121217] bg-secondary flex flex-row items-center justify-between z-10">
@@ -206,17 +210,26 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           >
             DASHBOARD
           </div>
-          <div className="mr-[40px] cursor-pointer hidden sm:block">
+          <div
+            className="mr-[40px] cursor-pointer hidden sm:block"
+            onClick={() => showComingSoon()}
+          >
             PROFILE
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
-          <div className="mr-[40px] cursor-pointer hidden sm:block">
+          <div
+            className="mr-[40px] cursor-pointer hidden sm:block"
+            onClick={() => showComingSoon()}
+          >
             LEADERBOARD
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
-          <div className="mr-[56px] cursor-pointer hidden sm:block">
+          <div
+            className="mr-[56px] cursor-pointer hidden sm:block"
+            onClick={() => showComingSoon()}
+          >
             STAKING
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
           <a
             className="mr-[36px] cursor-pointer hidden sm:block w-[30px] h-[30px] bg-discord bg-cover"
@@ -260,17 +273,26 @@ const Header = ({ solanaNetwork }: HeaderProps) => {
           >
             DASHBOARD
           </div>
-          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+          <div
+            className="mt-[40px] text-[#CFCFCF] cursor-pointer"
+            onClick={() => showComingSoon()}
+          >
             PROFILE
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
-          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+          <div
+            className="mt-[40px] text-[#CFCFCF] cursor-pointer"
+            onClick={() => showComingSoon()}
+          >
             LEADERBOARD
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
-          <div className="mt-[40px] text-[#CFCFCF] cursor-pointer">
+          <div
+            className="mt-[40px] text-[#CFCFCF] cursor-pointer"
+            onClick={() => showComingSoon()}
+          >
             STAKING
-            <span className="ml-[10px] text-[12px]">soon</span>
+            {/* <span className="ml-[10px] text-[12px]">soon</span> */}
           </div>
           <div className="flex mt-[40px]">
             <a
