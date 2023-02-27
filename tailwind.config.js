@@ -17,7 +17,7 @@ module.exports = {
       colors: {
         primary: "#7C98A9",
         dark: "#26363E",
-        secondary: "#08080e",
+        secondary: "#0A0E12",
       },
       backgroundImage: (theme) => ({
         arrow: "url('./assets/images/footer/arrow.png')",
